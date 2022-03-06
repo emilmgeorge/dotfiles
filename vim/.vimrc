@@ -26,8 +26,8 @@ nnoremap <leader>y "*y
 nnoremap <leader>P "*p
 
 " Buffer navigation
-" nnoremap <C-n> :bn<CR> " Used by Yankring
-" nnoremap <C-p> :bp<CR> " Used by Yankring
+" nnoremap <C-n> :bn<CR>
+" nnoremap <C-p> :bp<CR>
 nnoremap <leader>1 :buffer 1<CR>
 nnoremap <leader>2 :buffer 2<CR>
 nnoremap <leader>3 :buffer 3<CR>
@@ -38,11 +38,92 @@ nnoremap <leader>7 :buffer 7<CR>
 nnoremap <leader>8 :buffer 8<CR>
 nnoremap <leader>9 :buffer 9<CR>
 
+" Close all other buffers
+nnoremap <leader>c :bufdo bd<CR>
+
+" Open cscope result in quickfix window
+set csqf=s-,g-,d-,c-,t-,e-,f-,i-,a-
+
+" Vim quickfix navigation
+nnoremap <leader>u :cprevious<CR>
+nnoremap <leader>d :cnext<CR>
+map <leader>q :call ToggleQuickFix()<CR>
+" nmap <leader>q <Plug>(qf_loc_toggle)<CR>
+
+" YouCompleteMe
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" Sleep to fix issue with qf automatically opening
+nnoremap <leader>gr :YcmCompleter GoToReferences<CR>:sleep 100m<CR>:call ToggleQuickFix()<CR>
+
+" autocmd User YcmQuickFixOpened autocmd! WinLeave
+
+function! ToggleQuickFix()
+
+	" for winnr in range(1, winnr('$'))
+	" 	if getwinvar(winnr, '&syntax') == 'qf'
+	" 		copen
+	" 		return
+	" 	endif
+	" endfor
+	" cclose
+
+	" if empty(filter(getwininfo(), 'v:val.quickfix'))
+	" 	copen
+	" else
+	" 	cclose
+	" endif
+	"
+
+	if empty(filter(getwininfo(), 'v:val.quickfix && !v:val.loclist'))
+		copen
+	else
+		" cclose
+		call <plug>(quickr_preview_qf_close)
+	endif
+
+endfunction
+
+
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+" nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+" nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
+
 " clear search
 map <silent> <leader>c :let @/=''<cr>
 
 " Start the find and replace command for last selected (visual) text
 " https://stackoverflow.com/a/6171215
+" https://stackoverflow.com/a/6171215
+map <leader>r :%s//gc<Left><Left><Left>
+map <leader>s :s//gc<Left><Left><Left>
 map <leader>h <Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>
 
 " Do not jump to next match when pressing asterisk
@@ -58,16 +139,19 @@ map <leader>l :set list!<CR>
 " fzf
 inoremap <C-f> <ESC>:Files<CR>
 inoremap <C-g> <ESC>:GFiles<CR>
-inoremap <C-j> <ESC>:Buffers<CR>
+inoremap <C-p> <ESC>:Buffers<CR>
 inoremap <C-l> <ESC>:Lines<CR>
 noremap <C-f> :Files<CR>
 noremap <C-g> :GFiles<CR>
-noremap <C-j> :Buffers<CR>
+noremap <C-p> :Buffers<CR>
 noremap <C-l> :Lines<CR>
 
 " NERDTree toggle
 inoremap <C-c> <ESC>:call NERDTreeToggleInCurDir()<CR>
 noremap <C-c> :call NERDTreeToggleInCurDir()<CR>
+
+" Cscope refresh
+map <F5> :!cscope -bqRv<CR>:cs reset<CR><CR>:CCTreeUnLoadDB<CR><CR>:CCTreeLoadDB 'cscope.out'<CR>
 
 " Undotree
 nnoremap <F7> :UndotreeToggle<cr>
@@ -107,29 +191,72 @@ Plug 'srcery-colors/srcery-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tomtom/tcomment_vim'
-Plug 'vim-syntastic/syntastic'
+" Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
 Plug 'vim-scripts/rename.vim'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'majutsushi/tagbar'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-bufferline'
 Plug 'mbbill/undotree'
+Plug 'bling/vim-bufferline'
+" Plug 'tpope/vim-sleuth'
 
-Plug 'kana/vim-textobj-user'
-Plug 'adriaanzon/vim-textobj-matchit'
-Plug 'sgur/vim-textobj-parameter'
+Plug 'ronakg/quickr-cscope.vim'
+let g:quickr_cscope_keymaps = 1
+let g:quickr_cscope_autoload_db = 0
+let g:quickr_cscope_use_qf_g = 1
+
+function! ChangeCscopeKeys ()
+	nunmap <C-\>s
+	nunmap <C-\>g
+	nunmap <C-\>c
+	nunmap <C-\>t
+	nunmap <C-\>e
+	nunmap <C-\>f
+	nunmap <C-\>i
+	nunmap <C-\>d
+	nunmap <C-\>a
+
+	nmap <C-\>s <plug>(quickr_cscope_symbols)
+	nmap <C-\>g <plug>(quickr_cscope_global)
+	nmap <C-\>c <plug>(quickr_cscope_callers)
+	nmap <C-\>t <plug>(quickr_cscope_text)
+	nmap <C-\>e <plug>(quickr_cscope_egrep)
+	nmap <C-\>f <plug>(quickr_cscope_files)
+	nmap <C-\>i <plug>(quickr_cscope_includes)
+	nmap <C-\>d <plug>(quickr_cscope_functions)
+	nmap <C-\>a <plug>(quickr_cscope_assignments)
+endfunction
+
+Plug 'ronakg/quickr-preview.vim'
+let g:quickr_preview_on_cursor = 1
+let g:quickr_preview_position = 'below'
+let g:quickr_preview_modifiable = 1
+let g:quickr_preview_exit_on_enter = 1
+autocmd FileType qf autocmd BufWinLeave <buffer> :pclose
+
+Plug 'mg979/vim-visual-multi'
+let g:VM_maps = {}
+let g:VM_maps["Add Cursor Up"]   = '<C-k>'
+let g:VM_maps["Add Cursor Down"]   = '<C-j>'
+
+
+" Plug 'vivien/vim-linux-coding-style'
+" Plug 'kana/vim-textobj-user' " not working?
+" Plug 'adriaanzon/vim-textobj-matchit' "not working?
+" Plug 'sgur/vim-textobj-parameter' " not working?
+Plug 'inkarkat/argtextobj.vim'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
 " Auto load cscope DB in CCTree
 autocmd VimEnter * if filereadable('cscope.out') | exec "CCTreeLoadDB 'cscope.out'" | endif
-
 
 """""""""""""""""""""""" BEGIN PLUGIN CONFIG """"""""""""""""""""""""""
 
@@ -152,7 +279,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree")
             \ && b:NERDTree.isTabTree()) | q | endif
 
 " NERDTree Git custom symbols
-let g:NERDTreeIndicatorMapCustom = {
+"#
+" let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
             \ "Modified"  : "✹",
             \ "Staged"    : "✚",
             \ "Untracked" : "-",
@@ -196,15 +325,15 @@ autocmd FileType html,css EmmetInstall
 let g:user_emmet_leader_key='<C-t>'
 
 " Multi cursor
-let g:multi_cursor_use_default_mapping = 0
-let g:multi_cursor_start_word_key      = '<C-n>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-k>' " default: C-x
-let g:multi_cursor_quit_key            = '<Esc>'
+" let g:multi_cursor_use_default_mapping = 0
+" let g:multi_cursor_start_word_key      = '<C-n>'
+" let g:multi_cursor_select_all_word_key = '<A-n>'
+" let g:multi_cursor_start_key           = 'g<C-n>'
+" let g:multi_cursor_select_all_key      = 'g<A-n>'
+" let g:multi_cursor_next_key            = '<C-n>'
+" let g:multi_cursor_prev_key            = '<C-p>'
+" let g:multi_cursor_skip_key            = '<C-k>' " default: C-x
+" let g:multi_cursor_quit_key            = '<Esc>'
 
 " Yank ring config
 let g:yankring_replace_n_pkey = ''
@@ -336,6 +465,9 @@ match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
+" Color for vim pmenu (youcompleteme)
+" highlight Pmenu ctermfg=232 ctermbg=6 guifg=#ffffff guibg=#000000
+
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
 " (happens when dropping a file on gvim).
@@ -419,3 +551,4 @@ function! NERDTreeToggleInCurDir()
 endfunction
 
 """""""""""""""""""""""""" END FUNCTIONS """"""""""""""""""""""""""""""
+
