@@ -153,6 +153,10 @@ noremap <C-c> :call NERDTreeToggleInCurDir()<CR>
 " Cscope refresh
 map <F5> :!cscope -bqRv<CR>:cs reset<CR><CR>:CCTreeUnLoadDB<CR><CR>:CCTreeLoadDB 'cscope.out'<CR>
 
+" Fswitch - switch between .c/.h
+noremap <F2> :FSHere<cr>
+noremap <F3> :FSSplitRight<cr>
+
 " Undotree
 nnoremap <F7> :UndotreeToggle<cr>
 
@@ -251,6 +255,8 @@ let g:VM_maps["Add Cursor Down"]   = '<C-j>'
 " Plug 'adriaanzon/vim-textobj-matchit' "not working?
 " Plug 'sgur/vim-textobj-parameter' " not working?
 Plug 'inkarkat/argtextobj.vim'
+
+Plug 'derekwyatt/vim-fswitch'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
