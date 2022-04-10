@@ -1,0 +1,24 @@
+[color]
+	ui = auto
+[alias]
+	root = rev-parse --show-toplevel
+	sl = ol -10
+	ll = ol -50
+	last = log -1 --pretty=fuller --stat
+	alias = "!f() { git config --global -l | grep alias | sort; }; f"
+	sln = ol --name-status
+	conflicts = "!cd -- ${GIT_PREFIX:-.};git status -s | grep -e \"^U\" -e\"^[DA]U\""
+	stat = status -uno
+	pick = cherry-pick
+	commend = commit --amend --no-edit
+	ol = log --pretty=\"%C(white dim)%ad %C(reset)%C(Cyan)(%cd)%C(Green)(%cr)%C(reset)%x09 %C(red)%an%C(auto), %C(white dim)%cn%C(auto): %C(reset)%C(Yellow)%h %C(white)%s %C(auto)%d%C(reset)\" --graph --decorate --date=local
+	brinfo = branch --format=\"%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]\" --sort=-committerdate
+	st = status -sb -uno
+	stu = status -sb
+	next = "!f() { in=${1:-master}; next=$(git log --reverse --ancestry-path HEAD..$in --pretty=%H | head -n1); branch=$(git rev-parse $in); head=$(git rev-parse HEAD); if [ \"$branch\" == \"$head\" ]; then echo \"Already on $in\"; elif [ \"$next\" == \"\" ]; then echo \"HEAD is not in the ancestry path of $in\"; elif [ \"$next\" == \"$branch\" ]; then git switch $in; else git switch --detach $next; fi }; f"
+	flog = log --pretty=fuller --stat
+	cdiff = diff --cached
+	checkoutall = !git checkout $(git rev-parse --show-toplevel)
+	lo = "!f() { upstream=$(git branch --list --format=\"%(upstream:short)\" $(git rev-parse --abbrev-ref HEAD)); if [ \"$upstream\" == \"\"  ]; then echo \"No upstream set for current branch or not on any branch.\"; else git ol $upstream^..HEAD; fi }; f"
+[rebase]
+	instructionFormat = (%an <%ae>) %s

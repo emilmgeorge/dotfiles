@@ -1,10 +1,10 @@
-.PHONY: all clean install_all uninstall_all install_vim uninstall_vim install_tmux uninstall_tmux install_spacemacs uninstall_spacemacs
+.PHONY: all clean install_all uninstall_all install_vim uninstall_vim install_tmux uninstall_tmux install_spacemacs uninstall_spacemacs install_git uninstall_git
 
 all: install_all
 clean: uninstall_all
 
-install_all: install_vim install_tmux install_spacemacs
-uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs
+install_all: install_vim install_tmux install_spacemacs install_git
+uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs uninstall_git
 
 install_vim:
 	stow -t ~/ vim
@@ -30,4 +30,7 @@ uninstall_spacemacs:
 	stow -D -t ~/ spacemacs
 	echo "Please rm -rf ~/.emacs.d manually."
 
-
+install_git:
+	stow -t ~/ git;
+uninstall_git:
+	stow -D -t ~/ git;
