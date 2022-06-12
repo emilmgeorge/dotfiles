@@ -17,8 +17,9 @@
 	stu = status -sb
 	next = "!f() { in=${1:-master}; next=$(git log --reverse --ancestry-path HEAD..$in --pretty=%H | head -n1); branch=$(git rev-parse $in); head=$(git rev-parse HEAD); if [ \"$branch\" == \"$head\" ]; then echo \"Already on $in\"; elif [ \"$next\" == \"\" ]; then echo \"HEAD is not in the ancestry path of $in\"; elif [ \"$next\" == \"$branch\" ]; then git switch $in; else git switch --detach $next; fi }; f"
 	flog = log --pretty=fuller --stat
-	cdiff = diff --cached
 	checkoutall = !git checkout $(git rev-parse --show-toplevel)
 	lo = "!f() { upstream=$(git branch --list --format=\"%(upstream:short)\" $(git rev-parse --abbrev-ref HEAD)); if [ \"$upstream\" == \"\"  ]; then echo \"No upstream set for current branch or not on any branch.\"; else git ol $upstream^..HEAD; fi }; f"
+	ml = ol -20
+	diffc = diff --cached
 [rebase]
 	instructionFormat = (%an <%ae>) %s
