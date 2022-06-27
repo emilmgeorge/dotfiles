@@ -21,5 +21,8 @@
 	lo = "!f() { upstream=$(git branch --list --format=\"%(upstream:short)\" $(git rev-parse --abbrev-ref HEAD)); if [ \"$upstream\" == \"\"  ]; then echo \"No upstream set for current branch or not on any branch.\"; else git ol $upstream^..HEAD; fi }; f"
 	ml = ol -20
 	diffc = diff --cached
+	skip = update-index --skip-worktree
+	unskip = update-index --no-skip-worktree
+	list-skipped = "!f() { path=${1:-$(git rev-parse --show-toplevel)}; git ls-files -v $path | grep ^S; }; cd -- ${GIT_PREFIX:-.}; f"
 [rebase]
 	instructionFormat = (%an <%ae>) %s

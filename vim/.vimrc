@@ -56,6 +56,7 @@ nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " Sleep to fix issue with qf automatically opening
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>:sleep 100m<CR>:call ToggleQuickFix()<CR>
+nnoremap <leader>gc :YcmCompleter RefactorRename 
 
 " autocmd User YcmQuickFixOpened autocmd! WinLeave
 
@@ -242,6 +243,10 @@ let g:quickr_preview_on_cursor = 1
 let g:quickr_preview_position = 'below'
 let g:quickr_preview_modifiable = 1
 let g:quickr_preview_exit_on_enter = 1
+
+" Fix for quickr-preview for cscope working only the first time
+autocmd FileType qf autocmd BufWinEnter <buffer> :let b:qftick = -1
+" Close preview window when closing quickfix window
 autocmd FileType qf autocmd BufWinLeave <buffer> :pclose
 
 Plug 'mg979/vim-visual-multi'
@@ -257,6 +262,7 @@ let g:VM_maps["Add Cursor Down"]   = '<C-j>'
 Plug 'inkarkat/argtextobj.vim'
 
 Plug 'derekwyatt/vim-fswitch'
+Plug 'kergoth/vim-bitbake'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
