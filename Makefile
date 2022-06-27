@@ -1,10 +1,10 @@
-.PHONY: all clean install_all uninstall_all install_vim uninstall_vim install_tmux uninstall_tmux install_spacemacs uninstall_spacemacs install_git uninstall_git
+.PHONY: all clean install_all uninstall_all install_vim uninstall_vim install_tmux uninstall_tmux install_spacemacs uninstall_spacemacs install_git uninstall_git install_tig uninstall_tig
 
 all: install_all
 clean: uninstall_all
 
-install_all: install_vim install_tmux install_spacemacs install_git
-uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs uninstall_git
+install_all: install_vim install_tmux install_spacemacs install_git install_tig
+uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs uninstall_git uninstall_tig
 
 install_vim:
 	stow -t ~/ vim
@@ -34,3 +34,8 @@ install_git:
 	stow -t ~/ git;
 uninstall_git:
 	stow -D -t ~/ git;
+
+install_tig:
+	stow -t ~/ tig;
+uninstall_tig:
+	stow -D -t ~/ tig;
