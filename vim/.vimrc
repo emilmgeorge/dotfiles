@@ -209,7 +209,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-bufferline'
 Plug 'mbbill/undotree'
 Plug 'bling/vim-bufferline'
-" Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-sleuth'
 
 Plug 'ronakg/quickr-cscope.vim'
 let g:quickr_cscope_keymaps = 1
