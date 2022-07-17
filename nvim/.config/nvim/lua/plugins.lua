@@ -20,6 +20,8 @@ if(packer) then
 	require('plugins/feline')
 
 	require('plugins/nvim-lspconfig')
+	require('plugins/nvim-treesitter')
+
 	require('plugins/telescope')
 	require('plugins/nvim-tree')
 
