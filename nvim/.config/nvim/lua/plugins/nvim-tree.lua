@@ -9,7 +9,7 @@ packer.use({
 			auto_reload_on_write = true,
 			create_in_closed_folder = false,
 			disable_netrw = false,
-			hijack_cursor = false,
+			hijack_cursor = true,
 			hijack_netrw = true,
 			hijack_unnamed_buffer_when_opening = false,
 			ignore_buffer_on_setup = false,
@@ -19,9 +19,9 @@ packer.use({
 			sort_by = "name",
 			root_dirs = {},
 			prefer_startup_root = false,
-			sync_root_with_cwd = false,
+			sync_root_with_cwd = true,
 			reload_on_bufenter = false,
-			respect_buf_cwd = false,
+			respect_buf_cwd = true,
 			view = {
 				adaptive_size = false,
 				centralize_selection = false,
@@ -100,7 +100,7 @@ packer.use({
 				auto_open = true,
 			},
 			update_focused_file = {
-				enable = false,
+				enable = true,
 				update_root = false,
 				ignore_list = {},
 			},
@@ -185,6 +185,6 @@ packer.use({
 			},
 		})
 		local bufopts = { noremap=true, silent=true, buffer=bufnr }
-		vim.keymap.set('n', '<Leader>k', '<Cmd>NvimTreeToggle<CR>', bufopts)
+		vim.keymap.set('n', '<Leader>d', '<Cmd>NvimTreeToggle<CR>', bufopts)
 	end,
 })

@@ -9,8 +9,8 @@ packer.use({
 				shade = "dark",
 				percentage = 0.15,
 			},
-			transparent_background = false,
-			term_colors = false,
+			transparent_background = true,
+			term_colors = true,
 			compile = {
 				enabled = false,
 				path = vim.fn.stdpath "cache" .. "/catppuccin",
@@ -64,7 +64,7 @@ packer.use({
 					show_root = true,
 					transparent_panel = false,
 				},
-				which_key = false,
+				which_key = true,
 				indent_blankline = {
 					enabled = true,
 					colored_indent_levels = false,

@@ -14,13 +14,15 @@ if(packer) then
 
 	require('plugins/impatient')
 	require('plugins/which-key')
-	require('plugins/mapx')
+	-- require('plugins/mapx')
 
 	require('plugins/catppuccin')
 	require('plugins/feline')
 
 	require('plugins/nvim-lspconfig')
 	require('plugins/nvim-treesitter')
+	require('plugins/nvim-cmp')
+	require('plugins/ultisnips')
 
 	require('plugins/telescope')
 	require('plugins/nvim-tree')

@@ -24,13 +24,16 @@ packer.use({
 			},
 			-- add operators that will trigger motion and text object completion
 			-- to enable all native operators, set the preset / operators plugin above
-			operators = { gc = "Comments" },
+			operators = {
+				gc = "Line comments",
+				gb = "Block comments",
+			},
 			key_labels = {
 				-- override the label used to display some keys. It doesn't effect WK in any other way.
 				-- For example:
-				-- ["<space>"] = "SPC",
-				-- ["<cr>"] = "RET",
-				-- ["<tab>"] = "TAB",
+				["<space>"] = "SPC",
+				["<cr>"] = "RET",
+				["<tab>"] = "TAB",
 			},
 			icons = {
 				breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
@@ -42,10 +45,12 @@ packer.use({
 				scroll_up = '<c-u>', -- binding to scroll up inside the popup
 			},
 			window = {
-				border = "none", -- none, single, double, shadow
+				border = "single", -- none, single, double, shadow
 				position = "bottom", -- bottom, top
-				margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
-				padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+				-- margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]
+				-- padding = { 2, 2, 2, 2 }, -- extra window padding [top, right, bottom, left]
+				margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
+				padding = { 0, 0, 0, 0 }, -- extra window padding [top, right, bottom, left]
 				winblend = 0
 			},
 			layout = {
@@ -67,5 +72,6 @@ packer.use({
 				v = { "j", "k" },
 			},
 		})
+		require('mappings').map_wk(require('which-key'))
 	end,
 })

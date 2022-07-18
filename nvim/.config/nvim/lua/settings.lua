@@ -1,6 +1,3 @@
--- Set vim leader key
-vim.g.mapleader = " "
-
 vim.opt.termguicolors = true
 
 -- Line Numbers
@@ -34,3 +31,27 @@ vim.opt.scrolloff = 5
 -- Disable folding by default
 vim.opt.foldenable = false
 
+-- Allow moving to one char position beyond last char in a line
+vim.opt.virtualedit = 'onemore'
+
+-- Search settings
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Indent options
+vim.opt.tabstop = 4			-- tabs are these many characters
+vim.opt.softtabstop = 4		-- Pressing tab key inserts these many characters
+vim.opt.shiftwidth = 4		-- indenting (eg. > and < operations)
+vim.opt.shiftround = true	-- Round to 'shiftwidth' chars
+
+-- Formatting options
+vim.opt.wrap = true
+vim.opt.textwidth = 79
+vim.opt.formatoptions = 'tcqrn1j'
+
+-- Split below and right by default
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+-- Whitespace display
+vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:·'
