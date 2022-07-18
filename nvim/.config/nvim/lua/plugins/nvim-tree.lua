@@ -101,7 +101,7 @@ packer.use({
 			},
 			update_focused_file = {
 				enable = true,
-				update_root = false,
+				update_root = true,
 				ignore_list = {},
 			},
 			ignore_ft_on_setup = {},
@@ -185,6 +185,6 @@ packer.use({
 			},
 		})
 		local bufopts = { noremap=true, silent=true, buffer=bufnr }
-		vim.keymap.set('n', '<Leader>d', '<Cmd>NvimTreeToggle<CR>', bufopts)
+		vim.keymap.set('n', '<Leader>d', '<Cmd>NvimTreeFindFileToggle<CR>', bufopts)
 	end,
 })

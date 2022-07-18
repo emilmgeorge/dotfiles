@@ -8,7 +8,7 @@ local augNumberToggle = vim.api.nvim_create_augroup("numbertoggle", {})
 vim.api.nvim_create_autocmd({"BufEnter", "FocusGained", "InsertLeave"}, {
 	group = augNumberToggle,
 	pattern = "*",
-	command = "set relativenumber",
+	command = "if &ft != 'NvimTree' | set relativenumber | endif",
 })
 vim.api.nvim_create_autocmd({"BufLeave", "FocusLost", "InsertEnter"}, {
 	group = augNumberToggle,
