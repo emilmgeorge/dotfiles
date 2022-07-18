@@ -16,7 +16,7 @@ if(packer) then
 	require('plugins/which-key')
 	-- require('plugins/mapx')
 
-	require('plugins/catppuccin')
+	require('plugins/catppuccin').setup()
 	require('plugins/feline')
 
 	require('plugins/nvim-lspconfig')
