@@ -39,6 +39,24 @@ function M.map()
 	return escaped_selection
 	endfunction
 	]])
+
+	--- Yanky keymaps
+	-- Yank ring put
+	vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
+	vim.keymap.set("n", "P", "<Plug>(YankyPutBefore)", {})
+	vim.keymap.set("x", "p", "<Plug>(YankyPutAfter)", {})
+	vim.keymap.set("x", "P", "<Plug>(YankyPutBefore)", {})
+	vim.keymap.set("n", "gp", "<Plug>(YankyGPutAfter)", {})
+	vim.keymap.set("n", "gP", "<Plug>(YankyGPutBefore)", {})
+	vim.keymap.set("x", "gp", "<Plug>(YankyGPutAfter)", {})
+	vim.keymap.set("x", "gP", "<Plug>(YankyGPutBefore)", {})
+	-- Preserve cursor position while yanking
+	vim.keymap.set("n", "gP", "<Plug>(YankyGPutBefore)", {})
+	vim.keymap.set("x", "gp", "<Plug>(YankyGPutAfter)", {})
+	-- Cycle put text from yank ring
+	vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
+	vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
+
 end
 
 function M.map_wk(wk)
@@ -57,14 +75,15 @@ function M.map_wk(wk)
 	["<leader>h"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
 	}, { mode = "v"})
 
-	local clipboard_mappings = {
+	local nv_mappings = {
 		["<leader>y"] = { "\"+y", "Yank to clipboard" },
 		["<leader>p"] = { "\"+p", "Paste from clipboard" },
 		["<leader>Y"] = { "\"*y", "Yank to primary" },
 		["<leader>P"] = { "\"*p", "Paste from primary" },
+		["<leader>r"] = { "Telescope yank_history", "Yank Ring history" },
 	}
-	wk.register(clipboard_mappings, { mode = "n"})
-	wk.register(clipboard_mappings, { mode = "v"})
+	wk.register(nv_mappings, { mode = "n"})
+	wk.register(nv_mappings, { mode = "v"})
 end
 
 return M

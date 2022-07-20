@@ -11,10 +11,10 @@ if(packer) then
 	packer.reset()
 
 	packer.use('wbthomason/packer.nvim')
+	packer.use('tpope/vim-sleuth')
 
 	require('plugins/impatient')
-	require('plugins/which-key')
-	-- require('plugins/mapx')
+	require('plugins/which-key').setup()
 
 	require('plugins/catppuccin').setup()
 	require('plugins/feline')
@@ -25,8 +25,10 @@ if(packer) then
 	require('plugins/ultisnips')
 
 	require('plugins/telescope')
-	require('plugins/nvim-tree')
+	require('plugins/nvim-tree').setup()
 
+	require('plugins/yanky')
+	require('plugins/nvim-surround')
 	require('plugins/Comment')
 
 	require('plugins/notify')
