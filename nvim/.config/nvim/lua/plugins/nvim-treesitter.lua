@@ -1,4 +1,7 @@
 packer = require('packer')
+--packer.use({
+--	'nvim-treesitter/nvim-treesitter-textobjects',
+--})
 packer.use({
 	'nvim-treesitter/nvim-treesitter',
 	run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,

@@ -1,6 +1,6 @@
 local M = {}
 
-function M.configure(defconfig)
+function M.configure()
 	-- Default configuration
 	local default_config = {
 		plugins = {
@@ -87,6 +87,5 @@ function M.setup()
 		config = M.configure,
 	})
 end
-
 
 return M

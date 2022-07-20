@@ -1,11 +1,12 @@
 local fn = vim.fn
+local packer_bootstrap
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
 	packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 	vim.api.nvim_command('packadd packer.nvim')
 end
 
-packer = require('packer')
+local packer = require('packer')
 if(packer) then
 	packer.init()
 	packer.reset()
@@ -17,11 +18,11 @@ if(packer) then
 	require('plugins/which-key').setup()
 
 	require('plugins/catppuccin').setup()
-	require('plugins/feline')
+	require('plugins/lualine').setup()
 
 	require('plugins/nvim-lspconfig')
 	require('plugins/nvim-treesitter')
-	require('plugins/nvim-cmp')
+	require('plugins/nvim-cmp').setup()
 	require('plugins/ultisnips')
 
 	require('plugins/telescope')

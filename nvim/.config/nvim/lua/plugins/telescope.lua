@@ -1,4 +1,4 @@
-packer = require('packer')
+local packer = require('packer')
 packer.use({
 	'nvim-telescope/telescope.nvim',
 	tag = '0.1.0',

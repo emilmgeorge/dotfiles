@@ -1,18 +1,18 @@
 local M = {}
 
 function M.configure()
-	require 'catppuccin'.setup{
+	-- Default configuration
+	local default_config = {
 		dim_inactive = {
 			enabled = false,
 			shade = "dark",
 			percentage = 0.15,
 		},
 		transparent_background = false,
-		term_colors = true,
+		term_colors = false,
 		compile = {
 			enabled = false,
 			path = vim.fn.stdpath "cache" .. "/catppuccin",
-			suffix = "_compiled"
 		},
 		styles = {
 			comments = { "italic" },
@@ -62,7 +62,11 @@ function M.configure()
 				show_root = true,
 				transparent_panel = false,
 			},
-			which_key = true,
+			dap = {
+				enabled = false,
+				enable_ui = false,
+			},
+			which_key = false,
 			indent_blankline = {
 				enabled = true,
 				colored_indent_levels = false,
@@ -83,6 +87,11 @@ function M.configure()
 			mini = false,
 		}
 	}
+
+	local config = default_config
+	config.dim_inactive.enabled = true
+	config.integrations.which_key = true
+	require 'catppuccin'.setup(config)
 	vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
 	vim.cmd[[colorscheme catppuccin]]
 end

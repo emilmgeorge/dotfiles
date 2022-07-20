@@ -1,5 +1,30 @@
 packer = require('packer')
-packer.use({ 'hrsh7th/cmp-nvim-lsp' })
+
+packer.use({
+	'hrsh7th/cmp-nvim-lsp'
+})
+
+packer.use({
+	'williamboman/nvim-lsp-installer',
+	requires = {
+		'neovim/nvim-lspconfig',
+	},
+	after = 'nvim-lspconfig',
+	config = function()
+		require("nvim-lsp-installer").setup {
+			ensure_installed = {},
+			automatic_installation = false,
+			ui = {
+				icons = {
+					server_installed = "✓",
+					server_pending = "➜",
+					server_uninstalled = "✗"
+				}
+			}
+		}
+	end
+})
+
 packer.use({
 	'neovim/nvim-lspconfig',
 	after = 'which-key.nvim',
@@ -42,6 +67,18 @@ packer.use({
 
 		require('lspconfig')['ccls'].setup({
 			on_attach = on_attach,
+			capabilities = capabilities,
+		})
+
+		require('lspconfig')['sumneko_lua'].setup({
+			on_attach = on_attach,
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { 'vim' }
+					}
+				}
+			},
 			capabilities = capabilities,
 		})
 	end
