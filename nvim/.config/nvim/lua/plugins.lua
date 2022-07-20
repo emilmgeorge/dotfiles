@@ -18,6 +18,7 @@ if(packer) then
 	require('plugins/which-key').setup()
 
 	require('plugins/catppuccin').setup()
+	require('plugins/nightfox').setup()
 	require('plugins/lualine').setup()
 
 	require('plugins/nvim-lspconfig')

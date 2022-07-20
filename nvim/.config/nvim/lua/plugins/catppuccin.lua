@@ -93,7 +93,7 @@ function M.configure()
 	config.integrations.which_key = true
 	require 'catppuccin'.setup(config)
 	vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
-	vim.cmd[[colorscheme catppuccin]]
+	-- vim.cmd[[colorscheme catppuccin]]
 end
 
 function M.setup()

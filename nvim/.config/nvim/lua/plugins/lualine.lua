@@ -33,7 +33,6 @@ function M.configure()
 	}
 
 	local config = default_config
-	config.options.theme = 'catppuccin'
 	config.options.globalstatus = true
 	require('lualine').setup(config)
 end
@@ -49,7 +48,7 @@ function M.setup()
 				end
 			}
 		},
-		after = 'catppuccin',
+		after = 'nightfox.nvim',
 		config = M.configure,
 	})
 end
