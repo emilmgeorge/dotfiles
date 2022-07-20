@@ -1,7 +1,15 @@
 packer = require('packer')
---packer.use({
---	'nvim-treesitter/nvim-treesitter-textobjects',
---})
+
+packer.use({
+	'nvim-treesitter/nvim-treesitter-textobjects',
+	after = 'nvim-treesitter',
+})
+packer.use({
+	'RRethy/nvim-treesitter-textsubjects',
+	after = 'nvim-treesitter',
+})
+
+
 packer.use({
 	'nvim-treesitter/nvim-treesitter',
 	run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
@@ -34,6 +42,42 @@ packer.use({
 				-- Using this option may slow down your editor, and you may see some duplicate highlights.
 				-- Instead of true it can also be a list of languages
 				additional_vim_regex_highlighting = false,
+			},
+			textsubjects = {
+				enable = true,
+				prev_selection = ',', -- (Optional) keymap to select the previous selection
+				keymaps = {
+					['.'] = 'textsubjects-smart',
+					[';'] = 'textsubjects-container-outer',
+					['i;'] = 'textsubjects-container-inner',
+				},
+			},
+			textobjects = {
+				select = {
+					enable = true,
+
+					-- Automatically jump forward to textobj, similar to targets.vim
+					lookahead = true,
+
+					keymaps = {
+						-- You can use the capture groups defined in textobjects.scm
+						["af"] = "@function.outer",
+						["if"] = "@function.inner",
+						["ac"] = "@class.outer",
+						["ic"] = "@class.inner",
+						["ia"] = "@parameter.inner",
+						["aa"] = "@parameter.outer",
+					},
+				},
+				swap = {
+					enable = true,
+					swap_next = {
+						["<leader>a"] = "@parameter.inner",
+					},
+					swap_previous = {
+						["<leader>A"] = "@parameter.inner",
+					},
+				},
 			},
 		})
 	end
