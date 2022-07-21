@@ -25,12 +25,14 @@ if(packer) then
 	require('plugins/nvim-lsp-installer').setup()
 	require('plugins/nvim-treesitter').setup()
 	require('plugins/nvim-cmp').setup()
-	require('plugins/ultisnips').setup()
-
 	require('plugins/telescope').setup()
-	require('plugins/nvim-tree').setup()
+	require('plugins/aerial').setup()
+	require('plugins/vim-illuminate').setup()
 
+	require('plugins/nvim-tree').setup()
+	require('plugins/ultisnips').setup()
 	require('plugins/yanky').setup()
+
 	require('plugins/nvim-surround').setup()
 	require('plugins/Comment').setup()
 

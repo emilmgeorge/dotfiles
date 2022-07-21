@@ -3,7 +3,7 @@ local M = {}
 function M.configure()
 	local wk = require 'which-key'
 
-	local on_attach = function(_, bufnr)
+	local on_attach = function(client, bufnr)
 		-- Enable completion triggered by <c-x><c-o>
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -16,6 +16,9 @@ function M.configure()
 			["<leader>ga"] = { vim.lsp.buf.code_action, "Code Action" },
 			["<leader>gt"] = { vim.lsp.buf.type_definition, "Show type definition" },
 		}, {remap = false, silent = true, buffer=bufnr})
+
+		require 'aerial'.on_attach(client, bufnr)
+		require 'illuminate'.on_attach(client)
 	end
 
 	-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
@@ -54,6 +57,7 @@ function M.configure()
 	}
 
 	require 'lspconfig'.pyright.setup {
+		on_attach = on_attach,
 		capabilities = capabilities,
 	}
 end
@@ -61,7 +65,11 @@ end
 function M.setup()
 	require 'packer'.use {
 		'neovim/nvim-lspconfig',
-		after = 'which-key.nvim',
+		after = {
+			'which-key.nvim',
+			'aerial.nvim',
+			'vim-illuminate',
+		},
 		requires = 'hrsh7th/cmp-nvim-lsp',
 		config = M.configure,
 	}
