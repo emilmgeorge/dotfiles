@@ -1,4 +1,4 @@
-packer = require('packer')
+local packer = require('packer')
 packer.use({
 	"kylechui/nvim-surround",
 	config = function()

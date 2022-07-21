@@ -1,4 +1,4 @@
-packer = require('packer')
+local packer = require('packer')
 
 packer.use({
 	'nvim-treesitter/nvim-treesitter-textobjects',

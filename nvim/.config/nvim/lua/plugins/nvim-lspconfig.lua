@@ -1,4 +1,4 @@
-packer = require('packer')
+local packer = require('packer')
 
 packer.use({
 	'hrsh7th/cmp-nvim-lsp'
@@ -45,13 +45,12 @@ packer.use({
 
 		-- Use an on_attach function to only map the following keys
 		-- after the language server attaches to the current buffer
-		local on_attach = function(client, bufnr)
+		local on_attach = function(_, bufnr)
 			-- Enable completion triggered by <c-x><c-o>
 			vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 			-- Mappings.
 			-- See `:help vim.lsp.*` for documentation on any of the below functions
-			local wk = require('which-key')
 			wk.register({
 				["<leader>gd"] = { vim.lsp.buf.declaration, "Go to declaration" },
 				["<leader>gh"] = { vim.lsp.buf.hover, "Show hover" },

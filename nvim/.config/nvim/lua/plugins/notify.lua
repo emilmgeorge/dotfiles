@@ -1,4 +1,4 @@
-packer = require('packer')
+local packer = require('packer')
 packer.use({
 	'rcarriga/nvim-notify',
 	config = function()

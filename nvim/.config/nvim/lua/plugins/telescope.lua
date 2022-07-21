@@ -12,6 +12,6 @@ packer.use({
 			["<leader>gg"] = { "<cmd>Telescope lsp_definitions<cr>", "Go to definitions" },
 			["<leader>gr"] = { "<cmd>Telescope lsp_references<cr>", "Go to references" },
 		})
-		require('telescope').setup()
+		require('telescope').setup({})
 	end
 })

@@ -1,5 +1,5 @@
-packer = require('packer')
-default_config = {
+local packer = require('packer')
+Default_config = {
 	ring = {
 		history_length = 10,
 		storage = "shada",
@@ -31,9 +31,9 @@ packer.use({
 	'gbprod/yanky.nvim',
 	after = 'telescope.nvim',
 	config = function()
-		default_config.ring.history_length = 100
-		default_config.highlight.timer = 100
-		require("yanky").setup(default_config)
+		Default_config.ring.history_length = 100
+		Default_config.highlight.timer = 100
+		require("yanky").setup(Default_config)
 		require("telescope").load_extension("yank_history")
 	end,
 })
