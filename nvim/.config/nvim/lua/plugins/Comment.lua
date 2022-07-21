@@ -1,75 +1,85 @@
-local packer = require('packer')
-packer.use({
-	'numToStr/Comment.nvim',
-	config = function()
-		require('Comment').setup({
-			---Add a space b/w comment and the line
-			---@type boolean|fun():boolean
-			padding = true,
+local M = {}
 
-			---Whether the cursor should stay at its position
-			---NOTE: This only affects NORMAL mode mappings and doesn't work with dot-repeat
-			---@type boolean
-			sticky = true,
+function M.configure()
+	-- Default configuration
+	local config = {
+		---Add a space b/w comment and the line
+		---@type boolean|fun():boolean
+		padding = true,
 
-			---Lines to be ignored while comment/uncomment.
-			---Could be a regex string or a function that returns a regex string.
-			---Example: Use '^$' to ignore empty lines
-			---@type string|fun():string
-			ignore = nil,
+		---Whether the cursor should stay at its position
+		---NOTE: This only affects NORMAL mode mappings and doesn't work with dot-repeat
+		---@type boolean
+		sticky = true,
 
-			---LHS of toggle mappings in NORMAL + VISUAL mode
-			---@type table
-			toggler = {
-				---Line-comment toggle keymap
-				line = 'gcc',
-				---Block-comment toggle keymap
-				block = 'gbc',
-			},
+		---Lines to be ignored while comment/uncomment.
+		---Could be a regex string or a function that returns a regex string.
+		---Example: Use '^$' to ignore empty lines
+		---@type string|fun():string
+		ignore = nil,
 
-			---LHS of operator-pending mappings in NORMAL + VISUAL mode
-			---@type table
-			opleader = {
-				---Line-comment keymap
-				line = 'gc',
-				---Block-comment keymap
-				block = 'gb',
-			},
+		---LHS of toggle mappings in NORMAL + VISUAL mode
+		---@type table
+		toggler = {
+			---Line-comment toggle keymap
+			line = 'gcc',
+			---Block-comment toggle keymap
+			block = 'gbc',
+		},
 
-			---LHS of extra mappings
-			---@type table
-			extra = {
-				---Add comment on the line above
-				above = 'gcO',
-				---Add comment on the line below
-				below = 'gco',
-				---Add comment at the end of line
-				eol = 'gcA',
-			},
+		---LHS of operator-pending mappings in NORMAL + VISUAL mode
+		---@type table
+		opleader = {
+			---Line-comment keymap
+			line = 'gc',
+			---Block-comment keymap
+			block = 'gb',
+		},
 
-			---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
-			---NOTE: If `mappings = false` then the plugin won't create any mappings
-			---@type boolean|table
-			mappings = {
-				---Operator-pending mapping
-				---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
-				---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
-				basic = true,
-				---Extra mapping
-				---Includes `gco`, `gcO`, `gcA`
-				extra = true,
-				---Extended mapping
-				---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
-				extended = false,
-			},
+		---LHS of extra mappings
+		---@type table
+		extra = {
+			---Add comment on the line above
+			above = 'gcO',
+			---Add comment on the line below
+			below = 'gco',
+			---Add comment at the end of line
+			eol = 'gcA',
+		},
 
-			---Pre-hook, called before commenting the line
-			---@type fun(ctx: CommentCtx):string
-			pre_hook = nil,
+		---Create basic (operator-pending) and extended mappings for NORMAL + VISUAL mode
+		---NOTE: If `mappings = false` then the plugin won't create any mappings
+		---@type boolean|table
+		mappings = {
+			---Operator-pending mapping
+			---Includes `gcc`, `gbc`, `gc[count]{motion}` and `gb[count]{motion}`
+			---NOTE: These mappings can be changed individually by `opleader` and `toggler` config
+			basic = true,
+			---Extra mapping
+			---Includes `gco`, `gcO`, `gcA`
+			extra = true,
+			---Extended mapping
+			---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+			extended = false,
+		},
 
-			---Post-hook, called after commenting is done
-			---@type fun(ctx: CommentCtx)
-			post_hook = nil,
-		})
-	end
-})
+		---Pre-hook, called before commenting the line
+		---@type fun(ctx: CommentCtx):string
+		pre_hook = nil,
+
+		---Post-hook, called after commenting is done
+		---@type fun(ctx: CommentCtx)
+		post_hook = nil,
+	}
+
+	require 'Comment'.setup(config)
+end
+
+function M.setup()
+	require 'packer'.use {
+		'numToStr/Comment.nvim',
+		config = M.configure,
+	}
+end
+
+return M

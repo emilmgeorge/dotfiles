@@ -14,26 +14,27 @@ if(packer) then
 	packer.use('wbthomason/packer.nvim')
 	packer.use('tpope/vim-sleuth')
 
-	require('plugins/impatient')
+	require('plugins/impatient').setup()
 	require('plugins/which-key').setup()
 
 	require('plugins/catppuccin').setup()
 	require('plugins/nightfox').setup()
 	require('plugins/lualine').setup()
 
-	require('plugins/nvim-lspconfig')
-	require('plugins/nvim-treesitter')
+	require('plugins/nvim-lspconfig').setup()
+	require('plugins/nvim-lsp-installer').setup()
+	require('plugins/nvim-treesitter').setup()
 	require('plugins/nvim-cmp').setup()
-	require('plugins/ultisnips')
+	require('plugins/ultisnips').setup()
 
-	require('plugins/telescope')
+	require('plugins/telescope').setup()
 	require('plugins/nvim-tree').setup()
 
-	require('plugins/yanky')
-	require('plugins/nvim-surround')
-	require('plugins/Comment')
+	require('plugins/yanky').setup()
+	require('plugins/nvim-surround').setup()
+	require('plugins/Comment').setup()
 
-	require('plugins/notify')
+	require('plugins/notify').setup()
 end
 
 -- Automatically set up your configuration after cloning packer.nvim
