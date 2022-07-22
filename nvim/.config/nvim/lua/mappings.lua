@@ -40,6 +40,10 @@ function M.map()
 	endfunction
 	]])
 
+	-- Navigate editor lines instead of actual lines
+	vim.keymap.set({"n", "v"}, "j", "gj", {})
+	vim.keymap.set({"n", "v"}, "k", "gk", {})
+
 	--- Yanky keymaps
 	-- Yank ring put
 	vim.keymap.set("n", "p", "<Plug>(YankyPutAfter)", {})
@@ -56,7 +60,6 @@ function M.map()
 	-- Cycle put text from yank ring
 	vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
 	vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
-
 end
 
 function M.map_wk(wk)

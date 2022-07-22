@@ -66,3 +66,6 @@ vim.opt.splitright = true
 
 -- Whitespace display
 vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:·'
+
+-- Highlight current line
+vim.opt.cursorline = true
