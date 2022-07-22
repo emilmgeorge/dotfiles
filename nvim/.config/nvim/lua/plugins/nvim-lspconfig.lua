@@ -25,7 +25,7 @@ function M.configure()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-	require 'lspconfig'.ccls.setup {
+	require 'lspconfig'.clangd.setup {
 		on_attach = on_attach,
 		capabilities = capabilities,
 	}
