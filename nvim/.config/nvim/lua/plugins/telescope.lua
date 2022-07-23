@@ -13,6 +13,7 @@ function M.configure()
 		["<leader>g"] = { name = "+go" },
 		["<leader>gg"] = { "<cmd>Telescope lsp_definitions<cr>", "Go to definitions" },
 		["<leader>gr"] = { "<cmd>Telescope lsp_references<cr>", "Go to references" },
+		["<leader>gs"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Go to symbol" },
 	})
 end
 
