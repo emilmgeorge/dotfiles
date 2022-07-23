@@ -39,6 +39,7 @@ if(packer) then
 	require('plugins/telescope').setup()
 	require('plugins/vim-illuminate').setup()
 	require('plugins/Comment').setup()
+	require('plugins/gitsigns').setup()
 
 	-- Others
 	require('plugins/vimwiki').setup()
