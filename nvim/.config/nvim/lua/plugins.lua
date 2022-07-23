@@ -10,17 +10,28 @@ local packer = require('packer')
 if(packer) then
 	packer.init()
 	packer.reset()
-
 	packer.use('wbthomason/packer.nvim')
+
+	-- Simple setup plugins
 	packer.use('tpope/vim-sleuth')
 
-	require('plugins/impatient').setup()
-	require('plugins/which-key').setup()
-
+	-- Appearance
 	require('plugins/catppuccin').setup()
 	require('plugins/nightfox').setup()
 	require('plugins/lualine').setup()
 
+	-- Editor
+	require('plugins/impatient').setup()
+	require('plugins/which-key').setup()
+	require('plugins/notify').setup()
+	require('plugins/nvim-tree').setup()
+
+	-- Editing
+	require('plugins/yanky').setup()
+	require('plugins/ultisnips').setup()
+	require('plugins/nvim-surround').setup()
+
+	-- IDE/LSP tools
 	require('plugins/nvim-lspconfig').setup()
 	require('plugins/nvim-lsp-installer').setup()
 	require('plugins/nvim-treesitter').setup()
@@ -28,15 +39,10 @@ if(packer) then
 	require('plugins/telescope').setup()
 	require('plugins/aerial').setup()
 	require('plugins/vim-illuminate').setup()
-
-	require('plugins/nvim-tree').setup()
-	require('plugins/ultisnips').setup()
-	require('plugins/yanky').setup()
-
-	require('plugins/nvim-surround').setup()
 	require('plugins/Comment').setup()
 
-	require('plugins/notify').setup()
+	-- Others
+	require('plugins/vimwiki').setup()
 end
 
 -- Automatically set up your configuration after cloning packer.nvim
