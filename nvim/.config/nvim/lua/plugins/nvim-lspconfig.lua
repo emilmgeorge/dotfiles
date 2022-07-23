@@ -17,7 +17,6 @@ function M.configure()
 			["<leader>gt"] = { vim.lsp.buf.type_definition, "Show type definition" },
 		}, {remap = false, silent = true, buffer=bufnr})
 
-		require 'aerial'.on_attach(client, bufnr)
 		require 'illuminate'.on_attach(client)
 	end
 
@@ -67,7 +66,6 @@ function M.setup()
 		'neovim/nvim-lspconfig',
 		after = {
 			'which-key.nvim',
-			'aerial.nvim',
 			'vim-illuminate',
 		},
 		requires = 'hrsh7th/cmp-nvim-lsp',

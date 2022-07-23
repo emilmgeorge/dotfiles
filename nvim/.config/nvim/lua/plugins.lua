@@ -37,7 +37,6 @@ if(packer) then
 	require('plugins/nvim-treesitter').setup()
 	require('plugins/nvim-cmp').setup()
 	require('plugins/telescope').setup()
-	require('plugins/aerial').setup()
 	require('plugins/vim-illuminate').setup()
 	require('plugins/Comment').setup()
 
