@@ -17,6 +17,7 @@ function M.configure()
 		}, {remap = false, silent = true, buffer=bufnr})
 
 		require 'illuminate'.on_attach(client)
+		require 'nvim-navic'.attach(client, bufnr)
 	end
 
 	-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
@@ -66,6 +67,7 @@ function M.setup()
 		after = {
 			'which-key.nvim',
 			'vim-illuminate',
+			'nvim-navic',
 		},
 		requires = 'hrsh7th/cmp-nvim-lsp',
 		config = M.configure,

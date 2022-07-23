@@ -32,8 +32,10 @@ function M.configure()
 		extensions = {}
 	}
 
+	local navic = require 'nvim-navic'
 	local config = default_config
 	config.options.globalstatus = true
+	table.insert(config.sections.lualine_x, 1, { navic.get_location, cond = navic.is_available })
 	require('lualine').setup(config)
 end
 
@@ -48,7 +50,10 @@ function M.setup()
 				end
 			}
 		},
-		after = 'nightfox.nvim',
+		after = {
+			'nightfox.nvim',
+			'nvim-navic'
+		},
 		config = M.configure,
 	})
 end
