@@ -22,6 +22,7 @@ function M.configure()
 
 	local config = default_config
 	require 'notify'.setup(config)
+	vim.notify = require 'notify'
 end
 
 function M.setup()
