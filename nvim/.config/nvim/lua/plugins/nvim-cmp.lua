@@ -21,6 +21,7 @@ function M.configure()
 			}),
 			sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },
+				{ name = 'nvim_lsp_signature_help' },
 				{ name = 'ultisnips' }, -- For ultisnips users.
 			}, {
 				{ name = 'buffer' },
@@ -32,6 +33,7 @@ end
 function M.setup()
 	require 'packer'.use {
 		'hrsh7th/nvim-cmp',
+		requires = 'hrsh7th/cmp-nvim-lsp-signature-help',
 		config = M.configure,
 	}
 end
