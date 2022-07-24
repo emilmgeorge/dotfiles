@@ -3,6 +3,7 @@ local M = {}
 function M.configure()
 	require 'nightfox'.setup {}
 	vim.cmd[[colorscheme nightfox]]
+	vim.cmd[[highlight CursorLine guibg=#1a2a40]]
 end
 
 function M.setup()
