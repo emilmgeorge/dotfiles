@@ -59,6 +59,44 @@ function M.configure()
 		on_attach = on_attach,
 		capabilities = capabilities,
 	}
+
+	require 'lspconfig'.bashls.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	}
+
+	require 'lspconfig'.cmake.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	}
+
+	require 'lspconfig'.cssls.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		cmd = { "vscode-css-languageserver", "--stdio" },
+	}
+
+	require 'lspconfig'.html.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		cmd = { "vscode-html-languageserver", "--stdio" },
+	}
+
+	require 'lspconfig'.jsonls.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		cmd = { "vscode-json-languageserver", "--stdio" },
+	}
+
+	require 'lspconfig'.tsserver.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	}
+
+	require 'lspconfig'.vimls.setup {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	}
 end
 
 function M.setup()

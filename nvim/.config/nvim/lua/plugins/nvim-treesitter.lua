@@ -3,7 +3,20 @@ local M = {}
 function M.configure()
 	local config = {
 		-- A list of parser names, or "all"
-		ensure_installed = { "c", "cpp", "lua", "python"},
+		ensure_installed = {
+			"c",
+			"cpp",
+			"lua",
+			"python",
+			"bash",
+			"cmake",
+			"css",
+			"html",
+			"javascript",
+			"json",
+			"markdown",
+			"vim",
+		},
 
 		-- Install parsers synchronously (only applied to `ensure_installed`)
 		sync_install = false,
