@@ -1,10 +1,10 @@
-.PHONY: all clean install_all uninstall_all install_vim uninstall_vim install_tmux uninstall_tmux install_spacemacs uninstall_spacemacs install_git uninstall_git install_tig uninstall_tig
+.PHONY: all clean install_all uninstall_all install_vim uninstall_vim install_tmux uninstall_tmux install_spacemacs uninstall_spacemacs install_git uninstall_git install_tig uninstall_tig install_emacs uninstall_emacs
 
 all: install_all
 clean: uninstall_all
 
-install_all: install_vim install_tmux install_spacemacs install_git install_tig
-uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs uninstall_git uninstall_tig
+install_all: install_vim install_tmux install_spacemacs install_git install_tig install_emacs
+uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs uninstall_git uninstall_tig uninstall_emacs
 
 install_vim:
 	stow -t ~/ vim
@@ -39,3 +39,8 @@ install_tig:
 	stow -t ~/ tig;
 uninstall_tig:
 	stow -D -t ~/ tig;
+
+install_emacs:
+	stow -t ~/ emacs;
+uninstall_emacs:
+	stow -D -t ~/ emacs;
