@@ -52,4 +52,5 @@ end
 -- Put this at the end after all plugins
 if packer_bootstrap then
 	require('packer').sync()
+	vim.cmd[[autocmd User PackerComplete lua vim.notify("Please restart Neovim to load all plugins.")]]
 end
