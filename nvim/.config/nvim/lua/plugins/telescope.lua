@@ -2,10 +2,29 @@ local M = {}
 
 function M.configure()
 	-- Default configuration
-	local default_config = {
+	local config = {
+		defaults = {
+			sorting_strategy = 'ascending',
+			scroll_strategy = 'limit',
+			layout_strategy = 'vertical',
+			initial_mode = 'normal',
+			layout_config = {
+				horizontal = {
+					width = 0.99,
+					height = 0.99,
+					prompt_position = 'top',
+					preview_width = 0.6,
+				},
+				vertical = {
+					width = 0.99,
+					height = 0.99,
+					prompt_position = 'top',
+					preview_height = 0.6,
+				},
+			},
+		},
 	}
 
-	local config = default_config
 	require 'telescope'.setup(config)
 
 	-- Mappings
