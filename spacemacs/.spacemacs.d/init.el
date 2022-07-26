@@ -55,7 +55,7 @@ This function should only modify configuration layer settings."
      version-control
      ;; treemacs
 
-     (c-c++ :variables c-c++-backend 'emacs-ycmd)
+     c-c++
      python
      vimscript
      json
@@ -88,10 +88,6 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
                                       scroll-on-jump
-                                      emacs-ycmd
-                                      company-ycmd
-                                      flycheck-ycmd
-                                      eldoc-ycmd
                                       helm-file-preview
                                       tramp
                                       )
@@ -581,14 +577,6 @@ before packages are loaded."
 
   ;; added by emil
 
-  (add-hook 'c-mode-hook 'ycmd-mode)
-  (add-hook 'c++-mode-hook 'ycmd-mode)
-  (setq ycmd-server-command '("python" "/usr/share/vim/vimfiles/third_party/ycmd/ycmd/"))
-  (setq ycmd-extra-conf-whitelist '("/home/emil/data/projects/rcnu_emsc/src/MC_build/docker/rcnu_emsc/Source/MC/src/pptd_sdk/src/apps/*"))
-  (setq ycmd-force-semantic-completion t)
-  (company-ycmd-setup)
-  (flycheck-ycmd-setup)
-  (ycmd-eldoc-setup)
   (when (not (display-graphic-p))
     (setq flycheck-indication-mode nil))
 
