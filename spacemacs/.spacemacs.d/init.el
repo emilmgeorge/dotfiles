@@ -716,10 +716,6 @@ before packages are loaded."
   ;; Perspective key bindings
   ;; Switch or create new perspective (default binding: helm-projectile-switch-project)
   (spacemacs/set-leader-keys "pp" 'spacemacs/helm-perspectives)
-
-  ;; start in scratch buffer
-  ;; (setq initial-buffer-choice t)
-  (setq initial-buffer-choice (lambda () (kill-buffer spacemacs-buffer-name) (get-buffer "*scratch*")))
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
