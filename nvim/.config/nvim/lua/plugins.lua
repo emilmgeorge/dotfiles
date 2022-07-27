@@ -39,6 +39,7 @@ if(packer) then
 	require('plugins/nvim-navic').setup()
 	require('plugins/nvim-cmp').setup()
 	require('plugins/telescope').setup()
+	require('plugins/cscope_maps').setup()
 	require('plugins/trouble').setup()
 	require('plugins/vim-illuminate').setup()
 	require('plugins/Comment').setup()
