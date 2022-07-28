@@ -69,3 +69,6 @@ vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:�
 
 -- Highlight current line
 vim.opt.cursorline = true
+
+-- Use c filetype for dot h files 
+vim.g.c_syntax_for_h = 1
