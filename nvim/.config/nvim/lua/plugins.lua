@@ -45,6 +45,7 @@ if(packer) then
 	require('plugins/vim-illuminate').setup()
 	require('plugins/Comment').setup()
 	require('plugins/gitsigns').setup()
+	require('plugins/nvim-autopairs').setup()
 
 	-- Others
 	require('plugins/vimwiki').setup()
