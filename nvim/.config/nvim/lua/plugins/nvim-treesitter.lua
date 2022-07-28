@@ -55,28 +55,53 @@ function M.configure()
 		textobjects = {
 			select = {
 				enable = true,
-
-				-- Automatically jump forward to textobj, similar to targets.vim
 				lookahead = true,
-
 				keymaps = {
-					-- You can use the capture groups defined in textobjects.scm
+					["ib"] = "@conditional.inner",
+					["ab"] = "@conditional.outer",
+					["ia"] = "@parameter.inner",
+					["aa"] = "@parameter.outer",
 					["af"] = "@function.outer",
 					["if"] = "@function.inner",
 					["ac"] = "@class.outer",
 					["ic"] = "@class.inner",
-					["ia"] = "@parameter.inner",
-					["aa"] = "@parameter.outer",
+					["il"] = "@loop.inner",
+					["al"] = "@loop.outer",
+				},
+			},
+			move = {
+				enable = true,
+				set_jumps = true,
+				goto_next_start = {
+					["]F"] = "@function.outer",
+					["]C"] = "@class.outer",
+				},
+				goto_next_end = {
+					["]f"] = "@function.outer",
+					["]c"] = "@class.outer",
+				},
+				goto_previous_start = {
+					["[F"] = "@function.outer",
+					["[C"] = "@class.outer",
+				},
+				goto_previous_end = {
+					["[f"] = "@function.outer",
+					["[c"] = "@class.outer",
 				},
 			},
 			swap = {
 				enable = true,
 				swap_next = {
-					["<leader>a"] = "@parameter.inner",
+					["<leader>mas"] = "@parameter.inner",
+					["<leader>mfs"] = "@function.outer",
 				},
 				swap_previous = {
-					["<leader>A"] = "@parameter.inner",
+					["<leader>maS"] = "@parameter.inner",
+					["<leader>mfS"] = "@function.outer",
 				},
+			},
+			peek_definition_code = {
+				["<leader>mfp"] = "@function.outer",
 			},
 		},
 	}
