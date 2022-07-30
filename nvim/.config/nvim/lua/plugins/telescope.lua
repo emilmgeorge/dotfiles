@@ -8,7 +8,11 @@ function M.configure()
 			scroll_strategy = 'limit',
 			layout_strategy = 'vertical',
 			initial_mode = 'normal',
+			path_display = {
+				'shorten',
+			},
 			layout_config = {
+				scroll_speed = 5,
 				horizontal = {
 					width = 0.99,
 					height = 0.99,
@@ -30,9 +34,9 @@ function M.configure()
 	-- Mappings
 	require('which-key').register({
 		["<leader>g"] = { name = "+go" },
-		["<leader>gg"] = { "<cmd>Telescope lsp_definitions<cr>", "Go to definitions" },
-		["<leader>gr"] = { "<cmd>Telescope lsp_references<cr>", "Go to references" },
-		["<leader>gs"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Go to symbol" },
+		["<leader>gg"] = { "<cmd>Telescope lsp_definitions fname_width=40<cr>", "Go to definitions" },
+		["<leader>gr"] = { "<cmd>Telescope lsp_references fname_width=40<cr>", "Go to references" },
+		["<leader>gs"] = { "<cmd>Telescope lsp_document_symbols fname_width=40<cr>", "Go to symbol" },
 	})
 end
 
