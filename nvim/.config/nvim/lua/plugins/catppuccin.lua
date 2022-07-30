@@ -94,6 +94,9 @@ function M.configure()
 	require 'catppuccin'.setup(config)
 	vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 	vim.cmd[[colorscheme catppuccin]]
+	vim.cmd[[highlight LspReferenceText guibg=NONE cterm=underline gui=underline]]
+	vim.cmd[[highlight LspReferenceRead guibg=NONE cterm=underline gui=underline]]
+	vim.cmd[[highlight LspReferenceWrite guibg=NONE cterm=underline gui=underline]]
 end
 
 function M.setup()
