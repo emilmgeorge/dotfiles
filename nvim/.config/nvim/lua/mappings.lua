@@ -84,6 +84,7 @@ function M.map_wk(wk)
 		["<leader>Y"] = { "\"*y", "Yank to primary" },
 		["<leader>P"] = { "\"*p", "Paste from primary" },
 		["<leader>r"] = { ":Telescope yank_history<CR>", "Yank Ring history" },
+		["<leader>vp"] = { "<Esc>`[v`]", "Select previously put/yanked text" },
 	}
 	wk.register(nv_mappings, { mode = "n"})
 	wk.register(nv_mappings, { mode = "v"})
