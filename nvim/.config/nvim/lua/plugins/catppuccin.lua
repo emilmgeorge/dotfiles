@@ -1,5 +1,10 @@
 local M = {}
 
+function M.init()
+	vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+	vim.cmd[[colorscheme catppuccin]]
+end
+
 function M.configure()
 	-- Default configuration
 	local default_config = {
@@ -92,11 +97,7 @@ function M.configure()
 	config.dim_inactive.enabled = true
 	config.integrations.which_key = true
 	require 'catppuccin'.setup(config)
-	vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-	vim.cmd[[colorscheme catppuccin]]
-	vim.cmd[[highlight LspReferenceText guibg=NONE cterm=underline gui=underline]]
-	vim.cmd[[highlight LspReferenceRead guibg=NONE cterm=underline gui=underline]]
-	vim.cmd[[highlight LspReferenceWrite guibg=NONE cterm=underline gui=underline]]
+	require 'themes'.init()
 end
 
 function M.setup()

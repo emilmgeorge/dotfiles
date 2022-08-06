@@ -16,8 +16,7 @@ if(packer) then
 	packer.use('tpope/vim-sleuth')
 
 	-- Appearance
-	require('plugins/catppuccin').setup()
-	require('plugins/nightfox').setup()
+	require('themes').setup()
 	require('plugins/lualine').setup()
 
 	-- Editor
