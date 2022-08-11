@@ -64,18 +64,18 @@ end
 
 function M.map_wk(wk)
 	wk.register({
-	["<leader> "] = { "i<space><Esc>r", "Insert character in normal mode" },
+		["<leader> "] = { "i<space><Esc>r", "Insert character in normal mode" },
 
-	["<leader>1"] = { ":buffer 1<CR>", "Jump to buffer 1" },
-	["<leader>2"] = { ":buffer 2<CR>", "Jump to buffer 2" },
-	["<leader>3"] = { ":buffer 3<CR>", "Jump to buffer 3" },
+		["<leader>1"] = { ":buffer 1<CR>", "Jump to buffer 1" },
+		["<leader>2"] = { ":buffer 2<CR>", "Jump to buffer 2" },
+		["<leader>3"] = { ":buffer 3<CR>", "Jump to buffer 3" },
 
-	["<leader>c"] = { ":let @/=''<CR>", "Clear search" },
-	["<leader>w"] = { ":set list!<CR>", "Toggle whitespace display" },
+		["<leader>c"] = { ":let @/=''<CR>", "Clear search" },
+		["<leader>w"] = { ":set list!<CR>", "Toggle whitespace display" },
 	})
 
 	wk.register({
-	["<leader>h"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
+		["<leader>h"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
 	}, { mode = "v"})
 
 	local nv_mappings = {
