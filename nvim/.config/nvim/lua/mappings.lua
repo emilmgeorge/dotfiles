@@ -76,6 +76,7 @@ function M.map_wk(wk)
 
 	wk.register({
 		["<leader>h"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
+		["<leader>vq"] = { "<Esc>:'<,'>normal @", "Run macro on every line in visual selection" },
 	}, { mode = "v"})
 
 	local nv_mappings = {
