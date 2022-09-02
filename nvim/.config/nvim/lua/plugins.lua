@@ -30,6 +30,7 @@ if(packer) then
 	require('plugins/ultisnips').setup()
 	require('plugins/nvim-surround').setup()
 	require('plugins/vim-table-mode').setup()
+	require('plugins/todo-comments').setup()
 
 	-- IDE/LSP tools
 	require('plugins/nvim-lspconfig').setup()

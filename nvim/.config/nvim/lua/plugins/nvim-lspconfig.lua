@@ -13,7 +13,7 @@ function M.configure()
 			["<leader>gd"] = { vim.lsp.buf.declaration, "Go to declaration" },
 			["<leader>gh"] = { vim.lsp.buf.hover, "Show hover" },
 			["<leader>gc"] = { vim.lsp.buf.rename, "Rename" },
-			["<leader>gt"] = { vim.lsp.buf.type_definition, "Show type definition" },
+			["<leader>gT"] = { vim.lsp.buf.type_definition, "Show type definition" },
 		}, {remap = false, silent = true, buffer=bufnr})
 
 		require 'illuminate'.on_attach(client)
