@@ -8,6 +8,7 @@ function M.configure()
 			"cpp",
 			"lua",
 			"python",
+			"rust",
 			"bash",
 			"cmake",
 			"css",
