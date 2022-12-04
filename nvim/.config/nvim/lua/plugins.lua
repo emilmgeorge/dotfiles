@@ -49,6 +49,7 @@ if(packer) then
 
 	-- Others
 	require('plugins/vimwiki').setup()
+	require('plugins/attempt').setup()
 end
 
 -- Automatically set up your configuration after cloning packer.nvim
