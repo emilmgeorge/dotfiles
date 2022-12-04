@@ -24,6 +24,7 @@
 	skip = update-index --skip-worktree
 	unskip = update-index --no-skip-worktree
 	list-skipped = "!f() { path=${1:-$(git rev-parse --show-toplevel)}; git ls-files -v $path | grep ^S; }; cd -- ${GIT_PREFIX:-.}; f"
+	arbr = "!f() { git branch -m $1 archive/$1; }; f"
 [rebase]
 	instructionFormat = (%an <%ae>) %s
 [core]
