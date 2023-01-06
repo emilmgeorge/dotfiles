@@ -1,3 +1,8 @@
+-- Remove vimfiles from neovim runtimepath.
+-- Added by default in Arch linux neovim package
+-- Path: /usr/share/nvim/archlinux.vim
+vim.cmd('set runtimepath-=/usr/share/vim/vimfiles')
+
 vim.opt.termguicolors = true
 
 -- Line Numbers
