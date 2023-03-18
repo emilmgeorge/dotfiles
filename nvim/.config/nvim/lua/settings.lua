@@ -54,11 +54,16 @@ vim.opt.virtualedit = 'onemore'
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Whitespace display
+vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:·'
+vim.opt.list = true
+
 -- Indent options
-vim.opt.tabstop = 4			-- tabs are these many characters
-vim.opt.softtabstop = 4		-- Pressing tab key inserts these many characters
-vim.opt.shiftwidth = 4		-- indenting (eg. > and < operations)
-vim.opt.shiftround = true	-- Round to 'shiftwidth' chars
+vim.opt.tabstop = 4          -- Tabs are these many characters
+vim.opt.softtabstop = 4      -- Pressing tab key inserts these many characters
+vim.opt.shiftwidth = 4       -- Indenting (eg. > and < operations)
+vim.opt.shiftround = true    -- Round to 'shiftwidth' chars
+vim.opt.expandtab = false    -- Do not expand tab character to spaces
 
 -- Formatting options
 vim.opt.wrap = true
@@ -68,9 +73,6 @@ vim.opt.formatoptions = 'tcqrn1j'
 -- Split below and right by default
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-
--- Whitespace display
-vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:·'
 
 -- Highlight current line
 vim.opt.cursorline = true
