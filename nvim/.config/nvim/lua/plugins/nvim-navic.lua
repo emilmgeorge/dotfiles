@@ -1,12 +1,7 @@
 local M = {}
 
 function M.configure()
-	-- Default configuration
-	local default_config = {
-	}
-
-	local config = default_config
-	require 'nvim-navic'.setup(config)
+	require 'nvim-navic'.setup {}
 end
 
 function M.setup()

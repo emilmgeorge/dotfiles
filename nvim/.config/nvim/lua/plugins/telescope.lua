@@ -1,35 +1,7 @@
 local M = {}
 
 function M.configure()
-	-- Default configuration
-	local config = {
-		defaults = {
-			sorting_strategy = 'ascending',
-			scroll_strategy = 'limit',
-			layout_strategy = 'vertical',
-			initial_mode = 'normal',
-			path_display = {
-				'shorten',
-			},
-			layout_config = {
-				scroll_speed = 5,
-				horizontal = {
-					width = 0.99,
-					height = 0.99,
-					prompt_position = 'top',
-					preview_width = 0.6,
-				},
-				vertical = {
-					width = 0.99,
-					height = 0.99,
-					prompt_position = 'top',
-					preview_height = 0.6,
-				},
-			},
-		},
-	}
-
-	require 'telescope'.setup(config)
+	require 'telescope'.setup {}
 
 	-- Mappings
 	require('which-key').register({

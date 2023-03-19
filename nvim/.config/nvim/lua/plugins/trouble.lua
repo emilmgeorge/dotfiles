@@ -1,12 +1,7 @@
 local M = {}
 
 function M.configure()
-	-- Default configuration
-	local default_config = {
-	}
-
-	local config = default_config
-	require 'trouble'.setup(config)
+	require 'trouble'.setup {}
 	require 'which-key'.register({
 		["<leader>gl"] = { ":TroubleToggle<cr>", "Show trouble" },
 	}, {remap = false, silent = true})

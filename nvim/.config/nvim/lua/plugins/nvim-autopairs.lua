@@ -1,10 +1,7 @@
 local M = {}
 
 function M.configure()
-	local config = {
-	}
-
-	require 'nvim-autopairs'.setup(config)
+	require 'nvim-autopairs'.setup {}
 end
 
 function M.setup()

@@ -1,13 +1,7 @@
 local M = {}
 
 function M.configure()
-	-- Default configuration
-	local default_config = {
-		-- Configuration here, or leave empty to use defaults
-	}
-
-	local config = default_config
-	require 'nvim-surround'.setup(config)
+	require 'nvim-surround'.setup {}
 end
 
 function M.setup()
