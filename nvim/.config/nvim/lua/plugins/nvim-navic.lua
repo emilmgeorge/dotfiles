@@ -1,7 +1,9 @@
 local M = {}
 
 function M.configure()
-	require 'nvim-navic'.setup {}
+	require 'nvim-navic'.setup {
+		highlight = true,
+	}
 end
 
 function M.setup()

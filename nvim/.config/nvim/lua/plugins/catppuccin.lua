@@ -1,17 +1,24 @@
 local M = {}
 
 function M.init()
-	vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 	vim.cmd[[colorscheme catppuccin]]
 end
 
 function M.configure()
 	local config = {
+		flavour = 'mocha', -- latte, frappe, macchiato, mocha
 		dim_inactive = {
 			enabled = true,
 		},
 		integrations = {
+			illuminate = true,
+			lsp_trouble = true,
+			notify = true,
+			semantic_tokens = true,
 			which_key = true,
+			navic = {
+				enabled = true,
+			},
 		}
 	}
 	require 'catppuccin'.setup(config)
