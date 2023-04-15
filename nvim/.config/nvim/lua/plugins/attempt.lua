@@ -25,6 +25,7 @@ function M.setup()
 	require 'packer'.use {
 		'm-demare/attempt.nvim',
 		requires = 'nvim-lua/plenary.nvim',
+		keys = '<leader>a',
 		config = M.configure,
 	}
 end
