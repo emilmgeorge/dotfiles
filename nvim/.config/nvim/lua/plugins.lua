@@ -34,7 +34,6 @@ if(packer) then
 
 	-- IDE/LSP tools
 	require('plugins/nvim-lspconfig').setup()
-	require('plugins/nvim-lsp-installer').setup()
 	require('plugins/nvim-treesitter').setup()
 	require('plugins/nvim-code-action-menu').setup()
 	require('plugins/nvim-navic').setup()
