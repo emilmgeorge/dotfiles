@@ -16,7 +16,6 @@ end
 function M.setup()
 	require 'packer'.use {
 		'gbprod/yanky.nvim',
-		after = 'telescope.nvim',
 		config = M.configure,
 	}
 end

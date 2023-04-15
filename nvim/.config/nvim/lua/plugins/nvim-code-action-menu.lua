@@ -9,7 +9,6 @@ end
 function M.setup()
 	require 'packer'.use {
 		'weilbith/nvim-code-action-menu',
-		after = 'which-key.nvim',
 		config = M.configure,
 	}
 end

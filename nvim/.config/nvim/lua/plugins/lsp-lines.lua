@@ -22,7 +22,6 @@ end
 function M.setup()
 	require 'packer'.use {
 		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-		after = 'which-key.nvim',
 		config = M.configure,
 	}
 end

@@ -13,7 +13,6 @@ function M.setup()
 	require 'packer'.use {
 		'folke/todo-comments.nvim',
 		requires = 'nvim-lua/plenary.nvim',
-		after = 'which-key.nvim',
 		config = M.configure,
 	}
 end

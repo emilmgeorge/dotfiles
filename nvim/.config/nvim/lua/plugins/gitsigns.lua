@@ -60,7 +60,6 @@ end
 function M.setup()
 	require 'packer'.use {
 		'lewis6991/gitsigns.nvim',
-		after = 'which-key.nvim',
 		config = M.configure,
 	}
 end

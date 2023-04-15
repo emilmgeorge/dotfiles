@@ -10,7 +10,6 @@ end
 function M.setup()
 	require 'packer'.use {
 		'folke/trouble.nvim',
-		after = 'which-key.nvim',
 		requires = "kyazdani42/nvim-web-devicons",
 		config = M.configure,
 	}

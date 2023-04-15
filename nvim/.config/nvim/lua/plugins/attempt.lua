@@ -25,10 +25,6 @@ function M.setup()
 	require 'packer'.use {
 		'm-demare/attempt.nvim',
 		requires = 'nvim-lua/plenary.nvim',
-		after = {
-			'telescope.nvim',
-			'which-key.nvim',
-		},
 		config = M.configure,
 	}
 end

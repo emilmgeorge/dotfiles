@@ -17,7 +17,6 @@ function M.setup()
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.0',
 		requires = 'nvim-lua/plenary.nvim',
-		after = 'which-key.nvim',
 		config = M.configure,
 	}
 end

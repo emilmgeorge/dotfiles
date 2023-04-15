@@ -1,15 +1,13 @@
 local M = {}
 
 function M.configure()
-	local wk = require 'which-key'
-
 	local on_attach = function(client, bufnr)
 		-- Enable completion triggered by <c-x><c-o>
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		wk.register({
+		require 'which-key'.register({
 			["<leader>gd"] = { vim.lsp.buf.declaration, "Go to declaration" },
 			["<leader>gh"] = { vim.lsp.buf.hover, "Show hover" },
 			["<leader>gc"] = { vim.lsp.buf.rename, "Rename" },
@@ -108,11 +106,6 @@ end
 function M.setup()
 	require 'packer'.use {
 		'neovim/nvim-lspconfig',
-		after = {
-			'which-key.nvim',
-			'vim-illuminate',
-			'nvim-navic',
-		},
 		requires = 'hrsh7th/cmp-nvim-lsp',
 		config = M.configure,
 	}
