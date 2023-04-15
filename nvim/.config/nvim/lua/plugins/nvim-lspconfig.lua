@@ -15,7 +15,9 @@ function M.configure()
 		}, {remap = false, silent = true, buffer=bufnr})
 
 		require 'illuminate'.on_attach(client)
-		require 'nvim-navic'.attach(client, bufnr)
+		if client.server_capabilities.documentSymbolProvider then
+			require 'nvim-navic'.attach(client, bufnr)
+		end
 	end
 
 	-- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..

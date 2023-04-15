@@ -7,7 +7,7 @@ function M.configure()
 			globalstatus = true,
 		},
 		sections = {
-			lualine_x = {{ navic.get_location, cond = navic.is_available }, 'encoding', 'fileformat', 'filetype'},
+			lualine_x = {{ function() return navic.get_location() end, cond = navic.is_available }, 'encoding', 'fileformat', 'filetype'},
 		},
 	}
 	require 'lualine'.setup(config)
@@ -23,10 +23,6 @@ function M.setup()
 					require('nvim-web-devicons').setup()
 				end
 			}
-		},
-		after = {
-			'nightfox.nvim',
-			'nvim-navic'
 		},
 		config = M.configure,
 	})
