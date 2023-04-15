@@ -12,9 +12,6 @@ if(packer) then
 	packer.reset()
 	packer.use('wbthomason/packer.nvim')
 
-	-- Simple setup plugins
-	packer.use('tpope/vim-sleuth')
-
 	-- Appearance
 	require('themes').setup()
 	require('plugins/lualine').setup()
@@ -31,6 +28,7 @@ if(packer) then
 	require('plugins/nvim-surround').setup()
 	require('plugins/vim-table-mode').setup()
 	require('plugins/todo-comments').setup()
+	require('plugins/vim-linux-coding-style').setup()
 
 	-- IDE/LSP tools
 	require('plugins/nvim-lspconfig').setup()

@@ -59,16 +59,18 @@ vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:�
 vim.opt.list = true
 
 -- Indent options
-vim.opt.tabstop = 4          -- Tabs are these many characters
-vim.opt.softtabstop = 4      -- Pressing tab key inserts these many characters
-vim.opt.shiftwidth = 4       -- Indenting (eg. > and < operations)
-vim.opt.shiftround = true    -- Round to 'shiftwidth' chars
+vim.opt.tabstop = 4          -- \t characters are this many columns
+vim.opt.softtabstop = 4      -- Pressing <TAB> or <BS> inserts/removes this many columns
+vim.opt.shiftwidth = 4       -- One level of indentation shifts this many columns to the right
+vim.opt.shiftround = true    -- Round indentation to next multiple of 'shiftwidth' columns
 vim.opt.expandtab = false    -- Do not expand tab character to spaces
 
 -- Formatting options
 vim.opt.wrap = true
-vim.opt.textwidth = 79
-vim.opt.formatoptions = 'tcqrn1j'
+vim.opt.textwidth = 80
+vim.opt.colorcolumn = '80'
+vim.opt.formatoptions = 'croqn2l1j'
+vim.opt.cinoptions = ':0,l1,t0,g0,(0'
 
 -- Split below and right by default
 vim.opt.splitbelow = true
