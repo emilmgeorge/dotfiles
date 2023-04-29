@@ -93,3 +93,39 @@ vim.cmd[[
 autocmd ColorScheme * highlight MixedWhitespaceIndent guibg=#3a2626 ctermbg=235
 autocmd BufWinEnter * call matchadd("MixedWhitespaceIndent", '\%(^\s* \t\s*\)\|\%(^\s*\t \s*\)')
 ]]
+
+-- Set format for fold text
+vim.cmd[[
+function! GetSpaces(foldLevel)
+    if &expandtab == 1
+        " Indenting with spaces
+        let str = repeat(" ", a:foldLevel / (&shiftwidth + 1) - 1)
+        return str
+    elseif &expandtab == 0
+        " Indenting with tabs
+        return repeat(" ", indent(v:foldstart) - (indent(v:foldstart) / &shiftwidth))
+    endif
+endfunction
+
+function! MyFoldText()
+    let startLineText = getline(v:foldstart)
+    let secondLineText = trim(getline(v:foldstart + 1))
+    let endLineText = trim(getline(v:foldend))
+	let linecount = v:foldend - v:foldstart - 1
+    let indentation = GetSpaces(foldlevel("."))
+    let end = repeat("-", 200)
+
+	if secondLineText != "{"
+		let secondLineText = ""
+	else
+		let secondLineText = " " . secondLineText
+	endif
+
+    let str = indentation . startLineText . secondLineText . " ... " . endLineText . " [" . linecount . " lines] " . end
+
+    return str
+endfunction
+
+" Custom display for text when folding
+set foldtext=MyFoldText()
+]]
