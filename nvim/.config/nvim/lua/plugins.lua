@@ -44,6 +44,7 @@ if(packer) then
 	require('plugins/gitsigns').setup()
 	require('plugins/nvim-autopairs').setup()
 	require('plugins/lsp-lines').setup()
+	require('plugins/vim-clang-format').setup()
 
 	-- Others
 	require('plugins/vimwiki').setup()
