@@ -4,7 +4,7 @@ function M.configure()
 	local config = {
 		dir = '/home/emil/data/scratch/',
 		autosave = true,
-		ext_options = { 'py', 'sh', 'cpp', 'c', 'js', 'lua', '' },
+		ext_options = { 'md', 'py', 'sh', 'cpp', 'c', 'js', 'lua', '' },
 	}
 	require 'attempt'.setup(config)
 	require 'telescope'.load_extension 'attempt'
