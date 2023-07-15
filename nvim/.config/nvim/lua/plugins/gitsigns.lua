@@ -1,5 +1,7 @@
 local M = {}
 
+GIT_KEY_PREFIX = '<leader>g'
+
 function M.configure()
 	local function on_attach(bufnr)
 		local gs = package.loaded.gitsigns
@@ -19,21 +21,20 @@ function M.configure()
 		end, {expr=true, buffer=bufnr})
 
 		local nv_mappings = {
-			["<leader>mga"] = { gs.stage_hunk, "Stage hunk" },
-			["<leader>mgr"] = { gs.reset_hunk, "Reset hunk" },
+			[GIT_KEY_PREFIX .. 'a'] = { gs.stage_hunk, "Stage hunk" },
+			[GIT_KEY_PREFIX .. 'r'] = { gs.reset_hunk, "Reset hunk" },
 		}
 		require 'which-key'.register(nv_mappings, {mode = 'n', remap = false, silent = true, buffer=bufnr})
 		require 'which-key'.register(nv_mappings, {mode = 'v', remap = false, silent = true, buffer=bufnr})
 
 		require 'which-key'.register({
-			["<leader>mg"] = { name = '+git'},
-			["<leader>mgu"] = { gs.undo_stage_hunk, "Undo stage hunk" },
-			["<leader>mgsh"] = { gs.preview_hunk, "Show hunk" },
-			["<leader>mgsb"] = { function() gs.blame_line{full=true} end, "Show full blame" },
-			["<leader>mgtb"] = { gs.toggle_current_line_blame, "Toggle blame line" },
-			["<leader>mgtd"] = { gs.toggle_deleted, "Toggle deleted" },
-			["<leader>mgd"] = { gs.diffthis, "Diff this with index" },
-			["<leader>mgD"] = { function() gs.diffthis('HEAD') end, "Diff this with HEAD" },
+			[GIT_KEY_PREFIX .. 'u'] = { gs.undo_stage_hunk, "Undo stage hunk" },
+			[GIT_KEY_PREFIX .. 'sh'] = { gs.preview_hunk, "Show hunk" },
+			[GIT_KEY_PREFIX .. 'sb'] = { function() gs.blame_line{full=true} end, "Show full blame" },
+			[GIT_KEY_PREFIX .. 'tb'] = { gs.toggle_current_line_blame, "Toggle blame line" },
+			[GIT_KEY_PREFIX .. 'td'] = { gs.toggle_deleted, "Toggle deleted" },
+			[GIT_KEY_PREFIX .. 'd'] = { gs.diffthis, "Diff this with index" },
+			[GIT_KEY_PREFIX .. 'D'] = { function() gs.diffthis('HEAD') end, "Diff this with HEAD" },
 		}, {mode = 'n', remap = false, silent = true, buffer=bufnr})
 	end
 	local config = {

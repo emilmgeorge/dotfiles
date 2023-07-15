@@ -1,23 +1,34 @@
 local M = {}
 
+TELESCOPE_KEY_PREFIX = '<leader>t'
+LSP_KEY_PREFIX = '<leader>l'
+
 function M.configure()
-	require 'telescope'.setup {}
+	require 'telescope'.setup {
+		defaults = {
+			mappings = {
+				i = {
+					["<ESC>"] = require('telescope.actions').close,
+				},
+			},
+		},
+	}
 
 	-- Mappings
 	require('which-key').register({
-		["<leader>g"] = { name = "+go" },
-		["<leader>gg"] = { "<cmd>Telescope lsp_definitions fname_width=40<cr>", "Go to definitions" },
-		["<leader>gr"] = { "<cmd>Telescope lsp_references fname_width=40<cr>", "Go to references" },
-		["<leader>gs"] = { "<cmd>Telescope lsp_document_symbols fname_width=40<cr>", "Go to document symbols" },
-		["<leader>gws"] = { "<cmd>Telescope lsp_dynamic_workspace_symbols fname_width=40<cr>", "Go to workspace symbols" },
-		["<leader>gic"] = { "<cmd>Telescope lsp_incoming_calls fname_width=40<cr>", "Go to Incoming Calls" },
-		["<leader>goc"] = { "<cmd>Telescope lsp_incoming_calls fname_width=40<cr>", "Go to Outgoing Calls" },
+		[LSP_KEY_PREFIX .. 'g'] = { "<cmd>Telescope lsp_definitions fname_width=40<cr>", "Go to definitions" },
+		[LSP_KEY_PREFIX .. 'r'] = { "<cmd>Telescope lsp_references fname_width=40<cr>", "Go to references" },
+		[LSP_KEY_PREFIX .. 's'] = { "<cmd>Telescope lsp_document_symbols fname_width=40<cr>", "Go to document symbols" },
+		[LSP_KEY_PREFIX .. 'w'] = { "<cmd>Telescope lsp_dynamic_workspace_symbols fname_width=40<cr>", "Go to workspace symbols" },
+		[LSP_KEY_PREFIX .. 'i'] = { "<cmd>Telescope lsp_incoming_calls fname_width=40<cr>", "Go to Incoming Calls" },
+		[LSP_KEY_PREFIX .. 'o'] = { "<cmd>Telescope lsp_incoming_calls fname_width=40<cr>", "Go to Outgoing Calls" },
 
-		["<leader>gj"] = { "<cmd>Telescope jumplist fname_width=40<cr>", "Go to jumplist history" },
-		["<leader>gb"] = { "<cmd>Telescope buffers fname_width=40<cr>", "Go to buffer" },
-		["<leader>gf"] = { "<cmd>Telescope find_files fname_width=40<cr>", "Go to file" },
-		["<leader>ggf"] = { "<cmd>Telescope git_files fname_width=40<cr>", "Go to file" },
-		["<leader>gy"] = { "<cmd>Telescope yank_history fname_width=40<cr>", "Yank History" },
+		[TELESCOPE_KEY_PREFIX] = { name = "+telescope" },
+		[TELESCOPE_KEY_PREFIX .. 'j'] = { "<cmd>Telescope jumplist fname_width=40<cr>", "Go to jumplist history" },
+		[TELESCOPE_KEY_PREFIX .. 'b'] = { "<cmd>Telescope buffers fname_width=40<cr>", "Go to buffer" },
+		[TELESCOPE_KEY_PREFIX .. 'f'] = { "<cmd>Telescope find_files fname_width=40<cr>", "Go to file" },
+		[TELESCOPE_KEY_PREFIX .. 'gf'] = { "<cmd>Telescope git_files fname_width=40<cr>", "Go to file" },
+		[TELESCOPE_KEY_PREFIX .. 'y'] = { ":Telescope yank_history<CR>", "Yank Ring history" },
 	})
 end
 

@@ -1,5 +1,7 @@
 local M = {}
 
+LSP_KEY_PREFIX = '<leader>l'
+
 function M.configure()
 	require 'lsp_lines'.setup()
 	vim.diagnostic.config({
@@ -7,7 +9,7 @@ function M.configure()
 		virtual_lines = false,
 	})
 	require 'which-key'.register({
-		["<leader>mltl"] = {
+		[LSP_KEY_PREFIX .. 'l'] = {
 			function()
 				local lines = require 'lsp_lines'.toggle()
 				vim.diagnostic.config({

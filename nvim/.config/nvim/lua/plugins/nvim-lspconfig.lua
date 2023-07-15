@@ -1,5 +1,7 @@
 local M = {}
 
+LSP_KEY_PREFIX = '<leader>l'
+
 function M.configure()
 	local on_attach = function(client, bufnr)
 		-- Enable completion triggered by <c-x><c-o>
@@ -8,10 +10,11 @@ function M.configure()
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		require 'which-key'.register({
-			["<leader>gd"] = { vim.lsp.buf.declaration, "Go to declaration" },
-			["<leader>gh"] = { vim.lsp.buf.hover, "Show hover" },
-			["<leader>gc"] = { vim.lsp.buf.rename, "Rename" },
-			["<leader>gT"] = { vim.lsp.buf.type_definition, "Show type definition" },
+			[LSP_KEY_PREFIX] = { name = "+lsp" },
+			[LSP_KEY_PREFIX .. 'd'] = { vim.lsp.buf.declaration, "Go to declaration" },
+			[LSP_KEY_PREFIX .. 'h'] = { vim.lsp.buf.hover, "Show hover" },
+			[LSP_KEY_PREFIX .. 'c'] = { vim.lsp.buf.rename, "Rename" },
+			[LSP_KEY_PREFIX .. 'T'] = { vim.lsp.buf.type_definition, "Show type definition" },
 		}, {remap = false, silent = true, buffer=bufnr})
 
 		require 'illuminate'.on_attach(client)

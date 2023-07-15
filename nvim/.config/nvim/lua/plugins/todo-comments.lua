@@ -1,11 +1,13 @@
 local M = {}
 
+TELESCOPE_KEY_PREFIX = '<leader>t'
+
 function M.configure()
 	require 'todo-comments'.setup {}
 
 	-- Mappings
 	require('which-key').register {
-		["<leader>gt"] = { "<cmd>TodoTelescope<cr>", "Go to definitions" },
+		[TELESCOPE_KEY_PREFIX .. 't'] = { "<cmd>TodoTelescope<cr>", "TODO Telescope" },
 	}
 end
 

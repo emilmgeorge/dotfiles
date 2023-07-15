@@ -1,9 +1,11 @@
 local M = {}
 
+LSP_KEY_PREFIX = '<leader>l'
+
 function M.configure()
 	require 'trouble'.setup {}
 	require 'which-key'.register({
-		["<leader>gl"] = { ":TroubleToggle<cr>", "Show trouble" },
+		[LSP_KEY_PREFIX .. 't'] = { ":TroubleToggle<cr>", "Show trouble" },
 	}, {remap = false, silent = true})
 end
 

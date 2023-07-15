@@ -1,5 +1,7 @@
 local M = {}
 
+TREESITTER_KEY_PREFIX = '<leader>ct'
+
 function M.configure()
 	local config = {
 		-- A list of parser names, or "all"
@@ -74,39 +76,47 @@ function M.configure()
 				enable = true,
 				set_jumps = true,
 				goto_next_start = {
-					["]F"] = "@function.outer",
-					["]C"] = "@class.outer",
-				},
-				goto_next_end = {
 					["]f"] = "@function.outer",
 					["]c"] = "@class.outer",
 				},
-				goto_previous_start = {
-					["[F"] = "@function.outer",
-					["[C"] = "@class.outer",
+				goto_next_end = {
+					["]F"] = "@function.outer",
+					["]C"] = "@class.outer",
 				},
-				goto_previous_end = {
+				goto_previous_start = {
 					["[f"] = "@function.outer",
 					["[c"] = "@class.outer",
+				},
+				goto_previous_end = {
+					["[F"] = "@function.outer",
+					["[C"] = "@class.outer",
 				},
 			},
 			swap = {
 				enable = true,
-				swap_next = {
-					["<leader>mas"] = "@parameter.inner",
-					["<leader>mfs"] = "@function.outer",
-				},
 				swap_previous = {
-					["<leader>maS"] = "@parameter.inner",
-					["<leader>mfS"] = "@function.outer",
+					[TREESITTER_KEY_PREFIX .. 'sa['] = '@parameter.inner',
+					[TREESITTER_KEY_PREFIX .. 'sf['] = '@function.outer',
+				},
+				swap_next = {
+					[TREESITTER_KEY_PREFIX .. 'sa]'] = '@parameter.inner',
+					[TREESITTER_KEY_PREFIX .. 'sf]'] = '@function.outer',
 				},
 			},
-			peek_definition_code = {
-				["<leader>mfp"] = "@function.outer",
+			lsp_interop = {
+				enable = true,
+				border = 'none',
+				floating_preview_opts = {},
+				peek_definition_code = {
+					[TREESITTER_KEY_PREFIX .. 'pf'] = '@function.outer',
+				},
 			},
 		},
 	}
 	require 'nvim-treesitter.configs'.setup(config)
+	require 'which-key'.register({
+		[TREESITTER_KEY_PREFIX] = { name = '+treesitter'},
+	})
 end
 
 function M.setup()

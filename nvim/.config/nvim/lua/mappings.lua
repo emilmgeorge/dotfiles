@@ -70,22 +70,20 @@ function M.map_wk(wk)
 		["<leader>2"] = { ":buffer 2<CR>", "Jump to buffer 2" },
 		["<leader>3"] = { ":buffer 3<CR>", "Jump to buffer 3" },
 
-		["<leader>c"] = { ":let @/=''<CR>", "Clear search" },
-		["<leader>w"] = { ":set list!<CR>", "Toggle whitespace display" },
+		["<leader>mw"] = { ":set list!<CR>", "Toggle whitespace display" },
 	})
-
-	wk.register({
-		["<leader>h"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
-		["<leader>vq"] = { "<Esc>:'<,'>normal @", "Run macro on every line in visual selection" },
-	}, { mode = "v"})
 
 	local nv_mappings = {
 		["<leader>y"] = { "\"+y", "Yank to clipboard" },
 		["<leader>p"] = { "\"+p", "Paste from clipboard" },
 		["<leader>Y"] = { "\"*y", "Yank to primary" },
 		["<leader>P"] = { "\"*p", "Paste from primary" },
-		["<leader>r"] = { ":Telescope yank_history<CR>", "Yank Ring history" },
+
+		["<leader>v"] = { name = "+selection" },
+		["<leader>vc"] = { ":let @/=''<CR>", "Clear search" },
+		["<leader>vh"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
 		["<leader>vp"] = { "<Esc>`[v`]", "Select previously put/yanked text" },
+		["<leader>vq"] = { "<Esc>:'<,'>normal @", "Run macro on every line in visual selection" },
 	}
 	wk.register(nv_mappings, { mode = "n"})
 	wk.register(nv_mappings, { mode = "v"})

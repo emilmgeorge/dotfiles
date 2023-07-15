@@ -1,12 +1,15 @@
 local M = {}
 
+MP_KEY_PREFIX = '<leader>mm'
+
 function M.configure()
 	vim.cmd[[
 	let g:mkdp_command_for_global = 1
 	]]
 
 	require 'which-key'.register({
-		["<leader>mp"] = { "<Plug>MarkdownPreview" , "Markdown Preview" },
+		[MP_KEY_PREFIX] = { name = '+markdown'},
+		[MP_KEY_PREFIX .. 'p'] = { "<Plug>MarkdownPreview" , "Markdown Preview" },
 	}, {remap = true, silent = true})
 end
 

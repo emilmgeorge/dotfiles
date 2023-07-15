@@ -1,8 +1,10 @@
 local M = {}
 
+LSP_KEY_PREFIX = '<leader>l'
+
 function M.configure()
 	require 'which-key'.register({
-		["<leader>ga"] = { ":CodeActionMenu<cr>", "Code Action" },
+		[LSP_KEY_PREFIX .. 'a'] = { ":CodeActionMenu<cr>", "Code Action" },
 	}, {remap = false, silent = true})
 end
 
