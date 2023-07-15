@@ -94,9 +94,10 @@ autocmd BufWinEnter * call matchadd("TrailingWhitespace", '\s\+$')
 ]]
 
 -- Highlight mixed whitespace indent
+		  --
 vim.cmd[[
 autocmd ColorScheme * highlight MixedWhitespaceIndent guibg=#3a2626 ctermbg=235
-autocmd BufWinEnter * call matchadd("MixedWhitespaceIndent", '\%(^\s* \t\s*\)\|\%(^\s*\t \s*\)')
+autocmd BufWinEnter *.py call matchadd("MixedWhitespaceIndent", '\%(^\s* \t\s*\)\|\%(^\s*\t \s*\)')
 ]]
 
 -- Set format for fold text
