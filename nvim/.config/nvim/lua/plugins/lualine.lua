@@ -7,6 +7,7 @@ function M.configure()
 			globalstatus = true,
 		},
 		sections = {
+			lualine_c = {{ 'filename', path = 1 }},
 			lualine_x = {{ function() return navic.get_location() end, cond = navic.is_available }, 'encoding', 'fileformat', 'filetype'},
 		},
 	}
