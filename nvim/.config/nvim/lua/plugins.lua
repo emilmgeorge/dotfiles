@@ -49,6 +49,7 @@ if(packer) then
 	-- Others
 	require('plugins/vimwiki').setup()
 	require('plugins/attempt').setup()
+	require('plugins/markdown-preview').setup()
 end
 
 -- Automatically set up your configuration after cloning packer.nvim
