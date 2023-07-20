@@ -3,14 +3,17 @@
 all: install_all
 clean: uninstall_all
 
-install_all: install_vim install_tmux install_spacemacs install_git install_tig install_emacs
-uninstall_all: uninstall_vim uninstall_tmux uninstall_spacemacs uninstall_git uninstall_tig uninstall_emacs
+install_all: install_vim install_nvim  install_tmux install_spacemacs install_git install_tig install_emacs
+uninstall_all: uninstall_vim uninstall_nvim uninstall_tmux uninstall_spacemacs uninstall_git uninstall_tig uninstall_emacs
 
 install_vim:
 	stow -t ~/ vim
-	stow -t ~/ nvim
 uninstall_vim:
 	stow -D -t ~/ vim
+
+install_nvim:
+	stow -t ~/ nvim
+uninstall_nvim:
 	stow -D -t ~/ nvim
 
 install_tmux:
