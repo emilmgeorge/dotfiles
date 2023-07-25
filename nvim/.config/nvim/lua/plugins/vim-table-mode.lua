@@ -1,29 +1,19 @@
 local M = {}
 
-function M.configure()
-	-- Trigger TableMode if || is typed in insert mode at the start of a line
-	-- Exit TableMode if -- is typed in insert mode at the start of a line
-	vim.cmd[[
-function! s:isAtStartOfLine(mapping)
-  let text_before_cursor = getline('.')[0 : col('.')-1]
-  let mapping_pattern = '\V' . escape(a:mapping, '\')
-  let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
-  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
-endfunction
+TABLE_MODE_KEY_PREFIX = '<Leader>mt'
 
-inoreabbrev <expr> <bar><bar>
-          \ <SID>isAtStartOfLine('\|\|') ?
-          \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'
-inoreabbrev <expr> __
-          \ <SID>isAtStartOfLine('__') ?
-          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
-	]]
+function M.configure()
 end
 
 function M.setup()
+	vim.cmd("let g:table_mode_map_prefix = '" .. TABLE_MODE_KEY_PREFIX .. "'")
 	require 'packer'.use {
 		'dhruvasagar/vim-table-mode',
 		config = M.configure,
+		keys = {
+			TABLE_MODE_KEY_PREFIX .. 'm', -- Toggle Table Mode
+			TABLE_MODE_KEY_PREFIX .. 't', -- Tableize
+		},
 	}
 end
 

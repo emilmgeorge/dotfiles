@@ -1,13 +1,14 @@
 local M = {}
 
 TELESCOPE_KEY_PREFIX = '<leader>t'
+TODO_COMMENTS_KEY = TELESCOPE_KEY_PREFIX .. 't'
 
 function M.configure()
 	require 'todo-comments'.setup {}
 
 	-- Mappings
 	require('which-key').register {
-		[TELESCOPE_KEY_PREFIX .. 't'] = { "<cmd>TodoTelescope<cr>", "TODO Telescope" },
+		[TODO_COMMENTS_KEY] = { "<cmd>TodoTelescope<cr>", "TODO Telescope" },
 	}
 end
 
@@ -16,6 +17,7 @@ function M.setup()
 		'folke/todo-comments.nvim',
 		requires = 'nvim-lua/plenary.nvim',
 		config = M.configure,
+		keys = TODO_COMMENTS_KEY,
 	}
 end
 

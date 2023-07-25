@@ -1,11 +1,12 @@
 local M = {}
 
 LSP_KEY_PREFIX = '<leader>l'
+TROUBLE_KEY = LSP_KEY_PREFIX .. 't'
 
 function M.configure()
 	require 'trouble'.setup {}
 	require 'which-key'.register({
-		[LSP_KEY_PREFIX .. 't'] = { ":TroubleToggle<cr>", "Show trouble" },
+		[TROUBLE_KEY] = { ":TroubleToggle<cr>", "Show trouble" },
 	}, {remap = false, silent = true})
 end
 
@@ -14,6 +15,7 @@ function M.setup()
 		'folke/trouble.nvim',
 		requires = "kyazdani42/nvim-web-devicons",
 		config = M.configure,
+		keys = TROUBLE_KEY,
 	}
 end
 
