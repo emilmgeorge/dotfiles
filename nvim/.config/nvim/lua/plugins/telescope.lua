@@ -35,7 +35,7 @@ end
 function M.setup()
 	require 'packer'.use {
 		'nvim-telescope/telescope.nvim',
-		tag = '0.1.1',
+		tag = '0.1.5',
 		requires = 'nvim-lua/plenary.nvim',
 		config = M.configure,
 	}
