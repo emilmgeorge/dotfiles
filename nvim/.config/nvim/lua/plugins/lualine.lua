@@ -15,9 +15,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use({
+	return {
 		'nvim-lualine/lualine.nvim',
-		requires = {
+		dependencies = {
 			{
 				'kyazdani42/nvim-web-devicons',
 				config = function()
@@ -26,7 +26,7 @@ function M.setup()
 			}
 		},
 		config = M.configure,
-	})
+	}
 end
 
 return M

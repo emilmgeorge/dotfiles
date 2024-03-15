@@ -5,7 +5,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'emilmgeorge/cscope_maps.nvim',
 		config = M.configure,
 	}

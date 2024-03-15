@@ -109,9 +109,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'neovim/nvim-lspconfig',
-		requires = 'hrsh7th/cmp-nvim-lsp',
+		dependencies = 'hrsh7th/cmp-nvim-lsp',
 		config = M.configure,
 	}
 end

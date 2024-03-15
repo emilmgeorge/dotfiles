@@ -1,9 +1,9 @@
 local M = {}
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'SirVer/ultisnips',
-		requires = {
+		dependencies = {
 			'quangnguyen30192/cmp-nvim-ultisnips',
 			config = function()
 				require 'cmp_nvim_ultisnips'.setup {}

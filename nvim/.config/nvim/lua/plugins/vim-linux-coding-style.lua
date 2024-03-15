@@ -8,7 +8,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'vivien/vim-linux-coding-style',
 		config = M.configure,
 		cmd = 'LinuxCodingStyle'

@@ -59,7 +59,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'lewis6991/gitsigns.nvim',
 		config = M.configure,
 	}

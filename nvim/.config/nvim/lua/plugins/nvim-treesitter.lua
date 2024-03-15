@@ -120,18 +120,20 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
-		'nvim-treesitter/nvim-treesitter',
-		run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-		config = M.configure,
-	}
-	require 'packer'.use {
-		'nvim-treesitter/nvim-treesitter-textobjects',
-		after = 'nvim-treesitter',
-	}
-	require 'packer'.use {
-		'RRethy/nvim-treesitter-textsubjects',
-		after = 'nvim-treesitter',
+	return {
+		{
+			'nvim-treesitter/nvim-treesitter',
+			build = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+			config = M.configure,
+		},
+		{
+			'nvim-treesitter/nvim-treesitter-textobjects',
+			after = 'nvim-treesitter',
+		},
+		{
+			'RRethy/nvim-treesitter-textsubjects',
+			after = 'nvim-treesitter',
+		}
 	}
 end
 

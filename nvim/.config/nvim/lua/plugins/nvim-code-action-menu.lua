@@ -10,7 +10,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'weilbith/nvim-code-action-menu',
 		config = M.configure,
 		keys = CODE_ACTION_KEY,

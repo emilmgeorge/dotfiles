@@ -11,7 +11,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'vimwiki/vimwiki',
 		config = M.configure,
 	}

@@ -8,7 +8,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'RRethy/vim-illuminate',
 		config = M.configure,
 	}

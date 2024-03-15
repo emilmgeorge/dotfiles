@@ -28,9 +28,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'm-demare/attempt.nvim',
-		requires = 'nvim-lua/plenary.nvim',
+		dependencies = 'nvim-lua/plenary.nvim',
 		keys = ATTEMPT_KEY_PREFIX,
 		config = M.configure,
 	}

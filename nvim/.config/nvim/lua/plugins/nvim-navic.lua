@@ -7,9 +7,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'SmiteshP/nvim-navic',
-		requires = 'neovim/nvim-lspconfig',
+		dependencies = 'neovim/nvim-lspconfig',
 		config = M.configure,
 	}
 end

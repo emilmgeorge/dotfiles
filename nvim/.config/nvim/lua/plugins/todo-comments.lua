@@ -13,9 +13,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'folke/todo-comments.nvim',
-		requires = 'nvim-lua/plenary.nvim',
+		dependencies = 'nvim-lua/plenary.nvim',
 		config = M.configure,
 		keys = TODO_COMMENTS_KEY,
 	}

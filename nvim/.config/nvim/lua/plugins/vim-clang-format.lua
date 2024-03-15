@@ -8,7 +8,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'rhysd/vim-clang-format',
 		config = M.configure,
 		cmd = 'ClangFormat',

@@ -5,7 +5,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'windwp/nvim-autopairs',
 		config = M.configure,
 	}

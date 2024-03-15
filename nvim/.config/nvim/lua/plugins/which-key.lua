@@ -24,10 +24,10 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use({
+	return {
 		"folke/which-key.nvim",
 		config = M.configure,
-	})
+	}
 end
 
 return M

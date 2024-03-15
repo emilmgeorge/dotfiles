@@ -5,7 +5,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'kylechui/nvim-surround',
 		config = M.configure,
 	}

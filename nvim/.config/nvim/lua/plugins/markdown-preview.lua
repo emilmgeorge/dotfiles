@@ -14,9 +14,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'iamcco/markdown-preview.nvim',
-		run = function() vim.fn["mkdp#util#install"]() end,
+		build = function() vim.fn["mkdp#util#install"]() end,
 		config = M.configure,
 	}
 end

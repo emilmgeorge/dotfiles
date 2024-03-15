@@ -33,10 +33,10 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'nvim-telescope/telescope.nvim',
-		tag = '0.1.5',
-		requires = 'nvim-lua/plenary.nvim',
+		version = '0.1.5',
+		dependencies = 'nvim-lua/plenary.nvim',
 		config = M.configure,
 	}
 end

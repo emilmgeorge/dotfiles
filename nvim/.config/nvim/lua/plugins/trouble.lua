@@ -11,9 +11,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'folke/trouble.nvim',
-		requires = "kyazdani42/nvim-web-devicons",
+		dependencies = "kyazdani42/nvim-web-devicons",
 		config = M.configure,
 		keys = TROUBLE_KEY,
 	}

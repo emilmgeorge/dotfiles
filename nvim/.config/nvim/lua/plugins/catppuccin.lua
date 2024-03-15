@@ -26,11 +26,11 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use({
+	return {
 		'catppuccin/nvim',
-		as = 'catppuccin',
+		name = 'catppuccin',
 		config = M.configure,
-	})
+	}
 end
 
 return M

@@ -31,9 +31,9 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'hrsh7th/nvim-cmp',
-		requires = 'hrsh7th/cmp-nvim-lsp-signature-help',
+		dependencies = 'hrsh7th/cmp-nvim-lsp-signature-help',
 		config = M.configure,
 	}
 end

@@ -15,13 +15,13 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use({
+	return {
 		'kyazdani42/nvim-tree.lua',
-		requires = {
+		dependencies = {
 			'kyazdani42/nvim-web-devicons', -- optional, for file icons
 		},
 		config = M.configure,
-	})
+	}
 end
 
 return M

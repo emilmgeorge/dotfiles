@@ -5,7 +5,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'numToStr/Comment.nvim',
 		config = M.configure,
 	}

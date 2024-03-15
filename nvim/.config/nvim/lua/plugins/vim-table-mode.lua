@@ -7,7 +7,7 @@ end
 
 function M.setup()
 	vim.cmd("let g:table_mode_map_prefix = '" .. TABLE_MODE_KEY_PREFIX .. "'")
-	require 'packer'.use {
+	return {
 		'dhruvasagar/vim-table-mode',
 		config = M.configure,
 		keys = {

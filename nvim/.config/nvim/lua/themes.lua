@@ -18,8 +18,10 @@ function M.init()
 end
 
 function M.setup()
-	catppuccin.setup()
-	nightfox.setup()
+	return {
+		catppuccin.setup(),
+		nightfox.setup(),
+	}
 end
 
 return M

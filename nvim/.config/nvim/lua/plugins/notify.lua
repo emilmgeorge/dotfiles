@@ -6,7 +6,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'rcarriga/nvim-notify',
 		config = M.configure,
 	}

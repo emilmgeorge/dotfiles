@@ -14,7 +14,7 @@ function M.configure()
 end
 
 function M.setup()
-	require 'packer'.use {
+	return {
 		'gbprod/yanky.nvim',
 		config = M.configure,
 	}
