@@ -60,7 +60,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Whitespace display
-vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:█,space:·'
+vim.opt.listchars = 'tab:│ ,extends:›,precedes:‹,nbsp:·,trail:·,space:·'
 vim.opt.list = true
 
 -- Indent options
@@ -89,15 +89,14 @@ vim.g.c_syntax_for_h = 1
 
 -- Highlight trailing whitespace
 vim.cmd[[
-autocmd ColorScheme * highlight TrailingWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight TrailingWhitespace ctermbg=235 guibg=#3A2626
 autocmd BufWinEnter * call matchadd("TrailingWhitespace", '\s\+$')
 ]]
 
 -- Highlight mixed whitespace indent
-		  --
 vim.cmd[[
-autocmd ColorScheme * highlight MixedWhitespaceIndent guibg=#3a2626 ctermbg=235
-autocmd BufWinEnter *.py call matchadd("MixedWhitespaceIndent", '\%(^\s* \t\s*\)\|\%(^\s*\t \s*\)')
+autocmd ColorScheme * highlight MixedWhitespaceIndent ctermbg=235 guibg=#3A2626
+autocmd BufWinEnter * call matchadd("MixedWhitespaceIndent", '\%(^\s* \t\s*\)\|\%(^\s*\t \s*\)')
 ]]
 
 -- Set format for fold text
