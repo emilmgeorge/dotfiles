@@ -17,7 +17,6 @@ function M.setup()
 		'folke/todo-comments.nvim',
 		dependencies = 'nvim-lua/plenary.nvim',
 		config = M.configure,
-		keys = TODO_COMMENTS_KEY,
 	}
 end
 

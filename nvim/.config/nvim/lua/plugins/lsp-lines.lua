@@ -26,7 +26,6 @@ function M.setup()
 	return {
 		'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
 		config = M.configure,
-		keys = LSP_LINES_KEY,
 	}
 end
 
