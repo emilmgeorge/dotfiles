@@ -19,7 +19,7 @@ local plugins = {
 	-- Editor
 	require('plugins/which-key').setup(),
 	require('plugins/notify').setup(),
-	require('plugins/nvim-tree').setup(),
+	require('plugins/nvim_tree').setup(),
 
 	-- Editing
 	require('plugins/yanky').setup(),

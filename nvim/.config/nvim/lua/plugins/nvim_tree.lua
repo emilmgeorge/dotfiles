@@ -11,16 +11,19 @@ function M.configure()
 		},
 	}
 	require("nvim-tree").setup(config)
-	vim.keymap.set('n', '<Leader>d', '<Cmd>NvimTreeFindFileToggle<CR>', { noremap=true, silent=true })
+	require("which-key").register({
+		["<leader>d"] = { '<cmd>NvimTreeFindFileToggle<cr>', "Open file manager pane" },
+	}, {mode = 'n', silent = true})
 end
 
 function M.setup()
 	return {
-		'kyazdani42/nvim-tree.lua',
+		"nvim-tree/nvim-tree.lua",
 		dependencies = {
-			'kyazdani42/nvim-web-devicons', -- optional, for file icons
+			"nvim-tree/nvim-web-devicons",
 		},
 		config = M.configure,
+		lazy = false,
 	}
 end
 
