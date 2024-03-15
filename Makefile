@@ -11,6 +11,7 @@ install_all: \
 	install_tig \
 	install_tmux \
 	install_vim \
+	install_zsh \
 	;
 
 .PHONY: uninstall_all
@@ -23,6 +24,7 @@ uninstall_all: \
 	uninstall_tig \
 	uninstall_tmux \
 	uninstall_vim \
+	uninstall_zsh \
 	;
 
 .PHONY: install_emacs
@@ -100,3 +102,10 @@ install_vim:
 .PHONY: uninstall_vim
 uninstall_vim:
 	stow -D -t ~/ vim
+
+.PHONY: install_zsh
+install_zsh:
+	stow -t ~/ zsh
+.PHONY: uninstall_zsh
+uninstall_zsh:
+	stow -D -t ~/ zsh
