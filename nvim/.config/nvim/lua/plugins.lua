@@ -46,6 +46,7 @@ local plugins = {
 	require('plugins/vim-clang-format').setup(),
 
 	-- Others
+	require('plugins/nvim-neorg').setup(),
 	require('plugins/vimwiki').setup(),
 	require('plugins/attempt').setup(),
 	require('plugins/markdown-preview').setup(),
