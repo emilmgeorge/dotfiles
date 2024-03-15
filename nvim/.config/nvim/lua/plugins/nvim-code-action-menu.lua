@@ -13,7 +13,6 @@ function M.setup()
 	return {
 		'weilbith/nvim-code-action-menu',
 		config = M.configure,
-		keys = CODE_ACTION_KEY,
 	}
 end
 

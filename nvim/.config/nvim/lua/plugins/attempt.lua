@@ -31,7 +31,6 @@ function M.setup()
 	return {
 		'm-demare/attempt.nvim',
 		dependencies = 'nvim-lua/plenary.nvim',
-		keys = ATTEMPT_KEY_PREFIX,
 		config = M.configure,
 	}
 end

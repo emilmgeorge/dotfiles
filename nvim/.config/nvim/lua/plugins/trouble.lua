@@ -15,7 +15,6 @@ function M.setup()
 		'folke/trouble.nvim',
 		dependencies = "kyazdani42/nvim-web-devicons",
 		config = M.configure,
-		keys = TROUBLE_KEY,
 	}
 end
 

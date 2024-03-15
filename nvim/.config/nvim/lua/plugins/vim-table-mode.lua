@@ -10,11 +10,9 @@ function M.setup()
 	return {
 		'dhruvasagar/vim-table-mode',
 		config = M.configure,
-		keys = {
-			TABLE_MODE_KEY_PREFIX .. 'm', -- Toggle Table Mode
-			TABLE_MODE_KEY_PREFIX .. 't', -- Tableize
-		},
 	}
 end
+
+
 
 return M
