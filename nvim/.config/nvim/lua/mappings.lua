@@ -3,6 +3,7 @@ local M = {}
 function M.map()
 	-- Set vim leader key
 	vim.g.mapleader = " "
+	vim.g.maplocalleader = ","
 
 	vim.cmd([[
 	""""""""""""""""""""""""""" EscapeString() """"""""""""""""""""""""""""
