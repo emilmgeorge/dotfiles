@@ -51,6 +51,7 @@ local plugins = {
 
 	-- Others
 	require('plugins/headlines').setup(),
+	require('plugins/image').setup(),
 	require('plugins/nvim-neorg').setup(),
 	require('plugins/attempt').setup(),
 	require('plugins/markdown-preview').setup(),
@@ -60,5 +61,8 @@ require('lazy').setup({
 	spec = plugins,
 	ui = {
 		border = "rounded",
+	},
+	rocks = {
+		hererocks = true,
 	},
 })
