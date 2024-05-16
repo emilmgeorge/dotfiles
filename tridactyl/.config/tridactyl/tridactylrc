@@ -1,0 +1,17 @@
+" Reset to config to default
+sanitise tridactyllocal
+
+" General Settings
+set editorcmd kitty ~/.config/tridactyl/editorcmd.sh
+set smoothscroll true
+
+" Binds
+unbind <C-f>
+unbind <C-e>
+unbind <C-y>
+
+" Subconfig Settings
+seturl https://codeforces.com/ noiframe true
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
