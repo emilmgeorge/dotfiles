@@ -11,6 +11,7 @@ install_all: \
 	install_spacemacs \
 	install_tig \
 	install_tmux \
+	install_tridactyl \
 	install_vim \
 	install_zsh \
 	;
@@ -25,6 +26,7 @@ uninstall_all: \
 	uninstall_spacemacs \
 	uninstall_tig \
 	uninstall_tmux \
+	uninstall_tridactyl \
 	uninstall_vim \
 	uninstall_zsh \
 	;
@@ -104,6 +106,13 @@ install_tmux:
 .PHONY: uninstall_tmux
 uninstall_tmux:
 	stow -D -t ~/ tmux
+
+.PHONY: install_tridactyl
+install_tridactyl:
+	stow -t ~/ tridactyl
+.PHONY: uninstall_tridactyl
+uninstall_tridactyl:
+	stow -D -t ~/ tridactyl
 
 .PHONY: install_vim
 install_vim:
