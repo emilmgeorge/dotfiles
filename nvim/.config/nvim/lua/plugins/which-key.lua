@@ -13,13 +13,11 @@ function M.configure()
 		},
 	}
 	require 'which-key'.setup(config)
-	require 'mappings'.map_wk(require 'which-key')
-	require 'which-key'.register {
-		['<leader>c'] = { name = '+code' },
-		['<leader>ct'] = { name = '+treesitter' },
-		['<leader>g'] = { name = '+git' },
-		['<leader>l'] = { name = '+lsp' },
-		['<leader>m'] = { name = '+misc' },
+	require 'which-key'.add {
+		{ "<leader>c", group = "code" },
+		{ "<leader>g", group = "git" },
+		{ "<leader>l", group = "lsp" },
+		{ "<leader>m", group = "misc" },
 	}
 end
 

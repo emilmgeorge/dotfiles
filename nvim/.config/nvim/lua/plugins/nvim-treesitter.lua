@@ -114,8 +114,8 @@ function M.configure()
 		},
 	}
 	require 'nvim-treesitter.configs'.setup(config)
-	require 'which-key'.register({
-		[TREESITTER_KEY_PREFIX] = { name = '+treesitter'},
+	require 'which-key'.add({
+		{ TREESITTER_KEY_PREFIX, group = "treesitter" },
 	})
 end
 

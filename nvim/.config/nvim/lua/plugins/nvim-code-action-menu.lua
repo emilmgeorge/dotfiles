@@ -4,9 +4,7 @@ LSP_KEY_PREFIX = '<leader>l'
 CODE_ACTION_KEY = LSP_KEY_PREFIX .. 'a'
 
 function M.configure()
-	require 'which-key'.register({
-		[CODE_ACTION_KEY] = { ":CodeActionMenu<cr>", "Code Action" },
-	}, {remap = false, silent = true})
+	vim.keymap.set('n', CODE_ACTION_KEY, ":CodeActionMenu<cr>", { desc = "Code Action", remap = false })
 end
 
 function M.setup()

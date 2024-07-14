@@ -9,13 +9,11 @@ function M.configure()
 
 		-- Mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		require 'which-key'.register({
-			[LSP_KEY_PREFIX] = { name = "+lsp" },
-			[LSP_KEY_PREFIX .. 'd'] = { vim.lsp.buf.declaration, "Go to declaration" },
-			[LSP_KEY_PREFIX .. 'h'] = { vim.lsp.buf.hover, "Show hover" },
-			[LSP_KEY_PREFIX .. 'c'] = { vim.lsp.buf.rename, "Rename" },
-			[LSP_KEY_PREFIX .. 'T'] = { vim.lsp.buf.type_definition, "Show type definition" },
-		}, {remap = false, silent = true, buffer=bufnr})
+		local opt = function(d) return { buffer = bufnr, remap = false, silent = true,  desc = d } end
+		vim.keymap.set('n', LSP_KEY_PREFIX .. 'T', vim.lsp.buf.type_definition, opt("Show type definition"))
+		vim.keymap.set('n', LSP_KEY_PREFIX .. 'c', vim.lsp.buf.rename, opt("Rename"))
+		vim.keymap.set('n', LSP_KEY_PREFIX .. 'd', vim.lsp.buf.declaration, opt("Go to declaration"))
+		vim.keymap.set('n', LSP_KEY_PREFIX .. 'h', vim.lsp.buf.hover, opt("Show hover"))
 
 		require 'illuminate'.on_attach(client)
 		if client.server_capabilities.documentSymbolProvider then

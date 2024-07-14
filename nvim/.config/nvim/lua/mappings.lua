@@ -61,33 +61,22 @@ function M.map()
 	-- Cycle put text from yank ring
 	vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)", {})
 	vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)", {})
-end
 
-function M.map_wk(wk)
-	wk.register({
-		["<leader> "] = { "i<space><Esc>r", "Insert character in normal mode" },
+	vim.keymap.set("n", "<leader> ", "i<space><Esc>r", { desc = "Insert character in normal mode", remap = false })
+	vim.keymap.set("n", "<leader>1", ":buffer 1<CR>", { desc = "Jump to buffer 1", remap = false })
+	vim.keymap.set("n", "<leader>2", ":buffer 2<CR>", { desc = "Jump to buffer 2", remap = false })
+	vim.keymap.set("n", "<leader>3", ":buffer 3<CR>", { desc = "Jump to buffer 3", remap = false })
+	vim.keymap.set("n", "<leader>mw", ":set list!<CR>", { desc = "Toggle whitespace display", remap = false })
 
-		["<leader>1"] = { ":buffer 1<CR>", "Jump to buffer 1" },
-		["<leader>2"] = { ":buffer 2<CR>", "Jump to buffer 2" },
-		["<leader>3"] = { ":buffer 3<CR>", "Jump to buffer 3" },
+	vim.keymap.set({"n", "v"}, "<leader>P", '"*p', { desc = "Paste from primary", remap = false })
+	vim.keymap.set({"n", "v"}, "<leader>Y", '"*y', { desc = "Yank to primary", remap = false })
+	vim.keymap.set({"n", "v"}, "<leader>p", '"+p', { desc = "Paste from clipboard" })
+	vim.keymap.set({"n", "v"}, "<leader>y", '"+y', { desc = "Yank to clipboard" })
 
-		["<leader>mw"] = { ":set list!<CR>", "Toggle whitespace display" },
-	})
-
-	local nv_mappings = {
-		["<leader>y"] = { "\"+y", "Yank to clipboard" },
-		["<leader>p"] = { "\"+p", "Paste from clipboard" },
-		["<leader>Y"] = { "\"*y", "Yank to primary" },
-		["<leader>P"] = { "\"*p", "Paste from primary" },
-
-		["<leader>v"] = { name = "+selection" },
-		["<leader>vc"] = { ":let @/=''<CR>", "Clear search" },
-		["<leader>vh"] = { "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", "Replace selected text" },
-		["<leader>vp"] = { "<Esc>`[v`]", "Select previously put/yanked text" },
-		["<leader>vq"] = { "<Esc>:'<,'>normal @", "Run macro on every line in visual selection" },
-	}
-	wk.register(nv_mappings, { mode = "n"})
-	wk.register(nv_mappings, { mode = "v"})
+	vim.keymap.set({"n", "v"}, "<leader>vc", ":let @/=''<CR>", { desc = "Clear search" })
+	vim.keymap.set({"n", "v"}, "<leader>vh", "<Esc>:%s/<c-r>=GetVisual()<cr>//gc<Left><Left><Left>", { desc = "Replace selected text" })
+	vim.keymap.set({"n", "v"}, "<leader>vp", "<Esc>`[v`]", { desc = "Select previously put/yanked text" })
+	vim.keymap.set({"n", "v"}, "<leader>vq", "<Esc>:'<,'>normal @", { desc = "Run macro on every line in visual selection" })
 end
 
 return M

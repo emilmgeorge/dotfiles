@@ -7,9 +7,7 @@ function M.configure()
 	require 'todo-comments'.setup {}
 
 	-- Mappings
-	require('which-key').register {
-		[TODO_COMMENTS_KEY] = { "<cmd>TodoTelescope<cr>", "TODO Telescope" },
-	}
+	vim.keymap.set('n', TODO_COMMENTS_KEY, "<cmd>TodoTelescope<cr>", { desc = "TODO Telescope" })
 end
 
 function M.setup()

@@ -14,17 +14,16 @@ function M.configure()
 	require 'attempt'.setup(config)
 	require 'telescope'.load_extension 'attempt'
 
-	local attempt = require 'attempt'
-	require 'which-key'.register({
-		[ATTEMPT_KEY_PREFIX] = { name = "+attempt", },
-		[ATTEMPT_KEY_PREFIX .. 'n'] = { attempt.new_select, "New attempt" },
-		[ATTEMPT_KEY_PREFIX .. 'i'] = { attempt.new_input_ext, "New attempt (custom ext)" },
-		[ATTEMPT_KEY_PREFIX .. 'r'] = { attempt.run, "Run attempt" },
-		[ATTEMPT_KEY_PREFIX .. 'd'] = { attempt.delete_buf, "Delete attempt" },
-		[ATTEMPT_KEY_PREFIX .. 'c'] = { attempt.rename_buf, "Rename attempt" },
-		[ATTEMPT_KEY_PREFIX .. 'l'] = { '<cmd>Telescope attempt<cr>', "List attempts" },
-		-- [ATTEMPT_KEY_PREFIX .. 'l'] = { attempt.open_select, "ui.select instead of Telescope" },
-	}, {mode = 'n', silent = true})
+	require 'which-key'.add({
+		{ ATTEMPT_KEY_PREFIX, group = "attempt" },
+	})
+	local attempt = require('attempt')
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'c', attempt.rename_buf, { desc = "Rename attempt" })
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'd', attempt.delete_buf, { desc = "Delete attempt" })
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'i', attempt.new_input_ext, { desc = "New attempt (custom ext)" })
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'l', "<cmd>Telescope attempt<cr>", { desc = "List attempts" })
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'n', attempt.new_select, { desc = "New attempt" })
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'r', attempt.run, { desc = "Run attempt" })
 end
 
 function M.setup()

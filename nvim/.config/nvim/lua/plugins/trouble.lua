@@ -5,9 +5,7 @@ TROUBLE_KEY = LSP_KEY_PREFIX .. 't'
 
 function M.configure()
 	require 'trouble'.setup {}
-	require 'which-key'.register({
-		[TROUBLE_KEY] = { ":TroubleToggle<cr>", "Show trouble" },
-	}, {remap = false, silent = true})
+	vim.keymap.set('n', TROUBLE_KEY, ":TroubleToggle<cr>", { desc = "Show trouble" })
 end
 
 function M.setup()
