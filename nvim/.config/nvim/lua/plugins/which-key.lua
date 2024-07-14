@@ -2,15 +2,17 @@ local M = {}
 
 function M.configure()
 	local config = {
-		operators = {
-			gc = 'Line Comments',
-			gb = 'Block comments',
+		preset = "helix",
+		win = {
+			border = "rounded",
+			padding = { 1, 2, 1, 2 }, -- [top, right, bottom, left]
 		},
-		window = {
-			border = "single", -- none, single, double, shadow
-			margin = { 0, 0, 0, 0 }, -- extra window margin [top, right, bottom, left]
-			padding = { 0, 0, 0, 0 }, -- extra window padding [top, right, bottom, left]
+		replace = {
+			key = {
+				{ "<Space>", "SPC" },
+			},
 		},
+		show_help = false,
 	}
 	require 'which-key'.setup(config)
 	require 'which-key'.add {
@@ -25,6 +27,16 @@ function M.setup()
 	return {
 		"folke/which-key.nvim",
 		config = M.configure,
+		event = "VeryLazy",
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
 	}
 end
 
