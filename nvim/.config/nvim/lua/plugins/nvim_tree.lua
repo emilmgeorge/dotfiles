@@ -11,9 +11,7 @@ function M.configure()
 		},
 	}
 	require("nvim-tree").setup(config)
-	require("which-key").register({
-		["<leader>d"] = { '<cmd>NvimTreeFindFileToggle<cr>', "Open file manager pane" },
-	}, {mode = 'n', silent = true})
+	vim.keymap.set('n', "<leader>d", "<cmd>NvimTreeFindFileToggle<cr>", { desc = "Open file manager pane" })
 end
 
 function M.setup()

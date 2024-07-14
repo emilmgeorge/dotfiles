@@ -9,17 +9,15 @@ function M.configure()
 		virtual_text = true,
 		virtual_lines = false,
 	})
-	require 'which-key'.register({
-		[LSP_LINES_KEY] = {
-			function()
-				local lines = require 'lsp_lines'.toggle()
-				vim.diagnostic.config({
-					virtual_text = not lines,
-				})
-			end,
-			"Toggle LSP lines"
-		},
-	}, {remap = false, silent = true})
+
+	vim.keymap.set('n', LSP_LINES_KEY,
+	function()
+		local lines = require 'lsp_lines'.toggle()
+		vim.diagnostic.config({
+			virtual_text = not lines,
+		})
+	end,
+	{ desc = "Toggle LSP lines" })
 end
 
 function M.setup()

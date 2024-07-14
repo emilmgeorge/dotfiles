@@ -7,10 +7,7 @@ function M.configure()
 	let g:mkdp_command_for_global = 1
 	]]
 
-	require 'which-key'.register({
-		[MP_KEY_PREFIX] = { name = '+markdown'},
-		[MP_KEY_PREFIX .. 'p'] = { "<Plug>MarkdownPreview" , "Markdown Preview" },
-	}, {remap = true, silent = true})
+	vim.keymap.set('n', MP_KEY_PREFIX .. 'p', "<Plug>MarkdownPreview", { desc = "Markdown Preview" })
 end
 
 function M.setup()
