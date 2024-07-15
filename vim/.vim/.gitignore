@@ -1,0 +1,5 @@
+# Vim-plug plugin manager (auto-installed from vim config)
+autoload/plug.vim*
+
+# Plugins managed by the above plugin manager
+plugged/*
