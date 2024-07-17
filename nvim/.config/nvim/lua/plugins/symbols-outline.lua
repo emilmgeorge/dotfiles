@@ -17,9 +17,9 @@ function M.configure()
 		keymaps = {
 			-- These keymaps can be a string or a table for multiple keys
 			close = {"<Esc>", "q"},
-			goto_location = "<Cr>",
+			goto_location = "<CR>",
 			focus_location = "o",
-			hover_symbol = "<C-space>",
+			hover_symbol = "<C-Space>",
 			toggle_preview = "K",
 			rename_symbol = "r",
 			code_actions = "a",

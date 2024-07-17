@@ -1,6 +1,6 @@
 local M = {}
 
-LSP_KEY_PREFIX = '<leader>l'
+LSP_KEY_PREFIX = '<Leader>l'
 LSP_LINES_KEY = LSP_KEY_PREFIX .. 'l'
 
 function M.configure()

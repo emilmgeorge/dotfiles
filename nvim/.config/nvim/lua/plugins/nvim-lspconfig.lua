@@ -1,10 +1,10 @@
 local M = {}
 
-LSP_KEY_PREFIX = '<leader>l'
+LSP_KEY_PREFIX = '<Leader>l'
 
 function M.configure()
 	local on_attach = function(client, bufnr)
-		-- Enable completion triggered by <c-x><c-o>
+		-- Enable completion triggered by <C-x><C-o>
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
 		-- Mappings.

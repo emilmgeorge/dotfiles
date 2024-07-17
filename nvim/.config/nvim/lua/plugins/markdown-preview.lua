@@ -1,6 +1,6 @@
 local M = {}
 
-MP_KEY_PREFIX = '<leader>mm'
+MP_KEY_PREFIX = '<Leader>mm'
 
 function M.configure()
 	vim.cmd[[
