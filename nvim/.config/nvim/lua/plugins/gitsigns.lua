@@ -7,7 +7,7 @@ function M.configure()
 		local gs = package.loaded.gitsigns
 
 		-- Text object
-		vim.keymap.set({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', {buffer=bufnr})
+		vim.keymap.set({'o', 'x'}, 'ih', '<Cmd><C-U>Gitsigns select_hunk<CR>', {buffer=bufnr})
 
 		vim.keymap.set('n', ']g', function() if vim.wo.diff then return ']g' end
 			vim.schedule(function() gs.next_hunk() end)
