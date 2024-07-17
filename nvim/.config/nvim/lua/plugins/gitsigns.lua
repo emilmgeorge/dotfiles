@@ -1,6 +1,6 @@
 local M = {}
 
-GIT_KEY_PREFIX = '<leader>g'
+GIT_KEY_PREFIX = '<Leader>g'
 
 function M.configure()
 	local function on_attach(bufnr)

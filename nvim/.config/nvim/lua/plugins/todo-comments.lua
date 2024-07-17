@@ -1,13 +1,13 @@
 local M = {}
 
-TELESCOPE_KEY_PREFIX = '<leader>t'
+TELESCOPE_KEY_PREFIX = '<Leader>t'
 TODO_COMMENTS_KEY = TELESCOPE_KEY_PREFIX .. 't'
 
 function M.configure()
 	require 'todo-comments'.setup {}
 
 	-- Mappings
-	vim.keymap.set('n', TODO_COMMENTS_KEY, "<cmd>TodoTelescope<cr>", { desc = "TODO Telescope" })
+	vim.keymap.set('n', TODO_COMMENTS_KEY, "<Cmd>TodoTelescope<CR>", { desc = "TODO Telescope" })
 end
 
 function M.setup()

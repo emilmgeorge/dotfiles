@@ -1,6 +1,6 @@
 local M = {}
 
-TREESITTER_KEY_PREFIX = '<leader>ct'
+TREESITTER_KEY_PREFIX = '<Leader>ct'
 
 function M.configure()
 	local config = {

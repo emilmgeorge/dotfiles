@@ -16,10 +16,10 @@ function M.configure()
 	}
 	require 'which-key'.setup(config)
 	require 'which-key'.add {
-		{ "<leader>c", group = "code" },
-		{ "<leader>g", group = "git" },
-		{ "<leader>l", group = "lsp" },
-		{ "<leader>m", group = "misc" },
+		{ "<Leader>c", group = "code" },
+		{ "<Leader>g", group = "git" },
+		{ "<Leader>l", group = "lsp" },
+		{ "<Leader>m", group = "misc" },
 	}
 end
 
@@ -30,7 +30,7 @@ function M.setup()
 		event = "VeryLazy",
 		keys = {
 			{
-				"<leader>?",
+				"<Leader>?",
 				function()
 					require("which-key").show({ global = false })
 				end,

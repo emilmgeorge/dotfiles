@@ -1,6 +1,6 @@
 local M = {}
 
-ATTEMPT_KEY_PREFIX = '<leader>ma'
+ATTEMPT_KEY_PREFIX = '<Leader>ma'
 
 function M.configure()
 	local config = {
@@ -21,7 +21,7 @@ function M.configure()
 	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'c', attempt.rename_buf, { desc = "Rename attempt" })
 	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'd', attempt.delete_buf, { desc = "Delete attempt" })
 	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'i', attempt.new_input_ext, { desc = "New attempt (custom ext)" })
-	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'l', "<cmd>Telescope attempt<cr>", { desc = "List attempts" })
+	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'l', "<Cmd>Telescope attempt<CR>", { desc = "List attempts" })
 	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'n', attempt.new_select, { desc = "New attempt" })
 	vim.keymap.set("n", ATTEMPT_KEY_PREFIX .. 'r', attempt.run, { desc = "Run attempt" })
 end
