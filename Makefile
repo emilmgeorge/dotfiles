@@ -22,10 +22,12 @@ GENERIC_APPS += zsh
 .PHONY: nvim-install
 nvim-install:
 	stow -t ~/ nvim
+	stow -t ~/ nvim-astro
 	stow -t ~/ nvim-lazy
 .PHONY: nvim-uninstall
 nvim-uninstall:
 	stow -D -t ~/ nvim
+	stow -D -t ~/ nvim-astro
 	stow -D -t ~/ nvim-lazy
 .PHONY: nvim-reinstall
 nvim-reinstall: nvim-uninstall nvim-install
