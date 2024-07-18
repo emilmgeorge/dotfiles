@@ -1,9 +1,6 @@
 .PHONY: all
 all: install_all
 
-.PHONY: clean
-clean: uninstall_all
-
 .PHONY: install_all
 install_all: \
 	install_emacs \
@@ -48,6 +45,17 @@ install_nvim:
 uninstall_nvim:
 	stow -D -t ~/ nvim
 	stow -D -t ~/ nvim-lazy
+.PHONY: clean_nvim
+clean_nvim:
+ifeq ($(C),)
+	rm -rf ~/.cache/nvim;
+	rm -rf ~/.local/share/nvim;
+	rm -rf ~/.local/state/nvim;
+else
+	rm -rf ~/.cache/nvim-$(C);
+	rm -rf ~/.local/share/nvim-$(C);
+	rm -rf ~/.local/state/nvim-$(C);
+endif
 
 .PHONY: install_spacemacs
 install_spacemacs:
