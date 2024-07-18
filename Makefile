@@ -8,6 +8,7 @@ clean: uninstall_all
 install_all: \
 	install_emacs \
 	install_git \
+	install_nvim \
 	install_spacemacs \
 	install_tig \
 	install_tmux \
@@ -18,6 +19,7 @@ install_all: \
 uninstall_all: \
 	uninstall_emacs \
 	uninstall_git \
+	uninstall_nvim \
 	uninstall_spacemacs \
 	uninstall_tig \
 	uninstall_tmux \
@@ -37,6 +39,15 @@ install_git:
 .PHONY: uninstall_git
 uninstall_git:
 	stow -D -t ~/ git;
+
+.PHONY: install_nvim
+install_nvim:
+	stow -t ~/ nvim
+	stow -t ~/ nvim-lazy
+.PHONY: uninstall_nvim
+uninstall_nvim:
+	stow -D -t ~/ nvim
+	stow -D -t ~/ nvim-lazy
 
 .PHONY: install_spacemacs
 install_spacemacs:
