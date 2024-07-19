@@ -18,6 +18,7 @@ local plugins = {
 
 	-- IDE/LSP tools
 	require('plugins/lsp').setup(),
+	require('plugins/fidget').setup(),
 	require('plugins/nvim-treesitter').setup(),
 	require('plugins/nvim-code-action-menu').setup(),
 	require('plugins/nvim-navic').setup(),
