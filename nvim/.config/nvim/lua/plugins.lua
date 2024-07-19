@@ -17,7 +17,7 @@ local plugins = {
 	require('plugins/vim-linux-coding-style').setup(),
 
 	-- IDE/LSP tools
-	require('plugins/nvim-lspconfig').setup(),
+	require('plugins/lsp').setup(),
 	require('plugins/nvim-treesitter').setup(),
 	require('plugins/nvim-code-action-menu').setup(),
 	require('plugins/nvim-navic').setup(),
