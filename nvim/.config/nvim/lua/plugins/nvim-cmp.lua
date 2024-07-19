@@ -5,7 +5,7 @@ function M.configure()
 	local config = {
 			snippet = {
 				expand = function(args)
-					vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+					vim.fn["UltiSnips#Anon"](args.body)
 				end,
 			},
 			window = {
@@ -17,12 +17,13 @@ function M.configure()
 				['<C-f>'] = cmp.mapping.scroll_docs(4),
 				['<C-Space>'] = cmp.mapping.complete(),
 				['<C-e>'] = cmp.mapping.abort(),
-				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				['<CR>'] = cmp.mapping.confirm({ select = true }),
 			}),
 			sources = cmp.config.sources({
-				{ name = 'nvim_lsp' },
 				{ name = 'nvim_lsp_signature_help' },
-				{ name = 'ultisnips' }, -- For ultisnips users.
+				{ name = 'nvim_lsp' },
+				{ name = 'path' },
+				{ name = 'ultisnips' },
 			}, {
 				{ name = 'buffer' },
 			})
@@ -32,9 +33,13 @@ end
 
 function M.setup()
 	return {
-		'hrsh7th/nvim-cmp',
-		dependencies = 'hrsh7th/cmp-nvim-lsp-signature-help',
-		config = M.configure,
+		{
+			'hrsh7th/nvim-cmp',
+			config = M.configure,
+		},
+		"hrsh7th/cmp-nvim-lsp-signature-help",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
 	}
 end
 
