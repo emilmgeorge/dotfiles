@@ -60,8 +60,9 @@ endif
 .PHONY: install_spacemacs
 install_spacemacs:
 	@if [ -d "${HOME}/.emacs.d" ]; then \
-		echo "Path ~/.emacs.d already exists. Please remove it and run 'make install_spacemacs' again. Otherwise spacemacs will not work. Other spacemacs files will still be installed."; \
+		echo "Path ~/.emacs.d already exists. You may want to remove it and run 'make $@' again. Spacemacs config files will still be installed."; \
 	else \
+		echo "Cloning Spacemacs to ~/.emacs.d ..."; \
 		git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d; \
 	fi; \
 	stow -t ~/ spacemacs;
