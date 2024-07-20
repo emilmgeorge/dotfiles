@@ -58,6 +58,16 @@ function M.configure()
 			end,
 		},
 	})
+
+	require("null-ls").setup({
+		on_attach = function(_, bufnr)
+			local opt = function(d) return { buffer = bufnr, remap = false, silent = true, desc = d } end
+			vim.keymap.set('n', LSP_KEY_PREFIX .. 'f', vim.lsp.buf.format, opt("Format code"))
+		end,
+	})
+	require("mason-null-ls").setup({
+		handlers = {},
+	})
 end
 
 function M.setup()
@@ -67,6 +77,11 @@ function M.setup()
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
+			{ "nvimtools/none-ls.nvim", "nvim-lua/plenary.nvim",},
+			{
+				"jay-babu/mason-null-ls.nvim",
+				event = { "BufReadPre", "BufNewFile" },
+			},
 		},
 		config = M.configure,
 	}
