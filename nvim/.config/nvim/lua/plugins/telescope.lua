@@ -4,11 +4,46 @@ TELESCOPE_KEY_PREFIX = '<Leader>t'
 LSP_KEY_PREFIX = '<Leader>l'
 
 function M.configure()
+	vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
 	require 'telescope'.setup {
 		defaults = {
+			path_display = {
+				'filename_first',
+			},
+			cycle_layout_list = { 'horizontal', 'vertical', 'center', 'flex', 'cursor', 'bottom_pane' },
+			layout_strategy = 'horizontal',
+			layout_config = {
+				horizontal = {
+					width = 0.95,
+					height = 0.95,
+					preview_width = 0.6,
+				},
+				vertical = {
+					width = 0.9,
+					height = 0.95,
+					preview_height = 0.65,
+				},
+				center = {
+					height = 0.5,
+					preview_cutoff = 40,
+					prompt_position = 'bottom',
+					width = 0.7,
+					preview_height = 0.4,
+				},
+			},
 			mappings = {
 				i = {
 					["<Esc>"] = require('telescope.actions').close,
+					["<C-u>"] = require('telescope.actions.layout').cycle_layout_next,
+					["<C-d>"] = require('telescope.actions.layout').cycle_layout_prev,
+					["<C-b>"] = require('telescope.actions').results_scrolling_left,
+					["<C-f>"] = require('telescope.actions').results_scrolling_right,
+					["<M-u>"] = require('telescope.actions').preview_scrolling_up,
+					["<M-d>"] = require('telescope.actions').preview_scrolling_down,
+					["<M-b>"] = require('telescope.actions').preview_scrolling_left,
+					["<M-f>"] = require('telescope.actions').preview_scrolling_right,
+					["<M-s>"] = require('telescope.actions').file_split,
+					["<M-S>"] = require('telescope.actions').file_vsplit,
 				},
 			},
 		},
