@@ -9,7 +9,7 @@ function M.configure()
 		vim.keymap.set('n', LSP_KEY_PREFIX .. 'c', vim.lsp.buf.rename, opt("Rename"))
 		vim.keymap.set('n', LSP_KEY_PREFIX .. 'd', vim.lsp.buf.declaration, opt("Go to declaration"))
 		vim.keymap.set('n', LSP_KEY_PREFIX .. 'h', vim.lsp.buf.hover, opt("Show hover"))
-		vim.keymap.set('n', LSP_KEY_PREFIX .. 'f', vim.lsp.buf.format, opt("Format code"))
+		vim.keymap.set({'n', 'v'}, LSP_KEY_PREFIX .. 'f', vim.lsp.buf.format, opt("Format code"))
 
 		require("illuminate").on_attach(client)
 		if client.server_capabilities.documentSymbolProvider then
