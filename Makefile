@@ -5,6 +5,7 @@ all: install_all
 install_all: \
 	install_emacs \
 	install_git \
+	install_kitty \
 	install_less \
 	install_nvim \
 	install_spacemacs \
@@ -18,6 +19,7 @@ install_all: \
 uninstall_all: \
 	uninstall_emacs \
 	uninstall_git \
+	uninstall_kitty \
 	uninstall_less \
 	uninstall_nvim \
 	uninstall_spacemacs \
@@ -40,6 +42,13 @@ install_git:
 .PHONY: uninstall_git
 uninstall_git:
 	stow -D -t ~/ git;
+
+.PHONY: install_kitty
+install_kitty:
+	stow -t ~/ kitty
+.PHONY: uninstall_kitty
+uninstall_kitty:
+	stow -D -t ~/ kitty
 
 .PHONY: install_less
 install_less:
