@@ -1,0 +1,10 @@
+[Unit]
+Description=ra-multiplex service to keep the server alive
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ra-multiplex server
+
+[Install]
+WantedBy=default.target
