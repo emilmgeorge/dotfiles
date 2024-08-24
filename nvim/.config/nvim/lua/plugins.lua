@@ -5,6 +5,7 @@ local plugins = {
 
 	-- Editor
 	require('plugins/which-key').setup(),
+	require('plugins/bufferline').setup(),
 	require('plugins/notify').setup(),
 	require('plugins/nvim_tree').setup(),
 

@@ -63,9 +63,6 @@ function M.map()
 	vim.keymap.set("n", "<C-p>", "<Plug>(YankyCycleBackward)", {})
 
 	vim.keymap.set("n", "<Leader> ", "i<Space><Esc>r", { desc = "Insert character in normal mode", remap = false })
-	vim.keymap.set("n", "<Leader>1", "<Cmd>buffer 1<CR>", { desc = "Jump to buffer 1", remap = false })
-	vim.keymap.set("n", "<Leader>2", "<Cmd>buffer 2<CR>", { desc = "Jump to buffer 2", remap = false })
-	vim.keymap.set("n", "<Leader>3", "<Cmd>buffer 3<CR>", { desc = "Jump to buffer 3", remap = false })
 	vim.keymap.set("n", "<Leader>mw", "<Cmd>set list!<CR>", { desc = "Toggle whitespace display", remap = false })
 
 	vim.keymap.set({"n", "v"}, "<Leader>P", '"*p', { desc = "Paste from primary", remap = false })
