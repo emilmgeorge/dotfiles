@@ -25,16 +25,23 @@ step_to_ref() {
 }
 
 log_oneline() {
-	author_date="%C(white dim)%ad%C(reset)"
-	committer_date="%C(Cyan)(%cd)%C(Green)(%cr)%C(reset)"
-	author_name="%C(red)%an%C(reset)"
-	committer_name="%C(white dim)%cn%C(reset)"
-	hash="%C(Yellow)%h%C(reset)"
-	subject="%C(white)%s%C(reset)"
-	ref_names="%C(auto)%d%C(reset)"
-	git log \
-		--pretty="$author_date $committer_date%x09 $author_name, $committer_name: $hash $subject $ref_names" \
-		--graph --decorate --date=local "$@"
+	sepval="1F"
+	sep="%x$sepval"
+	git log --color=always \
+		--pretty="%ad$sep%cd$sep(%cr)$sep%an$sep%cn$sep%h$sep%C(auto)%d%C(reset)$sep%s" \
+		--date=local "$@" \
+		| awk -v full=${FULL_LOG} -F"\x$sepval" -E ~/.config/git/pretty-log.awk \
+		| less \
+			--RAW-CONTROL-CHARS \
+			--quit-if-one-screen \
+			--no-init \
+			--wordwrap \
+			--ignore-case \
+			--shift=26 $(: 'changed from 5 (lesskey config)') \
+			--mouse \
+			--line-num-width=4 --LINE-NUMBERS \
+			--use-color --color=N235 \
+			; # See also: ~/.config/lesskey
 }
 
 branch_info() {
