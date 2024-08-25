@@ -1,52 +1,60 @@
 [color]
 	ui = auto
+
 [alias]
-	root = rev-parse --show-toplevel
 	sl = ol -10
+	ml = ol -20
 	ll = ol -50
-	last = log -1 --pretty=fuller --stat
-	alias = "!f() { git config --global -l | grep alias | sort; }; f"
-	sln = ol --name-status
-	conflicts = "!cd -- ${GIT_PREFIX:-.};git status -s | grep -e \"^U\" -e\"^[DA]U\""
+	stu = status -sb
 	stat = status -uno
 	pick = cherry-pick
-	commend = commit --amend --no-edit
-	ol = log --pretty=\"%C(white dim)%ad %C(reset)%C(Cyan)(%cd)%C(Green)(%cr)%C(reset)%x09 %C(red)%an%C(auto), %C(white dim)%cn%C(auto): %C(reset)%C(Yellow)%h %C(white)%s %C(auto)%d%C(reset)\" --graph --decorate --date=local
-	brinfo = branch --format=\"%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]\" --sort=-committerdate
 	st = status -sb -uno
-	stu = status -sb
-	next = "!f() { in=${1:-master}; next=$(git log --reverse --ancestry-path HEAD..$in --pretty=%H | head -n1); branch=$(git rev-parse $in); head=$(git rev-parse HEAD); if [ \"$branch\" == \"$head\" ]; then echo \"Already on $in\"; elif [ \"$next\" == \"\" ]; then echo \"HEAD is not in the ancestry path of $in\"; elif [ \"$next\" == \"$branch\" ]; then git switch $in; else git switch --detach $next; fi }; f"
-	flog = log --pretty=fuller --stat
-	checkoutall = !git checkout $(git rev-parse --show-toplevel)
-	lo = "!f() { upstream=$(git branch --list --format=\"%(upstream:short)\" $(git rev-parse --abbrev-ref HEAD)); if [ \"$upstream\" == \"\"  ]; then echo \"No upstream set for current branch or not on any branch.\"; else git ol $upstream^..HEAD; fi }; f"
-	ml = ol -20
 	diffc = diff --cached
+	sln = ol --name-status
+	root = rev-parse --show-toplevel
+	flog = log --pretty=fuller --stat
+	commend = commit --amend --no-edit
+	last = log -1 --pretty=fuller --stat
 	skip = update-index --skip-worktree
 	unskip = update-index --no-skip-worktree
-	list-skipped = "!f() { path=${1:-$(git rev-parse --show-toplevel)}; git ls-files -v $path | grep ^S; }; cd -- ${GIT_PREFIX:-.}; f"
-	arbr = "!f() { git branch -m $1 archive/$1; }; f"
+	ol = "!~/.config/git/alias log_oneline"
+	lu = "!~/.config/git/alias log_upstream"
+	step = "!~/.config/git/alias step_to_ref"
+	alias = "!~/.config/git/alias show_alias"
+	skipped-ls = "!~/.config/git/alias list_skipped"
+	branch-info = "!~/.config/git/alias branch_info"
+	conflicts-ls = "!~/.config/git/alias list_conflicts"
+	archive-branch = "!~/.config/git/alias archive_branch"
+
 [rebase]
 	instructionFormat = (%an <%ae>) %s
+
 [core]
-    pager = delta
+	pager = delta
+
 [interactive]
-    diffFilter = delta --color-only --features=interactive
+	diffFilter = delta --color-only --features=interactive
+
 [add.interactive]
-    useBuiltin = false # required for git 2.37.0
+	# required for git 2.37.0
+	useBuiltin = false
+
 [merge]
-    conflictstyle = diff3
+	conflictstyle = diff3
+
 [diff]
-    colorMoved = no
+	colorMoved = no
+
 [delta]
-    features = decorations
-    line-numbers = true
-    navigate = true
-    light = false
+	features = decorations
+	line-numbers = true
+	navigate = true
+	light = false
 [delta "interactive"]
-    keep-plus-minus-markers = false
+	keep-plus-minus-markers = false
 [delta "decorations"]
-    commit-decoration-style = yellow ol ul
-    commit-style = raw
-    file-style = red
-    file-decoration-style = red box
+	commit-decoration-style = yellow ol ul
+	commit-style = raw
+	file-style = red
+	file-decoration-style = red box
 

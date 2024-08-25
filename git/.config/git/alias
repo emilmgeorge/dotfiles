@@ -1,0 +1,85 @@
+#! /bin/sh
+
+show_alias() {
+	if [ "$1" == "" ]; then
+		git config --global -l | grep "^alias\.";
+	else
+		git config --global -l | grep "^alias\." | grep "^alias\.$1.*=?*";
+	fi
+}
+
+step_to_ref() {
+	in=${1:-master};
+	next=$(git log --reverse --ancestry-path HEAD..$in --pretty=%H | head -n1);
+	branch=$(git rev-parse $in);
+	head=$(git rev-parse HEAD);
+	if [ "$branch" == "$head" ]; then
+		echo "Already on $in";
+	elif [ "$next" == "" ]; then
+		echo "HEAD is not in the ancestry path of $in";
+	elif [ "$next" == "$branch" ]; then
+		git switch $in;
+	else
+		git switch --detach $next;
+	fi
+}
+
+log_oneline() {
+	author_date="%C(white dim)%ad%C(reset)"
+	committer_date="%C(Cyan)(%cd)%C(Green)(%cr)%C(reset)"
+	author_name="%C(red)%an%C(reset)"
+	committer_name="%C(white dim)%cn%C(reset)"
+	hash="%C(Yellow)%h%C(reset)"
+	subject="%C(white)%s%C(reset)"
+	ref_names="%C(auto)%d%C(reset)"
+	git log \
+		--pretty="$author_date $committer_date%x09 $author_name, $committer_name: $hash $subject $ref_names" \
+		--graph --decorate --date=local "$@"
+}
+
+branch_info() {
+	ref_name="%(color:yellow)%(refname:short)%(color:reset)"
+	committer_date_rel="%(color:green)(%(committerdate:relative))%(color:reset)"
+	git branch --format="%(HEAD) $ref_name - %(contents:subject) $committer_date_rel [%(authorname)]" --sort=-committerdate "$@"
+}
+
+log_upstream() {
+	upstream=$(git branch --list --format="%(upstream:short)" $(git rev-parse --abbrev-ref HEAD));
+	if [ "$upstream" == ""  ]; then
+		echo "Either no upstream set for current branch or not on any branch.";
+	else
+		git ol $upstream^..HEAD "$@";
+	fi
+}
+
+list_skipped() {
+	cd -- ${GIT_PREFIX:-.};
+	path=${1:-$(git rev-parse --show-toplevel)};
+	git ls-files -v $path | grep ^S;
+}
+
+list_conflicts() {
+	cd -- ${GIT_PREFIX:-.};
+	git status -s | grep -e \"^U\" -e\"^[DA]U\"
+}
+
+archive_branch() {
+	git branch -m $1 archive/$1;
+}
+
+if [ 0 ] \
+	|| [ "$1" == "show_alias" ] \
+	|| [ "$1" == "step_to_ref" ] \
+	|| [ "$1" == "log_oneline" ] \
+	|| [ "$1" == "branch_info" ] \
+	|| [ "$1" == "log_upstream" ] \
+	|| [ "$1" == "list_skipped" ] \
+	|| [ "$1" == "list_conflicts" ] \
+	|| [ "$1" == "archive_branch" ] \
+	; then
+	_a=$1
+	shift
+	$_a "$@"
+else
+	echo "Invalid alias: $a"
+fi
