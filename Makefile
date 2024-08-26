@@ -5,6 +5,7 @@ all: install_all
 install_all: \
 	install_emacs \
 	install_git \
+	install_less \
 	install_nvim \
 	install_spacemacs \
 	install_tig \
@@ -16,6 +17,7 @@ install_all: \
 uninstall_all: \
 	uninstall_emacs \
 	uninstall_git \
+	uninstall_less \
 	uninstall_nvim \
 	uninstall_spacemacs \
 	uninstall_tig \
@@ -36,6 +38,13 @@ install_git:
 .PHONY: uninstall_git
 uninstall_git:
 	stow -D -t ~/ git;
+
+.PHONY: install_less
+install_less:
+	stow -t ~/ less
+.PHONY: uninstall_less
+uninstall_less:
+	stow -D -t ~/ less
 
 .PHONY: install_nvim
 install_nvim:
