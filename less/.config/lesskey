@@ -1,0 +1,22 @@
+#command
+h left-scroll
+l right-scroll
+a toggle-option -LINE-NUMBERS
+w toggle-option -chop-long-lines
+
+#env
+LESS= # Required (variable's definition must immediately precede its appends).
+LESS += --RAW-CONTROL-CHARS # Allow color.
+LESS += --quit-if-one-screen # Do not use pager if content is small.
+LESS += --no-init # Do not clear screen on exit.
+LESS += --wordwrap # Wrap at word boundaries.
+LESS += --ignore-case # During search.
+LESS += --shift=5 # number of characters to scroll horizontally
+LESS += --mouse # Allow mouse usage.
+LESS += --no-histdups # Remove previous duplicates in search term history.
+# LESS += --LINE-NUMBERS # Show line numbers
+# Enabling this may create horizontal scrolling in cases where it is not
+# otherwise needed (eg. man pages).
+# Line numbers can be toggled at runtime using the key binding defined above.
+LESS += --use-color --color=N8 # Set line number color.
+LESS += --line-num-width=4 # Width of line number column in characters.
