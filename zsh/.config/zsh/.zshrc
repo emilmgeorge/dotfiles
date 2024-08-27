@@ -1,3 +1,6 @@
+#==============================================================================|
+# Early init
+#==============================================================================|
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -5,6 +8,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+#==============================================================================|
+# Options
+#==============================================================================|
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
 HISTSIZE=50000000
@@ -13,13 +19,14 @@ setopt beep nomatch notify
 unsetopt autocd extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
+#------------------------------------------------------------------------------|
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/emil/.zshrc'
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-
+#------------------------------------------------------------------------------|
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
@@ -42,8 +49,9 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 ### End of Zinit's installer chunk
-
-## History options
+#------------------------------------------------------------------------------|
+# History options
+#------------------------------------------------------------------------------|
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -57,9 +65,9 @@ setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
-
-## Completion settings
-
+#------------------------------------------------------------------------------|
+# Completion options
+#------------------------------------------------------------------------------|
 # Match . files without explicitly specifying dot.
 setopt globdots
 
@@ -91,6 +99,10 @@ zstyle ':completion:*:processes' command 'ps aux'
 zstyle ':completion:*' completer \
   _oldlist _expand _complete _correct _ignored _prefix
 
+#==============================================================================|
+# Keybindings
+#==============================================================================|
+
 # Edit current command in $EDITOR
 autoload -z edit-command-line
 zle -N edit-command-line
@@ -117,7 +129,9 @@ copy_command_to_clipboard () { xsel -ib <<< $BUFFER }
 zle -N copy_command_to_clipboard
 bindkey '^y' copy_command_to_clipboard
 
-## Plugins
+#==============================================================================|
+# Plugins Setup
+#==============================================================================|
 
 zinit ice depth=1
 zinit light zdharma-continuum/fast-syntax-highlighting
@@ -141,6 +155,9 @@ FZF_PATH="/usr/share/fzf"
 [[ $- == *i* ]] && source "${FZF_PATH}/completion.zsh" 2> /dev/null
 source "${FZF_PATH}/key-bindings.zsh"
 
+#==============================================================================|
+# Aliases and functions
+#==============================================================================|
 
 # ls with all list human-readable-sizes slash-for-dirs sort-by-time-desc reverse
 alias ls='ls -alhptr'
