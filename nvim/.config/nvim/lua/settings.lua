@@ -74,7 +74,7 @@ vim.opt.expandtab = false    -- Do not expand tab character to spaces
 vim.opt.wrap = true
 vim.opt.textwidth = 80
 vim.opt.colorcolumn = '80'
-vim.opt.formatoptions = 'croqn2l1j'
+vim.opt.formatoptions = 'crqn2l1j'
 vim.opt.cinoptions = ':0,l1,t0,g0,(0'
 
 -- Split below and right by default
