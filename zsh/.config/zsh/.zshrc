@@ -58,10 +58,10 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
+## Completion settings
+
 # Match . files without explicitly specifying dot.
 setopt globdots
-
-## Completion settings
 
 # Load module for list-style selection
 zmodload zsh/complist
@@ -113,10 +113,9 @@ bindkey "^p" up-line-or-beginning-search
 bindkey "^n" down-line-or-beginning-search
 
 # Copy command to clipboard
-cmd_to_clip () { xsel -ib <<< $BUFFER }
-zle -N cmd_to_clip
-bindkey '^y' cmd_to_clip
-
+copy_command_to_clipboard () { xsel -ib <<< $BUFFER }
+zle -N copy_command_to_clipboard
+bindkey '^y' copy_command_to_clipboard
 
 ## Plugins
 
@@ -131,27 +130,30 @@ zinit light zsh-users/zsh-completions
 
 zinit ice depth=1
 zinit light romkatv/powerlevel10k
+# To customize prompt, run `p10k configure` or edit file pointed to by the
+# POWERLEVEL9K_CONFIG_FILE env var.
+export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
+[[ ! -f "${POWERLEVEL9K_CONFIG_FILE}" ]] || source "${POWERLEVEL9K_CONFIG_FILE}"
 
-# Setup fzf
-# ---------
-# zinit light unixorn/fzf-zsh-plugin	# Using fzf from distro package manager
+# Fzf
+# Installed using distro's package manager
 FZF_PATH="/usr/share/fzf"
 [[ $- == *i* ]] && source "${FZF_PATH}/completion.zsh" 2> /dev/null
 source "${FZF_PATH}/key-bindings.zsh"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Use legacy scp protocol. Required for old scp clients.
-# alias scp='scp -O'
-alias ls='ls -alhptr' # all list human-readable-sizes slash-for-dirs sort-by-time-desc reverse
+# ls with all list human-readable-sizes slash-for-dirs sort-by-time-desc reverse
+alias ls='ls -alhptr'
 
 # Override builtin git commands
 git() {
+	# 'git reset --hard' with dirty working tree
 	if [[ "$1" == "reset" && "$@" == *"--hard"* ]]; then
 		if [[ -n $(command git status --porcelain -uno) ]]; then
 			REPLY=""
-			vared -p "Work directory is dirty. Are you sure you want to reset --hard? [y/n]: " -c REPLY
+			MSG="Work directory is dirty. "
+			MSG+="Are you sure you want to reset --hard? [y/n]: "
+			vared -p $MSG -c REPLY
 			if [[ $REPLY =~ ^[Yy]$ ]]
 			then
 			else
