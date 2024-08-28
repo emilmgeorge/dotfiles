@@ -226,3 +226,9 @@ export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 # fzf fuzzy finder
 # Installed using distro package manager
 source <(fzf --zsh)
+
+#==============================================================================|
+# Env
+#==============================================================================|
+
+export EDITOR=nvim
