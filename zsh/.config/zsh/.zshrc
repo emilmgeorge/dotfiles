@@ -132,7 +132,12 @@ zstyle ':completion:*' completer \
 #==============================================================================|
 
 # ls with all list human-readable-sizes slash-for-dirs sort-by-time-desc reverse
-alias ls='ls -alhptr'
+alias ls='ls -alhptr --color=auto --group-directories-first'
+alias diff='diff --show-c-function --unified --color=auto'
+alias grep='grep --color=auto'
+
+alias nvim-custom='NVIM_APPNAME=nvim command nvim'
+alias nvim-lazy='NVIM_APPNAME=nvim-lazy command nvim'
 
 # Override builtin git commands
 git() {
