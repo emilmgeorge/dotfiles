@@ -173,8 +173,6 @@ zinit light romkatv/powerlevel10k
 export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 [[ ! -f "${POWERLEVEL9K_CONFIG_FILE}" ]] || source "${POWERLEVEL9K_CONFIG_FILE}"
 
-# Fzf
-# Installed using distro's package manager
-FZF_PATH="/usr/share/fzf"
-[[ $- == *i* ]] && source "${FZF_PATH}/completion.zsh" 2> /dev/null
-source "${FZF_PATH}/key-bindings.zsh"
+# fzf fuzzy finder
+# Installed using distro package manager
+source <(fzf --zsh)
