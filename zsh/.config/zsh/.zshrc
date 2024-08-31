@@ -20,36 +20,6 @@ unsetopt autocd extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
 #------------------------------------------------------------------------------|
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/emil/.zshrc'
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-#------------------------------------------------------------------------------|
-### Added by Zinit's installer
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-#------------------------------------------------------------------------------|
 # History options
 #------------------------------------------------------------------------------|
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
@@ -67,6 +37,13 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 #------------------------------------------------------------------------------|
 # Completion options
+#------------------------------------------------------------------------------|
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/emil/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
 #------------------------------------------------------------------------------|
 # Match . files without explicitly specifying dot.
 setopt globdots
@@ -98,6 +75,30 @@ zstyle ':completion:*:processes' command 'ps aux'
 
 zstyle ':completion:*' completer \
   _oldlist _expand _complete _correct _ignored _prefix
+
+#==============================================================================|
+# Aliases and functions
+#==============================================================================|
+
+# ls with all list human-readable-sizes slash-for-dirs sort-by-time-desc reverse
+alias ls='ls -alhptr'
+
+# Override builtin git commands
+git() {
+	# 'git reset --hard' with dirty working tree
+	if [[ "$1" == "reset" && "$@" == *"--hard"* ]]; then
+		if [[ -n $(command git status --porcelain -uno) ]]; then
+			REPLY=""
+			MSG="Work directory is dirty. "
+			MSG+="Are you sure you want to reset --hard? [y/n]: "
+			vared -p $MSG -c REPLY
+			if ! [[ $REPLY =~ ^[Yy]$ ]]; then
+				return
+			fi
+		fi
+	fi
+	command git "$@"
+}
 
 #==============================================================================|
 # Keybindings
@@ -132,7 +133,34 @@ bindkey '^y' copy_command_to_clipboard
 #==============================================================================|
 # Plugins Setup
 #==============================================================================|
+# Plugin Manager
+#------------------------------------------------------------------------------|
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
 
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+### End of Zinit's installer chunk
+
+#------------------------------------------------------------------------------|
+# Plugins
+#------------------------------------------------------------------------------|
 zinit ice depth=1
 zinit light zdharma-continuum/fast-syntax-highlighting
 
@@ -154,29 +182,3 @@ export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 FZF_PATH="/usr/share/fzf"
 [[ $- == *i* ]] && source "${FZF_PATH}/completion.zsh" 2> /dev/null
 source "${FZF_PATH}/key-bindings.zsh"
-
-#==============================================================================|
-# Aliases and functions
-#==============================================================================|
-
-# ls with all list human-readable-sizes slash-for-dirs sort-by-time-desc reverse
-alias ls='ls -alhptr'
-
-# Override builtin git commands
-git() {
-	# 'git reset --hard' with dirty working tree
-	if [[ "$1" == "reset" && "$@" == *"--hard"* ]]; then
-		if [[ -n $(command git status --porcelain -uno) ]]; then
-			REPLY=""
-			MSG="Work directory is dirty. "
-			MSG+="Are you sure you want to reset --hard? [y/n]: "
-			vared -p $MSG -c REPLY
-			if [[ $REPLY =~ ^[Yy]$ ]]
-			then
-			else
-				return
-			fi
-		fi
-	fi
-	command git "$@"
-}
