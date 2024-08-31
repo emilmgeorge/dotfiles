@@ -66,7 +66,7 @@ setopt interactivecomments
 HISTFILE=~/.zsh_history
 HISTSIZE=50000000
 SAVEHIST=40000000
-setopt beep nomatch notify
+setopt nobeep nomatch notify
 unsetopt autocd extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
