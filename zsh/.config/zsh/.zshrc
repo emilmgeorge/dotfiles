@@ -186,6 +186,47 @@ copy_command_to_clipboard () { xsel -ib <<< $BUFFER }
 zle -N copy_command_to_clipboard
 bindkey '^y' copy_command_to_clipboard
 
+# Alt+Backspace to kill previous alphanumeric word.
+# Use C-w for default behaviour.
+backward-kill-alphanumeric() {
+    local WORDCHARS=
+    zle backward-kill-word
+    zle -f kill
+}
+zle -N backward-kill-alphanumeric
+bindkey '^[^?' backward-kill-alphanumeric
+
+# Alt+d to kill next alphanumeric word.
+# Use Alt+Shift+d for default behaviour.
+forward-kill-alphanumeric() {
+    local WORDCHARS=
+    zle kill-word
+    zle -f kill
+}
+zle -N forward-kill-alphanumeric
+bindkey '^[d' forward-kill-alphanumeric
+bindkey '^[D' kill-word
+
+# Alt+b to move back till previous non-alphanumeric character.
+# Alt+B for default behaviour.
+backward-move-alphanumeric () {
+    local WORDCHARS=
+    zle backward-word
+}
+zle -N backward-move-alphanumeric
+bindkey '^[b' backward-move-alphanumeric
+bindkey '^[B' backward-word
+
+# Alt+f to move forward till next non-alphanumeric character.
+# Alt+F for default behaviour.
+forward-move-alphanumeric () {
+    local WORDCHARS=
+    zle forward-word
+}
+zle -N forward-move-alphanumeric
+bindkey '^[f' forward-move-alphanumeric
+bindkey '^[F' forward-word
+
 #==============================================================================|
 # Plugins Setup
 #==============================================================================|
@@ -212,7 +253,13 @@ zinit ice depth=1
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 zinit ice depth=1
+zinit light zdharma-continuum/zinit-annex-patch-dl
+zinit ice depth=1 \
+  dl'https://github.com/zsh-users/zsh-autosuggestions/commit/4ccfdb243.patch' \
+  patch'4ccfdb243.patch;' nocompile'!' reset
+# PR URL: https://github.com/zsh-users/zsh-autosuggestions/pull/507
 zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-word forward-move-alphanumeric)
 
 zinit ice depth=1
 zinit light zsh-users/zsh-completions
