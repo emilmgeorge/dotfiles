@@ -4,11 +4,19 @@ LSP_KEY_PREFIX = '<Leader>l'
 
 function M.configure()
 	local on_attach = function(client, bufnr)
-		local opt = function(d) return { buffer = bufnr, remap = false, silent = true, desc = d } end
+		local opt = function(d, global)
+			local buf = bufnr
+			if global then
+				buf = nil
+			end
+			return { buffer = buf, remap = false, silent = true, desc = d }
+		end
 		vim.keymap.set('n', LSP_KEY_PREFIX .. 'T', vim.lsp.buf.type_definition, opt("Show type definition"))
 		vim.keymap.set('n', LSP_KEY_PREFIX .. 'c', vim.lsp.buf.rename, opt("Rename"))
 		vim.keymap.set('n', LSP_KEY_PREFIX .. 'd', vim.lsp.buf.declaration, opt("Go to declaration"))
-		vim.keymap.set('n', LSP_KEY_PREFIX .. 'h', vim.lsp.buf.hover, opt("Show hover"))
+		vim.keymap.set('n', LSP_KEY_PREFIX .. 'h', function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+		end, opt("Toggle inlay hints", true))
 		vim.keymap.set({'n', 'v'}, LSP_KEY_PREFIX .. 'f', vim.lsp.buf.format, opt("Format code"))
 
 		require("illuminate").on_attach(client)
