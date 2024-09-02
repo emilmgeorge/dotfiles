@@ -20,12 +20,6 @@ function M.configure()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-	vim.api.nvim_create_autocmd('FileType', {
-		desc = 'Start ra-multiplex server',
-		once = true,
-		pattern = 'rust',
-		command = 'silent !systemctl --user start ra-multiplex.service',
-	})
 	require("mason").setup({})
 	require("mason-lspconfig").setup({
 		ensure_installed = {},
@@ -34,18 +28,6 @@ function M.configure()
 				require("lspconfig")[server].setup({
 					on_attach = on_attach,
 					capabilities = capabilities,
-				})
-			end,
-			rust_analyzer = function()
-				require("lspconfig").rust_analyzer.setup({
-					on_attach = on_attach,
-					capabilities = capabilities,
-					diagnostics = {
-						enable = true,
-					},
-					cmd = {
-						"/usr/bin/ra-multiplex",
-					},
 				})
 			end,
 			lua_ls = function()
@@ -74,6 +56,25 @@ function M.configure()
 					}
 				})
 			end,
+		},
+	})
+
+	-- Rust tools installed via rustup.
+	-- ra-multiplex installed via distro/external packager managers.
+	vim.api.nvim_create_autocmd('FileType', {
+		desc = 'Start ra-multiplex server',
+		once = true,
+		pattern = 'rust',
+		command = 'silent !systemctl --user start ra-multiplex.service',
+	})
+	require("lspconfig").rust_analyzer.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
+		diagnostics = {
+			enable = true,
+		},
+		cmd = {
+			"/usr/bin/ra-multiplex",
 		},
 	})
 
