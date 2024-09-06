@@ -271,24 +271,6 @@ autoload -Uz _zinit
 #------------------------------------------------------------------------------|
 
 zinit ice depth=1
-zinit light zdharma-continuum/fast-syntax-highlighting
-
-zinit ice depth=1
-zinit light zdharma-continuum/zinit-annex-patch-dl
-zinit ice depth=1 \
-  dl'https://github.com/zsh-users/zsh-autosuggestions/commit/4ccfdb243.patch' \
-  patch'4ccfdb243.patch;' nocompile'!' reset
-# PR URL: https://github.com/zsh-users/zsh-autosuggestions/pull/507
-zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-word forward-move-alphanumeric)
-
-zinit ice depth=1
-zinit light zsh-users/zsh-completions
-
-zinit ice depth=1
-zinit light marlonrichert/zsh-hist
-
-zinit ice depth=1
 zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit file pointed to by the
 # POWERLEVEL9K_CONFIG_FILE env var.
@@ -299,8 +281,26 @@ export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 # Installed using distro package manager
 source <(fzf --zsh)
 
-zinit ice depth=1
+zinit ice depth=1 wait lucid
 zinit light junegunn/fzf-git.sh
+
+zinit ice depth=1 wait lucid
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+zinit ice depth=1
+zinit light zdharma-continuum/zinit-annex-patch-dl
+zinit ice depth=1 wait lucid \
+  dl'https://github.com/zsh-users/zsh-autosuggestions/commit/4ccfdb243.patch' \
+  patch'4ccfdb243.patch;' nocompile'!' reset
+# PR URL: https://github.com/zsh-users/zsh-autosuggestions/pull/507
+zinit light zsh-users/zsh-autosuggestions
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-word forward-move-alphanumeric)
+
+zinit ice depth=1 wait'1' lucid
+zinit light zsh-users/zsh-completions
+
+zinit ice depth=1 wait lucid trigger-load"!hist"
+zinit light marlonrichert/zsh-hist
 
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/plugins-late" ] || source "$ZDOTDIR/""local/plugins-late"
