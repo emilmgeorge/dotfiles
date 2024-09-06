@@ -279,6 +279,9 @@ export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 # Installed using distro package manager
 source <(fzf --zsh)
 
+zinit ice depth=1
+zinit light junegunn/fzf-git.sh
+
 #==============================================================================|
 # Env
 #==============================================================================|
