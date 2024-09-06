@@ -265,6 +265,9 @@ zinit ice depth=1
 zinit light zsh-users/zsh-completions
 
 zinit ice depth=1
+zinit light marlonrichert/zsh-hist
+
+zinit ice depth=1
 zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit file pointed to by the
 # POWERLEVEL9K_CONFIG_FILE env var.
