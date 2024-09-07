@@ -7,6 +7,7 @@ local plugins = {
 	require('plugins/which-key').setup(),
 	require('plugins/bufferline').setup(),
 	require('plugins/notify').setup(),
+	require('plugins/neotree').setup(),
 
 	-- Editing
 	require('plugins/yanky').setup(),
