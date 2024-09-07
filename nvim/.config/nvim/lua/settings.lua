@@ -87,17 +87,23 @@ vim.opt.cursorline = true
 -- Use c filetype for dot h files
 vim.g.c_syntax_for_h = 1
 
--- Highlight trailing whitespace
-vim.cmd[[
-autocmd ColorScheme * highlight TrailingWhitespace ctermbg=235 guibg=#3A2626
-autocmd BufWinEnter * call matchadd("TrailingWhitespace", '\s\+$')
-]]
-
--- Highlight mixed whitespace indent
-vim.cmd[[
-autocmd ColorScheme * highlight MixedWhitespaceIndent ctermbg=235 guibg=#3A2626
-autocmd BufWinEnter * call matchadd("MixedWhitespaceIndent", '\%(^\s* \t\s*\)\|\%(^\s*\t \s*\)')
-]]
+-- Highlight trailing whitespace and mixed whitespace indent
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("WhitespaceIssueHighlight", { clear = true }),
+	callback = function()
+		vim.api.nvim_set_hl(0, "TrailingWhitespace", { bg = "#562626", fg = "white" })
+		vim.api.nvim_set_hl(0, "MixedWhitespaceIndent", { bg = "#333333" })
+	end,
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	group = vim.api.nvim_create_augroup("WhitespaceIssueHighlight", { clear = false }),
+	callback = function()
+		vim.fn.matchadd("TrailingWhitespace", "\\s\\+$")
+		vim.fn.matchadd("MixedWhitespaceIndent", '\\%(^\\s* \\t\\s*\\)\\|\\%(^\\s*\\t \\s*\\)')
+	end,
+})
 
 -- Set format for fold text
 vim.cmd[[
