@@ -58,3 +58,5 @@
 	file-style = red
 	file-decoration-style = red box
 
+[include]
+	path = local/main
