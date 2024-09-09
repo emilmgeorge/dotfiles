@@ -13,6 +13,7 @@ install_all: \
 	install_tmux \
 	install_tridactyl \
 	install_vim \
+	install_wezterm \
 	install_zsh \
 	;
 
@@ -28,6 +29,7 @@ uninstall_all: \
 	uninstall_tmux \
 	uninstall_tridactyl \
 	uninstall_vim \
+	uninstall_wezterm \
 	uninstall_zsh \
 	;
 
@@ -120,6 +122,13 @@ install_vim:
 .PHONY: uninstall_vim
 uninstall_vim:
 	stow -D -t ~/ vim
+
+.PHONY: install_wezterm
+install_wezterm:
+	stow -t ~/ wezterm
+.PHONY: uninstall_wezterm
+uninstall_wezterm:
+	stow -D -t ~/ wezterm
 
 .PHONY: install_zsh
 install_zsh:
