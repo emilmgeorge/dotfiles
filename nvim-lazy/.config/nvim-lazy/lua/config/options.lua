@@ -29,6 +29,9 @@ vim.opt.virtualedit = "onemore"
 vim.opt.listchars = "eol:⬎,tab:│─,space:˽,extends:→,precedes:←,nbsp:⍽"
 vim.opt.list = false
 
+-- Do not use system clipboard by default
+vim.opt.clipboard = ""
+
 -- Formatting options
 vim.opt.wrap = true
 vim.opt.textwidth = 80

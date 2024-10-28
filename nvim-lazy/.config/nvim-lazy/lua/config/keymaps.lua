@@ -8,6 +8,12 @@ LazyVim.toggle.map("<leader>u<Space>", LazyVim.toggle("list", { name = "Whitespa
 -- Insert character
 vim.keymap.set("n", "<Leader> ", "i<Space><Esc>r", { desc = "Insert character in normal mode", remap = false })
 
+-- Copy/paste using system clipboard
+vim.keymap.set({"n", "v"}, "<Leader>pp", '"+p', { desc = "Paste from clipboard", remap = false })
+vim.keymap.set({"n", "v"}, "<Leader>yy", '"+y', { desc = "Yank to clipboard", remap = false })
+vim.keymap.set({"n", "v"}, "<Leader>pP", '"*p', { desc = "Paste from primary", remap = false })
+vim.keymap.set({"n", "v"}, "<Leader>yY", '"*y', { desc = "Yank to primary", remap = false })
+
 -- Visual
 vim.keymap.set(
   { "n", "v" },
