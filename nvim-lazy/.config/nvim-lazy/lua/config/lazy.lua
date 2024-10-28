@@ -56,6 +56,7 @@ require("lazy").setup({
     { import = "plugins" },
 
     -- lazyvim.plugins.extras.* config overrides
+    { import = "plugins.overrides.extras.coding.yanky" },
     { import = "plugins.overrides.extras.lang.markdown" },
   },
   defaults = {
