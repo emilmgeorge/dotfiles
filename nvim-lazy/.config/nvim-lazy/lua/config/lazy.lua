@@ -54,6 +54,9 @@ require("lazy").setup({
 
     -- user plugins
     { import = "plugins" },
+
+    -- lazyvim.plugins.extras.* config overrides
+    { import = "plugins.overrides.extras.lang.markdown" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
