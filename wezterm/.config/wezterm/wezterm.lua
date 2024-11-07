@@ -11,6 +11,9 @@ config.use_fancy_tab_bar = false
 config.window_background_opacity = 0.85
 config.window_decorations = 'NONE'
 
+-- Disable ligatures
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+
 -- Add launch menu
 local launch_menu = {}
 if wezterm.target_triple == 'x86_64-unknown-linux-gnu' then
