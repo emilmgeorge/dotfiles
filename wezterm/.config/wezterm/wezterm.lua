@@ -14,6 +14,17 @@ config.window_decorations = 'NONE'
 -- Disable ligatures
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
+-- Key bindings
+-- Tab control
+for i = 1,9 do
+  table.insert(config.keys, { key = tostring(i), mods = 'ALT', action = wezterm.action.ActivateTab(i - 1) })
+end
+table.insert(config.keys, { key = '[', mods = 'ALT', action = wezterm.action.ActivateTabRelative(-1) })
+table.insert(config.keys, { key = ']', mods = 'ALT', action = wezterm.action.ActivateTabRelative(1) })
+table.insert(config.keys, { key = '[', mods = 'ALT|SHIFT', action = wezterm.action.MoveTabRelative(-1) })
+table.insert(config.keys, { key = ']', mods = 'ALT|SHIFT', action = wezterm.action.MoveTabRelative(1) })
+table.insert(config.keys, { key = 'w', mods = 'ALT', action = wezterm.action.CloseCurrentTab { confirm = true }})
+
 -- Add launch menu
 local launch_menu = {}
 if wezterm.target_triple == 'x86_64-unknown-linux-gnu' then
