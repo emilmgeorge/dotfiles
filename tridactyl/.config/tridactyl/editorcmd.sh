@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-nvim $@
+NVIM_APPNAME=nvim-lazy nvim $@
