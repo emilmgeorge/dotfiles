@@ -9,6 +9,7 @@ set smoothscroll true
 unbind <C-f>
 unbind <C-e>
 unbind <C-y>
+bind --mode=insert <C-i> js -r edit.js
 
 " Subconfig Settings
 seturl https://codeforces.com/ noiframe true
