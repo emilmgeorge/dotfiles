@@ -32,6 +32,14 @@ vim.opt.list = false
 -- Do not use system clipboard by default
 vim.opt.clipboard = ""
 
+-- Indent options
+vim.opt.tabstop = 4          -- \t characters are this many columns
+vim.opt.softtabstop = 4      -- Pressing <TAB> or <BS> inserts/removes this many columns
+vim.opt.shiftwidth = 4       -- One level of indentation shifts this many columns to the right
+vim.opt.shiftround = true    -- Round indentation to next multiple of 'shiftwidth' columns
+vim.opt.expandtab = true     -- Expand inserted tab character to spaces automatically
+vim.opt.smartindent = false  -- smartindent is old and prevents shifting # comments
+
 -- Formatting options
 vim.opt.wrap = true
 vim.opt.textwidth = 80
