@@ -1,76 +1,32 @@
-.PHONY: all
-all: install_all
+# Generic targets =============================================================|
 
-.PHONY: install_all
-install_all: \
-	install_emacs \
-	install_git \
-	install_kitty \
-	install_less \
-	install_nvim \
-	install_spacemacs \
-	install_tig \
-	install_tmux \
-	install_tridactyl \
-	install_vim \
-	install_wezterm \
-	install_zsh \
-	;
+# Add apps that use generic logic:
+#	install: stow -t ~/ <app>
+#	uninstall: stow -D -t ~/ <app>
 
-.PHONY: uninstall_all
-uninstall_all: \
-	uninstall_emacs \
-	uninstall_git \
-	uninstall_kitty \
-	uninstall_less \
-	uninstall_nvim \
-	uninstall_spacemacs \
-	uninstall_tig \
-	uninstall_tmux \
-	uninstall_tridactyl \
-	uninstall_vim \
-	uninstall_wezterm \
-	uninstall_zsh \
-	;
+GENERIC_APPS += emacs
+GENERIC_APPS += git
+GENERIC_APPS += kitty
+GENERIC_APPS += less
+GENERIC_APPS += tig
+GENERIC_APPS += tmux
+GENERIC_APPS += tridactyl
+GENERIC_APPS += vim
+GENERIC_APPS += wezterm
+GENERIC_APPS += zsh
 
-.PHONY: install_emacs
-install_emacs:
-	stow -t ~/ emacs;
-.PHONY: uninstall_emacs
-uninstall_emacs:
-	stow -D -t ~/ emacs;
+# Custom targets ==============================================================|
 
-.PHONY: install_git
-install_git:
-	stow -t ~/ git;
-.PHONY: uninstall_git
-uninstall_git:
-	stow -D -t ~/ git;
-
-.PHONY: install_kitty
-install_kitty:
-	stow -t ~/ kitty
-.PHONY: uninstall_kitty
-uninstall_kitty:
-	stow -D -t ~/ kitty
-
-.PHONY: install_less
-install_less:
-	stow -t ~/ less
-.PHONY: uninstall_less
-uninstall_less:
-	stow -D -t ~/ less
-
-.PHONY: install_nvim
-install_nvim:
+.PHONY: nvim-install
+nvim-install:
 	stow -t ~/ nvim
 	stow -t ~/ nvim-lazy
-.PHONY: uninstall_nvim
-uninstall_nvim:
+.PHONY: nvim-uninstall
+nvim-uninstall:
 	stow -D -t ~/ nvim
 	stow -D -t ~/ nvim-lazy
-.PHONY: clean_nvim
-clean_nvim:
+.PHONY: nvim-clean
+nvim-clean:
 ifeq ($(C),)
 	rm -rf ~/.cache/nvim;
 	rm -rf ~/.local/share/nvim;
@@ -81,58 +37,76 @@ else
 	rm -rf ~/.local/state/nvim-$(C);
 endif
 
-.PHONY: install_spacemacs
-install_spacemacs:
+.PHONY: spacemacs-install
+spacemacs-install:
 	@if [ -d "${HOME}/.emacs.d" ]; then \
-		echo "Path ~/.emacs.d already exists. You may want to remove it and run 'make $@' again. Spacemacs config files will still be installed."; \
+		echo "Path ~/.emacs.d already exists. You may want to remove it and run 'make install spacemacs' again. Spacemacs config files will still be installed."; \
 	else \
 		echo "Cloning Spacemacs to ~/.emacs.d ..."; \
 		git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d; \
-	fi; \
+	fi;
 	stow -t ~/ spacemacs;
-.PHONY: uninstall_spacemacs
-uninstall_spacemacs:
+.PHONY: spacemacs-uninstall
+spacemacs-uninstall:
 	stow -D -t ~/ spacemacs
-	echo "Please rm -rf ~/.emacs.d manually."
+	@echo "Please rm -rf ~/.emacs.d manually."
 
-.PHONY: install_tig
-install_tig:
-	stow -t ~/ tig;
-.PHONY: uninstall_tig
-uninstall_tig:
-	stow -D -t ~/ tig;
+# CLI logic ===================================================================|
 
-.PHONY: install_tmux
-install_tmux:
-	stow -t ~/ tmux
-.PHONY: uninstall_tmux
-uninstall_tmux:
-	stow -D -t ~/ tmux
+# Create generic app targets
+GENERIC_INSTALL_TARGETS := $(addsuffix -install, $(GENERIC_APPS))
+.PHONY: $(GENERIC_INSTALL_TARGETS)
+$(GENERIC_INSTALL_TARGETS):
+	stow -t ~/ $(patsubst %-install,%, $@)
+GENERIC_UNINSTALL_TARGETS := $(addsuffix -uninstall, $(GENERIC_APPS))
+.PHONY: $(GENERIC_UNINSTALL_TARGETS)
+$(GENERIC_UNINSTALL_TARGETS):
+	stow -D -t ~/ $(patsubst %-uninstall,%, $@)
 
-.PHONY: install_tridactyl
-install_tridactyl:
-	stow -t ~/ tridactyl
-.PHONY: uninstall_tridactyl
-uninstall_tridactyl:
-	stow -D -t ~/ tridactyl
+# First target is the command (eg. install, uninstall, clean)
+COMMAND := $(firstword $(MAKECMDGOALS))
 
-.PHONY: install_vim
-install_vim:
-	stow -t ~/ vim
-.PHONY: uninstall_vim
-uninstall_vim:
-	stow -D -t ~/ vim
+# Command is followed by the list of apps
+ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+ARG_TARGETS := $(addsuffix -$(COMMAND), $(ARGS))
 
-.PHONY: install_wezterm
-install_wezterm:
-	stow -t ~/ wezterm
-.PHONY: uninstall_wezterm
-uninstall_wezterm:
-	stow -D -t ~/ wezterm
+# Generate a list of defined targets and valid apps.
+# https://stackoverflow.com/a/26339924/1589191
+ALL_TARGETS ?= $(shell LC_ALL=C $(MAKE) ALL_TARGETS=1 -pRrq \
+		-f $(firstword $(MAKEFILE_LIST)) $(MAKECMDGOALS) 2>/dev/null \
+	| awk -v RS= -F: '/(^|\n)# Files(\n|$$)/,/(^|\n)# Finished Make data base/ \
+		{if ($$1 !~ "^[#.]") {print $$1}}' \
+	| sort | grep -E -v -e '^[^[:alnum:]]' -e '^$@$$')
+ALL_APPS := $(sort $(foreach t,$(filter-out _%,$(ALL_TARGETS)),$(firstword $(subst -, ,$(t)))))
 
-.PHONY: install_zsh
-install_zsh:
-	stow -t ~/ zsh
-.PHONY: uninstall_zsh
-uninstall_zsh:
-	stow -D -t ~/ zsh
+.PHONY: _listapps
+_listapps:
+	@echo $(ALL_APPS)
+
+# Verify that all the required targets are defined.
+.PHONY: _checktargets
+_checktargets:
+	@$(foreach app,$(ARGS), \
+		if [ -z "$(strip $(filter $(app)-$(COMMAND),$(ALL_TARGETS)))" ]; then \
+			echo "Error: No definition for '$(COMMAND) $(app)'."; exit 1; \
+		fi;)
+
+# Dependency list for the special 'all' argument. (eg. make install all)
+COMMAND_ALL_TARGETS := $(filter-out all-$(COMMAND), $(sort $(filter %-$(COMMAND), $(ALL_TARGETS))))
+
+# Define all-$(COMMAND) target.
+.PHONY: all-$(COMMAND)
+all-$(COMMAND): $(COMMAND_ALL_TARGETS)
+
+ifneq ($(COMMAND_ALL_TARGETS),)
+# If $(COMMAND) is a valid command (ie., any <app>-$(COMMAND) is defined), then
+# define $(COMMAND) target.
+.PHONY: $(COMMAND)
+$(COMMAND): _checktargets $(ARG_TARGETS)
+endif
+
+# Make will run $(ARGS) as separate targets after running $(COMMAND).
+# This rule makes those no-op.
+.PHONY: $(ARGS)
+$(ARGS):
+	@:
