@@ -369,6 +369,9 @@ zinit light zsh-users/zsh-completions
 
 zinit ice depth=1 wait lucid trigger-load"!hist"
 zinit light marlonrichert/zsh-hist
+bindkey -s '^g^r^f' "hist f -1\n"
+bindkey -s '^g^r^e' "hist e -1\n"
+bindkey -s '^g^r^r' "hist d -1\n"
 
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/plugins-late" ] || source "$ZDOTDIR/""local/plugins-late"
