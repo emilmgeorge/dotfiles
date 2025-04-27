@@ -3,7 +3,7 @@
 -- Add any additional keymaps here
 
 -- Toggle whitespace display
-LazyVim.toggle.map("<leader>u<Space>", LazyVim.toggle("list", { name = "Whitespace display" }))
+Snacks.toggle.option("list", { name = "Whitespace display" }):map("<leader>u<Space>")
 
 -- Insert character
 vim.keymap.set("n", "<Leader> ", "i<Space><Esc>r", { desc = "Insert character in normal mode", remap = false })
