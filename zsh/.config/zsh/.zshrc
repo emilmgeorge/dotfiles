@@ -289,17 +289,26 @@ zinit light Aloxaf/fzf-tab
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
-# NOTE: don't use escape sequences here, fzf-tab will ignore them
+# don't use escape sequences here, fzf-tab will ignore them
 zstyle ':completion:*:descriptions' format '[%d]'
 # set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
+# reset zsh completers to allow fzf-tab to capture the unambiguous prefix
+zstyle -d ':completion:*' completer
 # preview directory's content with eza when completing cd
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 -a --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' popup-min-size 80 0
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
+# use tmux popup for display
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+# remove unnecessary '.' prefix
+# https://github.com/Aloxaf/fzf-tab/pull/183#issuecomment-787080931
+zstyle ':fzf-tab:*' prefix ''
+# prevent full file list which causes:
+# - file permission string to be taken as prefix
+# - file names to go out of sight when preview window is present (cd)
+zstyle ':completion:*' file-list default
 
 zinit ice depth=1 wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
