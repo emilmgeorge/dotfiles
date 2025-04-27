@@ -46,6 +46,13 @@ vim.opt.textwidth = 80
 vim.opt.colorcolumn = "80"
 vim.opt.formatoptions = "crqn2l1j"
 vim.opt.cinoptions = ":0,l1,g0,t0,(0"
+vim.api.nvim_create_autocmd("FileType", {
+    -- Some builtin ftplugins may modify formatoptions.
+    -- So revert options that need not change.
+    callback = function()
+	vim.opt.formatoptions:remove("o")
+    end,
+})
 
 -- Set format for fold text
 vim.cmd([[
