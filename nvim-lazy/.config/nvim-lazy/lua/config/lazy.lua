@@ -53,6 +53,7 @@ require("lazy").setup({
     { import = "plugins.overrides" },
 
     -- lazyvim.plugins.extras.* imports
+    { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.lang.clangd" },
 
     -- lazyvim.plugins.extras.* imports with config overrides
