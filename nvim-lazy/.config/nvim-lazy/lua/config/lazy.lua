@@ -61,6 +61,7 @@ require("lazy").setup({
     { import = "plugins.overrides.extras.editor.neo-tree" },
     { import = "plugins.overrides.extras.lang.markdown" },
     { import = "plugins.overrides.extras.lang.tex" },
+    { import = "plugins.overrides.extras.ui.treesitter-context" },
 
     -- user plugins
     { import = "plugins" },
