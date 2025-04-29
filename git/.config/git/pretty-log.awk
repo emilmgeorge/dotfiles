@@ -1,5 +1,6 @@
 #!/bin/awk
 # Based on https://www.reddit.com/r/bash/comments/cid27d/
+
 BEGIN {
 	reset  = "\033[m"
 	dim    = "\033[2m"
@@ -16,23 +17,30 @@ BEGIN {
 	# Committer name             %cn
 	# Hash                       %h
 	# Subject                    %s
-	# Ref names (decorate)       %d
+	# Ref names (decorate)       %D
 	#
-	#       %ad        %cd      %cr       %an       %cn           %h        %s        %d
+	#        %ad        %cd      %cr       %an       %cn           %h        %s        %D
 	split(dim white " " cyan " " green " " red " " dim white " " yellow " " white " " reset, color,    " ")
-	split("25 25 25 14 14 40 80 40",                                                         widths,   " ")
+	split("24 24 24 13 13 40 80 40",                                                         widths,   " ")
 	split("1 1 1 1 1 0 0 0",                                                                 pad,      " ")
 	split("1 1 1 1 1 0 0 0",                                                                 truncate, " ")
-	split(";;;;;;;;",                                                                        prefix,   ";")
-	split("  ; ;  ; ;: ; ; ;;",                                                              suffix,   ";")
-	ncolumn = length(widths)
-	if(!full) OFS=""
+	split(";;;;;;;",                                                                         prefix,   ";")
+	split(";;;;:;;;",                                                                        suffix,   ";")
+	OFS=" "
 }
 {
-	for (i = 1; i <= NF && i <= ncolumn; ++i) {
-		n = length($i)
-		w = widths[i]
+	# Add brackets around ref names (like %d, but without the leading space)
+	if($8 != "")
+		$8 = yellow "(" reset $8 yellow ")" reset
+
+	ncolumn = length(widths)
+	if(NF < ncolumn)
+		ncolumn = NF
+	for (i = 1; i <= ncolumn; ++i) {
+		# Do not modify/align text if 'full' option is used
 		if (!full) {
+			n = length($i)
+			w = widths[i]
 			if (n > w && truncate[i] == 1) {
 				# Truncate field
 				$i = substr($i, 1, w - 2) ".."
@@ -41,11 +49,11 @@ BEGIN {
 			$i = prefix[i] $i suffix[i]
 			if (n < w && pad[i] == 1) {
 				# Pad field with spaces on the right
-				$i = $i sprintf("%-" n - w "s", "")
+				$i = $i sprintf("%-*s", n - w, "")
 			}
 		}
 		# Add color
 		$i = color[i] $i reset
 	}
-	print
+	printf "%s", $0
 }
