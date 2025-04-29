@@ -25,12 +25,12 @@ step_to_ref() {
 }
 
 log_oneline() {
-	sepval="1F"
-	sep="%x$sepval"
+	fs="1D"
+	rs="1E"
 	git log --color=always \
-		--pretty="%ad$sep%cd$sep(%cr)$sep%an$sep%cn$sep%h$sep%C(auto)%d%C(reset)$sep%s" \
+		--pretty="%x$rs%ad%x$fs%cd%x$fs(%cr)%x$fs%an%x$fs%cn%x$fs%h%x$fs%s%C(auto)%x$fs%D%x$fs" \
 		--date=local "$@" \
-		| awk -v full=${FULL_LOG} -F"\x$sepval" -E ~/.config/git/pretty-log.awk \
+		| awk -v full="${FULL}" -v RS="\x$rs" -F"\x$fs" -E ~/.config/git/pretty-log.awk \
 		| less \
 			--RAW-CONTROL-CHARS \
 			--quit-if-one-screen \
