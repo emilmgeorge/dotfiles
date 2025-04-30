@@ -322,6 +322,12 @@ export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 # fzf fuzzy finder
 # Installed using distro package manager
 source <(fzf --zsh)
+# Set custom bindings
+bindkey '^g^f^f' fzf-file-widget
+bindkey '^g^f^d' fzf-cd-widget
+# Restore default zsh bindings
+bindkey '^t' transpose-chars
+bindkey '^[c' capitalize-word
 
 zinit ice depth=1 wait lucid
 zinit light junegunn/fzf-git.sh
