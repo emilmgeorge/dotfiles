@@ -14,6 +14,29 @@ config.window_decorations = 'NONE'
 -- Disable ligatures
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
+local G = require("globals")
+local scheme = wezterm.color.get_builtin_schemes()[G.color_scheme]
+scheme.background = G.background or scheme.background
+local color_scheme_overrides = {
+  ["Poimandres"] = { background = "#0E0F15" },
+  ["catppuccin-mocha"] = { background = "#11111b" },
+  ["rose-pine"] = { background = "#12101A" },
+  ["rose-pine-moon"] = { background = "#12101A" },
+  ["tokyonight"] = { background = "#15161F" },
+  ["tokyonight_moon"] = { background = "#15161F" },
+  ["Gruvbox Material (Gogh)"] = { background = "#0f0f0f" },
+  ["Nightfly (Gogh)"] = { background = "#010F1A" },
+  ["Andromeda"] = { background = "#000000" },
+}
+if color_scheme_overrides[G.color_scheme] then
+  for property, value in pairs(color_scheme_overrides[G.color_scheme]) do
+    scheme[property] = value
+    scheme.background = G.background or value
+  end
+end
+config.color_scheme = "Custom"
+config.color_schemes = { ["Custom"] = scheme }
+
 -- Key bindings ---------------------------------------------------------------|
 -- Disable default bindings
 config.disable_default_key_bindings = true
