@@ -66,6 +66,10 @@ fi
 #------------------------------------------------------------------------------|
 # Allow comments in interactive mode
 setopt interactivecomments
+
+# Do not terminate on EOF (Ctrl-D).
+# This allows us to manually handle Ctrl-D. See Keybindings section.
+setopt ignore_eof
 #------------------------------------------------------------------------------|
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
@@ -170,6 +174,32 @@ git() {
 #==============================================================================|
 # Keybindings
 #==============================================================================|
+
+# Better handling of Ctrl-D
+# Note: This requires setopt ignore_eof.
+IGNOREEOF=5
+zsh-ctrl-d() {
+	# If this is the first consecutive Ctrl-D pressed, reset hold-off count.
+	if [[ $LASTWIDGET != zsh-ctrl-d ]]; then
+		(( __ZSH_IGNORE_EOF_COUNT = $IGNOREEOF ))
+	fi
+	if [[ -z $BUFFER ]]; then
+		#  If buffer is empty:
+		#  If hold-off not configured, then exit the shell immediately.
+		[[ -z $IGNOREEOF || $IGNOREEOF == 0 ]] && exit
+		#  If hold-off count expired, then exit the shell.
+		(( --__ZSH_IGNORE_EOF_COUNT <= 0 )) && exit
+		zle -M "Exiting in $__ZSH_IGNORE_EOF_COUNT (Ctrl-D) .."
+	elif [[ $CURSOR -lt ${#BUFFER} ]]; then
+		# If cursor is in the middle of text, remove the next character.
+		zle delete-char
+	else
+		# Else remove the last character.
+		zle backward-delete-char
+	fi
+}
+zle -N zsh-ctrl-d
+bindkey '^d' zsh-ctrl-d
 
 # Edit current command in $EDITOR
 autoload -z edit-command-line
