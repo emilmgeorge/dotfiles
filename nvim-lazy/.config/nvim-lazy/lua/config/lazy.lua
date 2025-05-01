@@ -1,3 +1,4 @@
+require("keycheck").init()
 require("bootstrap")
 
 require("lazy").setup({
@@ -60,3 +61,5 @@ require("lazy").setup({
     },
   },
 })
+
+require("keycheck").check_lazy_keys()
