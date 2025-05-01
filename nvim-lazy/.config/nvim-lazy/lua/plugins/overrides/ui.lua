@@ -14,4 +14,8 @@ return {
       { "<Leader>0", "<Cmd>BufferLineGoToBuffer -1<CR>", desc = "Go to tab -1" },
     },
   },
+  {
+    "folke/noice.nvim",
+    lazy = false,
+  },
 }

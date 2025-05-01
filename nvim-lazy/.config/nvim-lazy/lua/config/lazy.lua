@@ -1,3 +1,4 @@
+require("keycheck").init()
 require("bootstrap")
 
 require("lazy").setup({
