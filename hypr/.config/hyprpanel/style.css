@@ -1,0 +1,32 @@
+#taskbar {
+	margin-bottom: -1000px;
+}
+
+#systray {
+	margin-top: -5px;
+	margin-bottom: -5px;
+}
+
+#systray > * {
+	/* margin-left: 50px; */
+	/* margin-right: 50px; */
+}
+
+#systray > #power {
+	/* margin-left: 50px; */
+	/* margin-right: 50px; */
+}
+
+/* First datetime field */
+#clock #clockTime {
+	font-size: 1rem;
+	opacity: 0.6;
+	margin-top: 0.2rem;
+}
+
+/* Second datetime field */
+#clock #clockDate {
+	font-size: 1.2rem;
+	font-weight: 500;
+}
+
