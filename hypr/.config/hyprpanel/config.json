@@ -39,8 +39,8 @@
 	"panels": [
 		{
 			"id": "panel0",
-			"edge": "EDGE_RIGHT",
-			"size": 64,
+			"edge": "EDGE_BOTTOM",
+			"size": 20,
 			"monitor": "",
 			"modules": [
 				{
@@ -54,9 +54,7 @@
 							1,
 							2,
 							3,
-							4,
-							5,
-							6
+							4
 						],
 						"ignore_windows": [],
 						"preview_width": 256,
@@ -71,14 +69,14 @@
 				},
 				{
 					"taskbar": {
-						"icon_size": 48,
+						"icon_size": 20,
 						"active_workspace_only": true,
 						"active_monitor_only": true,
 						"group_tasks": true,
 						"hide_indicators": false,
 						"expand": true,
 						"max_size": 0,
-						"pinned": [],
+						"pinned": ["firefox", "kitty", "org.kde.dolphin"],
 						"preview_width": 256
 					}
 				},
@@ -90,8 +88,8 @@
 				},
 				{
 					"systray": {
-						"icon_size": 22,
-						"menu_icon_size": 22,
+						"icon_size": 20,
+						"menu_icon_size": 20,
 						"auto_hide_statuses": [
 							"STATUS_UNSPECIFIED",
 							"STATUS_PASSIVE",
@@ -105,7 +103,7 @@
 						"modules": [
 							{
 								"power": {
-									"icon_size": 22,
+									"icon_size": 20,
 									"icon_symbolic": true
 								}
 							}
@@ -114,17 +112,17 @@
 				},
 				{
 					"notifications": {
-						"icon_size": 24,
-						"notification_icon_size": 48,
+						"icon_size": 20,
+						"notification_icon_size": 20,
 						"default_timeout": "7s",
 						"position": "POSITION_TOP_RIGHT",
-						"margin": 24,
+						"margin": 12,
 						"persistent": []
 					}
 				},
 				{
 					"hud": {
-						"notification_icon_size": 64,
+						"notification_icon_size": 20,
 						"timeout": "2s",
 						"position": "POSITION_BOTTOM",
 						"margin": 256
@@ -132,13 +130,13 @@
 				},
 				{
 					"spacer": {
-						"size": 16,
+						"size": 32,
 						"expand": false
 					}
 				},
 				{
 					"audio": {
-						"icon_size": 32,
+						"icon_size": 20,
 						"icon_symbolic": true,
 						"command_mixer": "pavucontrol",
 						"enable_source": true
@@ -146,15 +144,15 @@
 				},
 				{
 					"spacer": {
-						"size": 16,
+						"size": 8,
 						"expand": false
 					}
 				},
 				{
 					"clock": {
-						"time_format": "15:04",
-						"date_format": "2006-01-02",
-						"tooltip_time_format": "15:04",
+						"time_format": "Mon, Jan 02-01-2006",
+						"date_format": "15:04:05",
+						"tooltip_time_format": "15:04:01",
 						"tooltip_date_format": "Mon, 02 Jan 2006 MST",
 						"additional_regions": [
 							"America/Los_Angeles",
@@ -166,17 +164,17 @@
 				},
 				{
 					"spacer": {
-						"size": 16,
+						"size": 8,
 						"expand": false
 					}
 				},
 				{
 					"session": {
-						"icon_size": 48,
+						"icon_size": 20,
 						"icon_symbolic": true,
 						"overlay_icon_size": 96,
 						"overlay_icon_symbolic": true,
-						"command_logout": "loginctl terminate-session $XDG_SESSION_ID",
+						"command_logout": "hyprctl dispatch exit",
 						"command_reboot": "systemctl reboot",
 						"command_suspend": "systemctl suspend",
 						"command_shutdown": "systemctl poweroff"
