@@ -1,9 +1,14 @@
 local M = {}
 
+-- Internal stores for warnings
+local runtime_replacements = {} -- { mode, lhs, old_map, new_map }
+local lazy_duplicates = {} -- { mode, lhs, entries = { {plugin, rhs}, ... } }
+
 -- Normalize key names (case-insensitive for special keys)
 local function normalize_key_name(key_name)
-  if type(key_name) ~= "string" then return key_name end
-  -- Lowercase all special keys inside <>
+  if type(key_name) ~= "string" then
+    return key_name
+  end
   key_name = key_name:gsub("<[^>]+>", function(part)
     return part:lower()
   end)
@@ -26,36 +31,47 @@ local function format_map_rhs(map)
   end
 end
 
+-- Patch `vim.keymap.set` to detect runtime overrides
 function M.init()
   local keymap_set = vim.keymap.set
   ---@diagnostic disable-next-line: duplicate-set-field
   vim.keymap.set = function(mode, lhs, rhs, opts)
     local keyname = normalize_key_name(lhs)
     opts = opts or {}
-    -- opts.unique = true
     local modes = type(mode) == "table" and mode or { mode }
     for _, m in ipairs(modes) do
       ---@diagnostic disable-next-line: param-type-mismatch
       for _, map in ipairs(vim.api.nvim_get_keymap(m)) do
         if map.lhs == normalize_keycodes(keyname) then
-          local message = "🔁 Replacing mapping:\n"
-          message = message .. string.format("  Mode: %s Key: %s\n", m, keyname)
-          message = message .. string.format("  Old: %s\n", format_map_rhs(map))
-          message = message .. string.format("  New: %s", format_map_rhs({rhs = rhs, callback = rhs}))
-          vim.notify(message, vim.log.levels.WARN)
+          table.insert(runtime_replacements, {
+            mode = m,
+            lhs = keyname,
+            old = map,
+            new = { rhs = rhs, callback = rhs },
+          })
         end
       end
     end
     return keymap_set(mode, keyname, rhs, opts)
   end
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "LazyDone",
+    callback = function()
+      require("keycheck").check_lazy_keys()
+    end,
+  })
 end
 
+-- Detect duplicate keys in Lazy plugin definitions
 function M.check_lazy_keys()
-  local lazy_config = require("lazy.core.config")
+  local ok, lazy_config = pcall(require, "lazy.core.config")
+  if not ok then
+    return
+  end
+
   local specs = lazy_config.spec.plugins
-  -- Track all normalized keymap entries
   local keymap_index = {}
-  -- Index all key mappings
+
   for plugin_name, plugin in pairs(specs) do
     if plugin.keys and type(plugin.keys) == "table" then
       for _, keymap in ipairs(plugin.keys) do
@@ -73,14 +89,14 @@ function M.check_lazy_keys()
           keymap_index[norm_lhs][mode] = keymap_index[norm_lhs][mode] or {}
           table.insert(keymap_index[norm_lhs][mode], {
             plugin = plugin_name,
+            rhs = keymap[2],
             keymap = keymap,
-            original_lhs = lhs
           })
         end
       end
     end
   end
-  -- Report duplicates by normalized (key, mode)
+
   for norm_lhs, modes in pairs(keymap_index) do
     for mode, entries in pairs(modes) do
       local ndups = #entries
@@ -90,24 +106,53 @@ function M.check_lazy_keys()
         end
       end
       if ndups > 1 then
-        local message = "🔁 Duplicate key mapping:\n"
-        message = message .. string.format("Mode: %s Key: %s\n", mode, norm_lhs)
-        for _, entry in ipairs(entries) do
-          local rhs = entry.keymap[2]
-          local rhs_info = format_map_rhs({rhs = rhs, callback = rhs})
-          -- if type(rhs) == "function" then
-          --   local info = debug.getinfo(rhs, "S")
-          --   rhs_info = string.format("function at %s:%d", info.source, info.linedefined)
-          -- elseif type(rhs) == "string" then
-          --   rhs_info = rhs
-          -- else
-          --   rhs_info = "<none>"
-          -- end
-          message = message .. string.format("\n  Plugin: %s => %s",
-            entry.plugin, rhs_info)
-        end
-        vim.notify(message, vim.log.levels.WARN)
+        table.insert(lazy_duplicates, {
+          mode = mode,
+          lhs = norm_lhs,
+          entries = entries,
+        })
       end
+    end
+  end
+end
+
+-- CheckHealth reporter
+function M.check()
+  local health = vim.health or require("vim.health") -- compat
+
+  -- Lazy.nvim section
+  health.start("Lazy.nvim: plugin spec keymap conflicts")
+  if #lazy_duplicates == 0 then
+    health.ok("No duplicate Lazy.nvim keymaps found.")
+  else
+    for _, dup in ipairs(lazy_duplicates) do
+      local msg = string.format("🔁 Duplicate keymap in mode %s for %s", dup.mode, dup.lhs)
+      for _, entry in ipairs(dup.entries) do
+        msg = msg
+          .. string.format(
+            "\n  Plugin: %s => %s",
+            entry.plugin,
+            format_map_rhs({ rhs = entry.rhs, callback = entry.rhs })
+          )
+      end
+      health.warn(msg)
+    end
+  end
+
+  -- Runtime section
+  health.start("Runtime: Live vim.keymap.set replacements")
+  if #runtime_replacements == 0 then
+    health.ok("No keymaps replaced at runtime.")
+  else
+    for _, entry in ipairs(runtime_replacements) do
+      local msg = string.format(
+        "🔁 Replacing keymap in mode %s for %s\n  Old: %s\n  New: %s",
+        entry.mode,
+        entry.lhs,
+        format_map_rhs(entry.old),
+        format_map_rhs(entry.new)
+      )
+      health.warn(msg)
     end
   end
 end

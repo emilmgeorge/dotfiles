@@ -61,5 +61,3 @@ require("lazy").setup({
     },
   },
 })
-
-require("keycheck").check_lazy_keys()
