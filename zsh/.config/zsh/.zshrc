@@ -80,6 +80,12 @@ unsetopt autocd extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
 #------------------------------------------------------------------------------|
+# Key binding Options
+#------------------------------------------------------------------------------|
+# Time (in centiseconds) that zsh waits between key presses for multi-key
+# bindings (default: 40)
+KEYTIMEOUT=200
+#------------------------------------------------------------------------------|
 # History options
 #------------------------------------------------------------------------------|
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
