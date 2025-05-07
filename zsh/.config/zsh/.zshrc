@@ -6,42 +6,46 @@
 # Tmux
 #------------------------------------------------------------------------------|
 load_tmux() {
+	if [[ -n "$TMUX" ]]; then
+		return
+	fi
+	if [[ -n "$SKIP_MUX_INIT" ]]; then
+		return
+	fi
+	if ! which tmux >/dev/null 2>&1; then
+		return
+	fi
 	# Opens tmux and switches to a pane at $(pwd).
 	# Logic:
-	# If not already inside tmux:
-	#    * If 'main' tmux session is not yet started, start it.
-	#    * If: there is already a pane in 'main' session that is at $(pwd),
-	#          then switch to that pane.
-	#      Else: Create a new pane at $(pwd).
-	if [[ -z "$TMUX" ]]; then
-		if which tmux >/dev/null 2>&1; then
-			# Main session name
-			local session_name="main"
-			# If main session is not started, start and use it.
-			if ! tmux has-session -t "$session_name"; then
-				exec tmux new-session -s "$session_name" -c "$(pwd)"
-			fi
-			# Attach to an existing pane that is at the required CWD (if such
-			# a pane exists) or create a new one. Note: the required pane may
-			# already be running a command. That's okay for the use case. If
-			# not, add filters below for pane_current_command == <names of
-			# shells>
-			local pane_info=`tmux list-panes -s -t main \
-				-f "#{==:#{pane_current_path},$(pwd)}" \
-				-F '#{window_id} #{pane_id}' |
-				head -n1`
-			if [[ "$pane_info" == "" ]]; then
-				# Suitable pane not found. Create a new one.
-				exec tmux attach-session -d -t "$session_name" \; \
-					new-window -c "$(pwd)"
-			else
-				local window_id
-				local pane_id
-				read -r window_id pane_id <<< "$pane_info"
-				exec tmux attach-session -d -t "$session_name" \; \
-					select-window -t "$window_id" \; select-pane -t "$pane_id"
-			fi
-		fi
+	#  * If 'main' tmux session is not yet started, start it.
+	#  * If: there is already a pane in 'main' session that is at $(pwd),
+	#        then switch to that pane.
+	#    Else: Create a new pane at $(pwd).
+	# Main session name
+	local session_name="main"
+	# If main session is not started, start and use it.
+	if ! tmux has-session -t "$session_name"; then
+		exec tmux new-session -s "$session_name" -c "$(pwd)"
+	fi
+	# Attach to an existing pane that is at the required CWD (if such
+	# a pane exists) or create a new one. Note: the required pane may
+	# already be running a command. That's okay for the use case. If
+	# not, add filters below for pane_current_command == <names of
+	# shells>
+	local pane_info=`tmux list-panes -s -t main \
+		-f "#{==:#{pane_current_path},$(pwd)}" \
+		-F '#{window_id} #{pane_id}' |
+		head -n1`
+	if [[ "$pane_info" == "" ]]; then
+		# Suitable pane not found. Create a new one.
+		exec tmux attach-session -d -t "$session_name" \; \
+			new-window -c "$(pwd)"
+	else
+		local window_id
+		local pane_id
+		read -r window_id pane_id <<< "$pane_info"
+		exec tmux attach-session -d -t "$session_name" \; \
+			select-window -t "$window_id" \; select-pane -t "$pane_id"
 	fi
 }
 

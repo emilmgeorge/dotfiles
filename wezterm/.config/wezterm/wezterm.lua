@@ -98,8 +98,8 @@ table.insert(config.keys, { key = "\"", mods = "LEADER|SHIFT", action = wezterm.
 -- Launch menu
 local launch_menu = {}
 if wezterm.target_triple == 'x86_64-unknown-linux-gnu' then
-  table.insert(launch_menu, { label = 'zsh without tmux', args = { 'zsh', '-l' }, set_environment_variables = { TMUX = '1' } })
-  table.insert(launch_menu, { label = 'bash without tmux', args = { 'bash', '-l' }, set_environment_variables = { TMUX = '1' } })
+  table.insert(launch_menu, { label = 'zsh without tmux', args = { 'zsh', '-l' }, set_environment_variables = { SKIP_MUX_INIT = '1' } })
+  table.insert(launch_menu, { label = 'bash without tmux', args = { 'bash', '-l' }, set_environment_variables = { SKIP_MUX_INIT = '1' } })
 end
 config.launch_menu = launch_menu
 table.insert(config.keys, { key = 'l', mods = 'LEADER|CTRL', action = wezterm.action.ShowLauncher })
