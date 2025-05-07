@@ -368,7 +368,11 @@ zstyle ':fzf-tab:*' prefix ''
 # - file names to go out of sight when preview window is present (cd)
 zstyle ':completion:*' file-list default
 
-zinit ice depth=1 wait lucid
+# The CLI sometimes hangs when trying to highlight man/whatis commands.
+# https://github.com/zdharma-continuum/fast-syntax-highlighting/issues/27
+# Temp fix: disable man/whatis argument highlights.
+zinit ice depth=1 wait lucid \
+	subst'→chroma/-whatis.ch ->'
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 zinit ice depth=1 wait lucid \
