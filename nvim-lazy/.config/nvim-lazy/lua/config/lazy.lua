@@ -11,6 +11,7 @@ require("lazy").setup({
     -- lazyvim.plugins.extras.* imports
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.lang.clangd" },
+    { import = "lazyvim.plugins.extras.lang.python" },
 
     -- lazyvim.plugins.extras.* imports with config overrides
     { import = "plugins.overrides.extras.coding.yanky" },
