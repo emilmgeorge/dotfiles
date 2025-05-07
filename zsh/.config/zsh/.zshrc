@@ -313,6 +313,9 @@ autoload -Uz _zinit
 #------------------------------------------------------------------------------|
 
 zinit ice depth=1
+zinit light zdharma-continuum/zinit-annex-patch-dl
+
+zinit ice depth=1
 zinit light romkatv/powerlevel10k
 # To customize prompt, run `p10k configure` or edit file pointed to by the
 # POWERLEVEL9K_CONFIG_FILE env var.
@@ -329,7 +332,10 @@ bindkey '^g^f^d' fzf-cd-widget
 bindkey '^t' transpose-chars
 bindkey '^[c' capitalize-word
 
-zinit ice depth=1 wait lucid
+export __FZF_GIT_USER_PREFIX=^g^f^g
+# [f]iles [b]ranches [t]ags [r]emotes [h]ashes [s]tashes [l]reflogs [e]ach_ref [w]orktrees
+zinit ice depth=1 wait lucid \
+  patch"$ZDOTDIR/fzf-git-add-option-to-set-custom-key-prefix.patch;" nocompile'!' reset
 zinit light junegunn/fzf-git.sh
 
 zinit ice depth=1 wait lucid
@@ -361,8 +367,6 @@ zstyle ':completion:*' file-list default
 zinit ice depth=1 wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-zinit ice depth=1
-zinit light zdharma-continuum/zinit-annex-patch-dl
 zinit ice depth=1 wait lucid \
   dl'https://github.com/zsh-users/zsh-autosuggestions/commit/4ccfdb243.patch' \
   patch'4ccfdb243.patch;' nocompile'!' reset

@@ -1,0 +1,36 @@
+From 31a4a88c42293588ee60f983f825e8560eb99b27 Mon Sep 17 00:00:00 2001
+From: Emil M George <emilmgeorge@gmail.com>
+Date: Wed, 7 May 2025 12:51:28 +0530
+Subject: [PATCH] Add option to set custom key prefix
+
+---
+ fzf-git.sh | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/fzf-git.sh b/fzf-git.sh
+index 67aaa31..7b182de 100644
+--- a/fzf-git.sh
++++ b/fzf-git.sh
+@@ -336,13 +336,17 @@ elif [[ -n "${ZSH_VERSION:-}" ]]; then
+   }
+ 
+   __fzf_git_init() {
++    local PREFIX='^g'
++    if typeset -p __FZF_GIT_USER_PREFIX &>/dev/null; then
++      PREFIX="${__FZF_GIT_USER_PREFIX}"
++    fi
+     local m o
+     for o in "$@"; do
+       eval "fzf-git-$o-widget() { local result=\$(_fzf_git_$o | __fzf_git_join); zle reset-prompt; LBUFFER+=\$result }"
+       eval "zle -N fzf-git-$o-widget"
+       for m in emacs vicmd viins; do
+-        eval "bindkey -M $m '^g^${o[1]}' fzf-git-$o-widget"
+-        eval "bindkey -M $m '^g${o[1]}' fzf-git-$o-widget"
++        eval "bindkey -M $m '${PREFIX}^${o[1]}' fzf-git-$o-widget"
++        eval "bindkey -M $m '${PREFIX}${o[1]}' fzf-git-$o-widget"
+       done
+     done
+   }
+-- 
+2.49.0
+
