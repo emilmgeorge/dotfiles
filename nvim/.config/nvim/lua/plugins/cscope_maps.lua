@@ -6,7 +6,9 @@ function M.configure()
 		prefix = '<C-\\>',
 		cscope = {
 			picker = 'telescope',
-			db_build_cmd_args = { '-bqRv' },
+			db_build_cmd = {
+				args = { '-bqRv' },
+			},
 		}
 	})
 end
