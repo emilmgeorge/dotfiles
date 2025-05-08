@@ -1,2 +1,18 @@
 source ~/.config/tig/vim-keybindings
 source ~/.config/tig/custom-keybindings
+
+set vertical-split = false
+set tab-size = 4
+set ignore-case = smart-case
+set mouse = true
+set start-on-head = true
+
+set main-view-line-number = yes,interval=1
+set main-view-id = yes
+set main-view-date = relative
+set main-view-commit-title = graph=v2,refs,overflow=80
+
+set blame-view-date = relative-compact
+
+set tree-view-id = yes
+set tree-view-date = relative-compact
