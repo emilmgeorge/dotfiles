@@ -1,5 +1,5 @@
 local transparent = true
-local colorscheme = "catppuccin"
+local colorscheme = "nordfox"
 
 return {
   {
