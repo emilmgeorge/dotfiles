@@ -30,7 +30,7 @@ log_oneline() {
 	git log --color=always \
 		--pretty="%x$rs%ad%x$fs%cd%x$fs(%cr)%x$fs%an%x$fs%cn%x$fs%h%x$fs%s%C(auto)%x$fs%D%x$fs" \
 		--date=local "$@" \
-		| awk -v full="${FULL}" -v RS="\x$rs" -F"\x$fs" -E ~/.config/git/pretty-log.awk \
+		| awk -v full="${FULL}" -v RS="\x$rs" -F"\x$fs" -E ~/.config/git/scripts/pretty-log.awk \
 		| less \
 			--RAW-CONTROL-CHARS \
 			--quit-if-one-screen \
