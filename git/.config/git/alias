@@ -40,7 +40,7 @@ log_oneline() {
 			--shift=26 $(: 'changed from 5 (lesskey config)') \
 			--mouse \
 			--line-num-width=4 --LINE-NUMBERS \
-			--use-color --color=N235 \
+			--use-color --color=N8 \
 			; # See also: ~/.config/lesskey
 }
 

@@ -14,7 +14,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 1
-	color[field]       = SGR_THIN SGR_FG_WHITE
+	color[field]       = SGR_FG_8BIT(250) # light-gray
 
 	# Author date, Relative (%ar)
 	++field
@@ -24,7 +24,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 1
-	color[field]       = SGR_THIN SGR_FG_BRIGHT_BLACK
+	color[field]       = SGR_FG_8BIT(242) # dark-gray
 
 	# Committer Date (%cd)
 	++field
@@ -33,7 +33,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 1
-	color[field]       = SGR_FG_CYAN
+	color[field]       = SGR_FG_8BIT(36) # green
 
 	# Committer date, Relative (%cr)
 	++field
@@ -43,7 +43,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 1
-	color[field]       = SGR_FG_GREEN
+	color[field]       = SGR_FG_8BIT(73) # cyan
 
 	# Author Name (%an)
 	++field
@@ -52,7 +52,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 1
-	color[field]       = SGR_FG_RED
+	color[field]       = SGR_FG_8BIT(167) # red
 
 	# Committer Name (%cn)
 	++field
@@ -61,7 +61,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ":"
 	pad[field]         = 1
-	color[field]       = SGR_THIN SGR_FG_WHITE
+	color[field]       = SGR_THIN SGR_FG_8BIT(188) # gray
 
 	# short commit Hash (%h)
 	++field
@@ -70,7 +70,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 0
-	color[field]       = SGR_FG_YELLOW
+	color[field]       = SGR_THIN SGR_FG_8BIT(227) # yellow
 
 	# Subject (%s)
 	++field
@@ -79,7 +79,7 @@ BEGIN {
 	prefix[field]      = ""
 	suffix[field]      = ""
 	pad[field]         = 0
-	color[field]       = SGR_FG_WHITE
+	color[field]       = SGR_FG_8BIT(188) # white
 
 	# ref names as in --decorate (%d)
 	++field
