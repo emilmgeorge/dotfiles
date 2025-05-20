@@ -27,7 +27,8 @@ BEGIN {
 
 	# Committer date, Relative (%cr)
 	++field
-	width[field]       = 24
+	preprocess[field]  = "preprocess_relative_date"
+	width[field]       = 5
 	truncate[field]    = 1
 	prefix[field]      = ""
 	suffix[field]      = ""
@@ -218,6 +219,20 @@ function SGR_FG_24BIT(r, g, b) {
 }
 function SGR_BG_24BIT(color) {
 	return "\033[48;2;" r ";" g ";" b "m"
+}
+
+function preprocess_relative_date(date) {
+	gsub(/years?/, "y", date)
+	gsub(/months?/, "M", date)
+	gsub(/weeks?/, "w", date)
+	gsub(/days?/, "d", date)
+	gsub(/hours?/, "h", date)
+	gsub(/minutes?/, "m", date)
+	gsub(/seconds?/, "s", date)
+	gsub(/ ago/, "", date)
+	gsub(/,/, "", date)
+	gsub(/ /, "", date)
+	return date
 }
 
 function preprocess_ref_names(refnames) {
