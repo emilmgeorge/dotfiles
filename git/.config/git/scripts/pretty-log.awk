@@ -94,15 +94,19 @@ BEGIN {
 	for (i = 1; i <= field; ++i) {
 		# Default values
 		if (!(i in width))       width[i] = 10
+		if (!(i in maxwidth))    maxwidth[i] = 10
 		if (!(i in truncate))    truncate[i] = 1
 		if (!(i in prefix))      prefix[i] = ""
 		if (!(i in suffix))      suffix[i] = ""
+		if (!(i in align))       align[i] = 1
 		if (!(i in pad))         pad[i] = 1
 		if (!(i in color))       color[i] = SGR_RESET
 
 		# Fix out of range values
 		if (width[i] < 0)       width[i] = 0
+		if (maxwidth[i] < 0)    maxwidth[i] = 0
 		truncate[i] = !!truncate[i]
+		align[i] = !!align[i]
 		pad[i] = !!pad[i]
 	}
 
@@ -112,6 +116,8 @@ BEGIN {
 	nfields = field
 	if(NF < nfields)
 		nfields = NF
+
+	cumulative_flex = 0
 	for (i = 1; i <= nfields; ++i) {
 		if(i in preprocess) {
 			preprocess_function = preprocess[i]
@@ -121,19 +127,39 @@ BEGIN {
 		if (!full) {
 			len = length($i)
 			w = width[i]
+			tw = w   # truncate width
+			pw = w   # pad width
+			flex = 0 # possible width increase based on text length
+			if(w < 1) {
+				tw = maxwidth[i]
+				flex = tw - len
+			}
+			if(tw < 0)
+				tw = 0
+			if(pw < 0)
+				pw = 0
+			if(flex < 0)
+				flex = 0
 
 			# Truncate field
-			if (len > w && truncate[i] == 1) {
-				$i = substr($i, 1, w - 2) ".."
+			if (len > tw && truncate[i] == 1) {
+				$i = substr($i, 1, tw - 2) ".."
 			}
 
 			# Add prefix and suffix
 			$i = prefix[i] $i suffix[i]
 
 			# Align (left pad) column based on cumulative_flex
-			if (len < w && pad[i] == 1) {
-				$i = $i sprintf("%-*s", len - w, "")
+			if (cumulative_flex > 0 && align[i] == 1) {
+				$i = sprintf("%-*s", cumulative_flex, "") $i
+				cumulative_flex = 0
 			}
+
+			# Pad field with spaces on the right
+			if (len < pw && pad[i] == 1) {
+				$i = $i sprintf("%-*s", len - pw, "")
+			}
+			cumulative_flex = cumulative_flex + flex
 		}
 	}
 	# Add color (Do this last to prevent issues with truncation, length() etc.)
