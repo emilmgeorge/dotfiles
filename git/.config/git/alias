@@ -28,7 +28,7 @@ log_oneline() {
 	fs="1D"
 	rs="1E"
 	git log --color=always \
-		--pretty="%x$rs%ad%x$fs%cd%x$fs%cr%x$fs%an%x$fs%cn%x$fs%h%x$fs%s%C(auto)%x$fs%D%x$fs" \
+		--pretty="%x$rs%ad%x$fs%cd%x$fs%ar%x$fs%cr%x$fs%an%x$fs%cn%x$fs%h%x$fs%s%C(auto)%x$fs%D%x$fs" \
 		--date=local "$@" \
 		| gawk -v full="${FULL}" -v RS="\x$rs" -F"\x$fs" -E ~/.config/git/scripts/pretty-log.awk \
 		| less \

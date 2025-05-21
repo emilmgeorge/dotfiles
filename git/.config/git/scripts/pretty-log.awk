@@ -25,6 +25,16 @@ BEGIN {
 	pad[field]         = 1
 	color[field]       = SGR_FG_CYAN
 
+	# Author date, Relative (%ar)
+	++field
+	preprocess[field]  = "preprocess_relative_date"
+	width[field]       = 5
+	truncate[field]    = 1
+	prefix[field]      = ""
+	suffix[field]      = ""
+	pad[field]         = 1
+	color[field]       = SGR_THIN SGR_FG_BRIGHT_BLACK
+
 	# Committer date, Relative (%cr)
 	++field
 	preprocess[field]  = "preprocess_relative_date"
