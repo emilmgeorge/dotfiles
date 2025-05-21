@@ -76,7 +76,7 @@
 						"hide_indicators": false,
 						"expand": true,
 						"max_size": 0,
-						"pinned": ["firefox", "kitty", "org.kde.dolphin"],
+						"pinned": ["firefox", "org.wezfurlong.wezterm", "org.kde.dolphin"],
 						"preview_width": 256
 					}
 				},
