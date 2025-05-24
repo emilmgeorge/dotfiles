@@ -3,4 +3,4 @@ plugins/*
 !plugins/tpm
 
 # System-local configuration
-local.conf
+local/*
