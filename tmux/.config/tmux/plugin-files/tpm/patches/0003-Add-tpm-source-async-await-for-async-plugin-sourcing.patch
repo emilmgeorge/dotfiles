@@ -1,0 +1,55 @@
+From f064b976c6d8a576a6bd0cda1a1f53d0999cf617 Mon Sep 17 00:00:00 2001
+From: Emil M George <emilmgeorge@gmail.com>
+Date: Sun, 25 May 2025 22:54:18 +0530
+Subject: [PATCH 3/3] Add @tpm-source-(async|await) for async plugin sourcing
+
+---
+ scripts/source_plugins.sh | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/source_plugins.sh b/scripts/source_plugins.sh
+index 104ac56..11931c5 100755
+--- a/scripts/source_plugins.sh
++++ b/scripts/source_plugins.sh
+@@ -30,8 +30,22 @@ source_plugins() {
+ 	local declarations
+ 	declarations=$(tpm_declarations)
+ 	local groups group
++	local source_async
++	source_async=0
+ 	IFS="$GS" read -ra groups <<< "$declarations"
+ 	for group in "${groups[@]}"; do
++		if [[ "$group" == tpm-source-async"$US"* ]]; then
++			IFS="$US$RS$GS" read -r key value rest <<< "$group"
++			if [[ "$value" == "on" ]]; then
++				source_async=1
++			else
++				source_async=0
++			fi
++			continue
++		elif [[ "$group" == tpm-source-await"$US"* ]]; then
++			wait
++			continue
++		fi
+ 		[[ "$group" != plugin"$US"* ]] && continue
+ 		local records record
+ 		IFS="$RS" read -ra records <<< "$group"
+@@ -48,9 +62,14 @@ source_plugins() {
+ 		if [ ${#plugin[@]} -gt 0 ]; then
+ 			local plugin_path
+ 			plugin_path="$(plugin_path_helper "${plugin[0]}")"
+-			silently_source_all_tmux_files "$plugin_path"
++			if [[ "$source_async" == "1" ]]; then
++				silently_source_all_tmux_files "$plugin_path" &
++			else
++				silently_source_all_tmux_files "$plugin_path"
++			fi
+ 		fi
+ 	done
++	wait
+ }
+ 
+ main() {
+-- 
+2.49.0
+
