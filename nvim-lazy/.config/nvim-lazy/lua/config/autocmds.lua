@@ -15,6 +15,9 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "*",
   group = vim.api.nvim_create_augroup("WhitespaceIssueHighlight", { clear = false }),
   callback = function()
+    if vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "" then
+      return
+    end
     vim.fn.matchadd("TrailingWhitespace", "\\s\\+$")
     vim.fn.matchadd("MixedWhitespaceIndent", "\\%(^\\s* \\t\\s*\\)\\|\\%(^\\s*\\t \\s*\\)")
   end,
