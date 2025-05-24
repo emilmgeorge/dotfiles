@@ -1,0 +1,266 @@
+From e3355418b5ac1cda1766a959f3cd312ed68fdeb3 Mon Sep 17 00:00:00 2001
+From: Emil M George <emilmgeorge@gmail.com>
+Date: Sun, 25 May 2025 17:06:32 +0530
+Subject: [PATCH 2/4] Add support for @plugin-*, @tpm-* options
+
+---
+ bindings/update_plugins             | 31 ++++++++++++++++++++++------
+ scripts/clean_plugins.sh            | 24 +++++++++++++++++++++-
+ scripts/helpers/plugin_functions.sh | 32 +++++++++++++++++++++++------
+ scripts/install_plugins.sh          | 25 ++++++++++++++++++----
+ scripts/source_plugins.sh           | 29 ++++++++++++++++++++------
+ scripts/update_plugin.sh            | 31 +++++++++++++++++++++-------
+ 6 files changed, 142 insertions(+), 30 deletions(-)
+
+diff --git a/bindings/update_plugins b/bindings/update_plugins
+index 28cc281..1374ace 100755
+--- a/bindings/update_plugins
++++ b/bindings/update_plugins
+@@ -16,15 +16,34 @@ source "$HELPERS_DIR/tmux_echo_functions.sh"
+ source "$HELPERS_DIR/tmux_utils.sh"
+ 
+ display_plugin_update_list() {
+-	local plugins="$(tpm_plugins_list_helper)"
+ 	tmux_echo "Installed plugins:"
+ 	tmux_echo ""
+ 
+-	for plugin in $plugins; do
+-		# displaying only installed plugins
+-		if plugin_already_installed "$plugin"; then
+-			local plugin_name="$(plugin_name_helper "$plugin")"
+-			tmux_echo "  $plugin_name"
++	local declarations
++	declarations=$(tpm_declarationss)
++	local groups group
++	IFS="$GS" read -ra groups <<< "$declarations"
++	for group in "${groups[@]}"; do
++		[[ "$group" != plugin"$US"* ]] && continue
++		local records record
++		IFS="$RS" read -ra records <<< "$group"
++		# Parse plugin and its required options
++		local plugin
++		for record in "${records[@]}"; do
++			local key value
++			IFS="$US" read -r key value <<< "$record"
++			if [ "$key" == "plugin" ]; then
++				IFS='#' read -ra plugin <<< "$value"
++			fi
++		done
++		# Use parsed plugin + options
++		if [ ${#plugin[@]} -gt 0 ]; then
++			plugin="${plugin[0]}"
++			# displaying only installed plugins
++			if plugin_already_installed "$plugin"; then
++				local plugin_name="$(plugin_name_helper "$plugin")"
++				tmux_echo "  $plugin_name"
++			fi
+ 		fi
+ 	done
+ 
+diff --git a/scripts/clean_plugins.sh b/scripts/clean_plugins.sh
+index a025524..411fc11 100755
+--- a/scripts/clean_plugins.sh
++++ b/scripts/clean_plugins.sh
+@@ -14,7 +14,29 @@ fi
+ 
+ clean_plugins() {
+ 	local plugins plugin plugin_directory
+-	plugins="$(tpm_plugins_list_helper)"
++	plugins=""
++	local declarations
++	declarations=$(tpm_declarations)
++	local groups group
++	IFS="$GS" read -ra groups <<< "$declarations"
++	for group in "${groups[@]}"; do
++		[[ "$group" != plugin"$US"* ]] && continue
++		local records record
++		IFS="$RS" read -ra records <<< "$group"
++		# Parse plugin and its required options
++		local plugin
++		for record in "${records[@]}"; do
++			local key value
++			IFS="$US" read -r key value <<< "$record"
++			if [ "$key" == "plugin" ]; then
++				IFS='#' read -ra plugin <<< "$value"
++			fi
++		done
++		# Use parsed plugin + options
++		if [ ${#plugin[@]} -gt 0 ]; then
++			plugins+="${plugin[0]}"$'\n'
++		fi
++	done
+ 
+ 	for plugin_directory in "$(tpm_path)"/*; do
+ 		[ -d "${plugin_directory}" ] || continue
+diff --git a/scripts/helpers/plugin_functions.sh b/scripts/helpers/plugin_functions.sh
+index f33d215..6515a5a 100644
+--- a/scripts/helpers/plugin_functions.sh
++++ b/scripts/helpers/plugin_functions.sh
+@@ -1,6 +1,10 @@
+ # using @tpm_plugins is now deprecated in favor of using @plugin syntax
+ tpm_plugins_variable_name="@tpm_plugins"
+ 
++US=$'\x1F'  # Unit Separator
++RS=$'\x1E'  # Record Separator
++GS=$'\x1D'  # Group Separator
++
+ # manually expanding tilde char or `$HOME` variable.
+ _manual_expansion() {
+ 	local path="$1"
+@@ -68,13 +72,29 @@ tpm_path() {
+ 	echo "$_CACHED_TPM_PATH"
+ }
+ 
+-tpm_plugins_list_helper() {
++tpm_declarations() {
+ 	# lists plugins from @tpm_plugins option
+-	echo "$(tmux start-server\; show-option -gqv "$tpm_plugins_variable_name")"
+-
+-	# read set -g @plugin "tmux-plugins/tmux-example-plugin" entries
+-	_tmux_conf_contents "full" |
+-		awk '/^[ \t]*set(-option)? +-g +@plugin/ { gsub(/'\''/,""); gsub(/'\"'/,""); print $4 }'
++	tmux start-server\; show-option -gqv "$tpm_plugins_variable_name" |
++		awk -v US="$US" -v GS="$GS" 'NF { printf "%splugin%s%s", GS, US, $1 }'
++
++	# read:
++	#	set -g @plugin "<plugin_name>" entries
++	#	set -g @plugin-<option> "<value>" entries
++	raw_defs=$(_tmux_conf_contents "full" |
++		sed -rn "s/^[[:space:]]*set(-option)?[[:space:]]+-g[[:space:]]+@(plugin|(plugin|tpm(-[^[:space:]]+)))/\2/p")
++
++	# Parse options
++	temp_prefix="_tpm_def_"
++	while read -r key value; do
++		if [[ "$key" == plugin-* ]]; then
++			printf "%s" "$RS"
++		else
++			printf "%s" "$GS"
++		fi
++		echo "$value" | xargs -I{} tmux set-option -g "@${temp_prefix}${key}" {}
++		value=$(tmux show-options -gv "@${temp_prefix}$key" 2>/dev/null) && printf "%s%s%s" "$key" "$US" "$value"
++		tmux set-option -gu "@${temp_prefix}${key}"
++	done <<< "$raw_defs"
+ }
+ 
+ # Allowed plugin name formats:
+diff --git a/scripts/install_plugins.sh b/scripts/install_plugins.sh
+index e2450ac..1db4272 100755
+--- a/scripts/install_plugins.sh
++++ b/scripts/install_plugins.sh
+@@ -51,10 +51,27 @@ install_plugin() {
+ }
+ 
+ install_plugins() {
+-	local plugins="$(tpm_plugins_list_helper)"
+-	for plugin in $plugins; do
+-		IFS='#' read -ra plugin <<< "$plugin"
+-		install_plugin "${plugin[0]}" "${plugin[1]}"
++	local declarations
++	declarations=$(tpm_declarations)
++	local groups group
++	IFS="$GS" read -ra groups <<< "$declarations"
++	for group in "${groups[@]}"; do
++		[[ "$group" != plugin"$US"* ]] && continue
++		local records record
++		IFS="$RS" read -ra records <<< "$group"
++		# Parse plugin and its required options
++		local plugin
++		for record in "${records[@]}"; do
++			local key value
++			IFS="$US" read -r key value <<< "$record"
++			if [ "$key" == "plugin" ]; then
++				IFS='#' read -ra plugin <<< "$value"
++			fi
++		done
++		# Use parsed plugin + options
++		if [ ${#plugin[@]} -gt 0 ]; then
++			install_plugin "${plugin[0]}" "${plugin[1]}"
++		fi
+ 	done
+ }
+ 
+diff --git a/scripts/source_plugins.sh b/scripts/source_plugins.sh
+index 6381d54..104ac56 100755
+--- a/scripts/source_plugins.sh
++++ b/scripts/source_plugins.sh
+@@ -27,12 +27,29 @@ silently_source_all_tmux_files() {
+ }
+ 
+ source_plugins() {
+-	local plugin plugin_path
+-	local plugins="$(tpm_plugins_list_helper)"
+-	for plugin in $plugins; do
+-		IFS='#' read -ra plugin <<< "$plugin"
+-		plugin_path="$(plugin_path_helper "${plugin[0]}")"
+-		silently_source_all_tmux_files "$plugin_path"
++	local declarations
++	declarations=$(tpm_declarations)
++	local groups group
++	IFS="$GS" read -ra groups <<< "$declarations"
++	for group in "${groups[@]}"; do
++		[[ "$group" != plugin"$US"* ]] && continue
++		local records record
++		IFS="$RS" read -ra records <<< "$group"
++		# Parse plugin and its required options
++		local plugin
++		for record in "${records[@]}"; do
++			local key value
++			IFS="$US" read -r key value <<< "$record"
++			if [ "$key" == "plugin" ]; then
++				IFS='#' read -ra plugin <<< "$value"
++			fi
++		done
++		# Use parsed plugin + options
++		if [ ${#plugin[@]} -gt 0 ]; then
++			local plugin_path
++			plugin_path="$(plugin_path_helper "${plugin[0]}")"
++			silently_source_all_tmux_files "$plugin_path"
++		fi
+ 	done
+ }
+ 
+diff --git a/scripts/update_plugin.sh b/scripts/update_plugin.sh
+index d99e189..9cf7ae1 100755
+--- a/scripts/update_plugin.sh
++++ b/scripts/update_plugin.sh
+@@ -40,13 +40,30 @@ update() {
+ update_all() {
+ 	echo_ok "Updating all plugins!"
+ 	echo_ok ""
+-	local plugins="$(tpm_plugins_list_helper)"
+-	for plugin in $plugins; do
+-		IFS='#' read -ra plugin <<< "$plugin"
+-		local plugin_name="$(plugin_name_helper "${plugin[0]}")"
+-		# updating only installed plugins
+-		if plugin_already_installed "$plugin_name"; then
+-			update "$plugin_name" &
++	local declarations
++	declarations=$(tpm_declarations)
++	local groups group
++	IFS="$GS" read -ra groups <<< "$declarations"
++	for group in "${groups[@]}"; do
++		[[ "$group" != plugin"$US"* ]] && continue
++		local records record
++		IFS="$RS" read -ra records <<< "$group"
++		# Parse plugin and its required options
++		local plugin
++		for record in "${records[@]}"; do
++			local key value
++			IFS="$US" read -r key value <<< "$record"
++			if [ "$key" == "plugin" ]; then
++				IFS='#' read -ra plugin <<< "$value"
++			fi
++		done
++		# Use parsed plugin + options
++		if [ ${#plugin[@]} -gt 0 ]; then
++			local plugin_name="$(plugin_name_helper "${plugin[0]}")"
++			# updating only installed plugins
++			if plugin_already_installed "$plugin_name"; then
++				update "$plugin_name" &
++			fi
+ 		fi
+ 	done
+ 	wait
+-- 
+2.49.0
+
