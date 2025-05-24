@@ -1,4 +1,4 @@
 return {
-  color_scheme = "Andromeda",
+  color_scheme = "catppuccin-mocha",
   font = "JetBrains Mono",
 }
