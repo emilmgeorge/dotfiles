@@ -3,6 +3,7 @@
 # Add apps that use generic logic:
 #	install: stow -t ~/ <app>
 #	uninstall: stow -D -t ~/ <app>
+#	reinstall: uninstall install
 
 GENERIC_APPS += emacs
 GENERIC_APPS += git
@@ -26,6 +27,8 @@ nvim-install:
 nvim-uninstall:
 	stow -D -t ~/ nvim
 	stow -D -t ~/ nvim-lazy
+.PHONY: nvim-reinstall
+nvim-reinstall: nvim-uninstall nvim-install
 .PHONY: nvim-clean
 nvim-clean:
 ifeq ($(C),)
@@ -51,6 +54,9 @@ spacemacs-install:
 spacemacs-uninstall:
 	stow -D -t ~/ spacemacs
 	@echo "Please rm -rf ~/.emacs.d manually."
+.PHONY: spacemacs-reinstall
+spacemacs-reinstall:
+	stow -R -t ~/ spacemacs
 
 # CLI logic ===================================================================|
 
@@ -63,6 +69,10 @@ GENERIC_UNINSTALL_TARGETS := $(addsuffix -uninstall, $(GENERIC_APPS))
 .PHONY: $(GENERIC_UNINSTALL_TARGETS)
 $(GENERIC_UNINSTALL_TARGETS):
 	stow -D -t ~/ $(patsubst %-uninstall,%, $@)
+$(foreach app,$(GENERIC_APPS), \
+  $(eval .PHONY: $(app)-reinstall) \
+  $(eval $(app)-reinstall: $(app)-uninstall $(app)-install) \
+)
 
 # First target is the command (eg. install, uninstall, clean)
 COMMAND := $(firstword $(MAKECMDGOALS))
