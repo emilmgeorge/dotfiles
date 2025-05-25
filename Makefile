@@ -3,6 +3,7 @@
 # Add apps that use generic logic:
 #	install: stow -t ~/ <app>
 #	uninstall: stow -D -t ~/ <app>
+#	reinstall: uninstall install
 
 GENERIC_APPS += emacs
 GENERIC_APPS += git
@@ -63,6 +64,10 @@ GENERIC_UNINSTALL_TARGETS := $(addsuffix -uninstall, $(GENERIC_APPS))
 .PHONY: $(GENERIC_UNINSTALL_TARGETS)
 $(GENERIC_UNINSTALL_TARGETS):
 	stow -D -t ~/ $(patsubst %-uninstall,%, $@)
+$(foreach app,$(GENERIC_APPS), \
+  $(eval .PHONY: $(app)-reinstall) \
+  $(eval $(app)-reinstall: $(app)-uninstall $(app)-install) \
+)
 
 # First target is the command (eg. install, uninstall, clean)
 COMMAND := $(firstword $(MAKECMDGOALS))
