@@ -288,6 +288,23 @@ zle -N forward-move-alphanumeric
 bindkey '^[f' forward-move-alphanumeric
 bindkey '^[F' forward-word
 
+# Selectively skip saving the command being executed to the history file
+function skip-history-file-hook() {
+  emulate -L zsh
+  add-zsh-hook -d zshaddhistory skip-file-history-hook
+  # Keep in memory till next command execution.
+  # return 1
+  # Keep in memory history, but do not save to file.
+  return 2
+}
+function accept-line-skip-history-file() {
+  emulate -L zsh
+  add-zsh-hook zshaddhistory skip-history-file-hook
+  zle .accept-line
+}
+zle -N accept-line-skip-history-file
+bindkey "^g^M" accept-line-skip-history-file
+
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/keybindings" ] || source "$ZDOTDIR/""local/keybindings"
 #------------------------------------------------------------------------------|
