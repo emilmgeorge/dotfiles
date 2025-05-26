@@ -342,6 +342,8 @@ zinit light romkatv/powerlevel10k
 # POWERLEVEL9K_CONFIG_FILE env var.
 export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 [[ ! -f "${POWERLEVEL9K_CONFIG_FILE}" ]] || source "${POWERLEVEL9K_CONFIG_FILE}"
+# Emit OSC 133 markers
+typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
 
 # fzf fuzzy finder
 # Installed using distro package manager
