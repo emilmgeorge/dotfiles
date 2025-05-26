@@ -1,7 +1,7 @@
 From e3355418b5ac1cda1766a959f3cd312ed68fdeb3 Mon Sep 17 00:00:00 2001
 From: Emil M George <emilmgeorge@gmail.com>
 Date: Sun, 25 May 2025 17:06:32 +0530
-Subject: [PATCH 2/3] Add support for @plugin-*, @tpm-* options
+Subject: [PATCH 2/4] Add support for @plugin-*, @tpm-* options
 
 ---
  bindings/update_plugins             | 31 ++++++++++++++++++++++------

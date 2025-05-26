@@ -1,7 +1,7 @@
 From 3bdf36dce303d5ba9ff46b5526cfc9cb9bd74c86 Mon Sep 17 00:00:00 2001
 From: Emil M George <emilmgeorge@gmail.com>
 Date: Sat, 24 May 2025 22:31:28 +0530
-Subject: [PATCH 1/3] Use (pull) --rebase for updating plugins
+Subject: [PATCH 1/4] Use (pull) --rebase for updating plugins
 
 ---
  scripts/update_plugin.sh | 2 +-

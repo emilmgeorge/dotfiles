@@ -1,17 +1,17 @@
-From f064b976c6d8a576a6bd0cda1a1f53d0999cf617 Mon Sep 17 00:00:00 2001
+From 0557a7f03b43e8bb2cff361d1a66764e21d0daaf Mon Sep 17 00:00:00 2001
 From: Emil M George <emilmgeorge@gmail.com>
 Date: Sun, 25 May 2025 22:54:18 +0530
-Subject: [PATCH 3/3] Add @tpm-source-(async|await) for async plugin sourcing
+Subject: [PATCH 3/4] Add @tpm-source-(async|await) for async plugin sourcing
 
 ---
- scripts/source_plugins.sh | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ scripts/source_plugins.sh | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/source_plugins.sh b/scripts/source_plugins.sh
-index 104ac56..11931c5 100755
+index 104ac56..71acf1c 100755
 --- a/scripts/source_plugins.sh
 +++ b/scripts/source_plugins.sh
-@@ -30,8 +30,22 @@ source_plugins() {
+@@ -30,8 +30,19 @@ source_plugins() {
  	local declarations
  	declarations=$(tpm_declarations)
  	local groups group
@@ -21,11 +21,8 @@ index 104ac56..11931c5 100755
  	for group in "${groups[@]}"; do
 +		if [[ "$group" == tpm-source-async"$US"* ]]; then
 +			IFS="$US$RS$GS" read -r key value rest <<< "$group"
-+			if [[ "$value" == "on" ]]; then
-+				source_async=1
-+			else
-+				source_async=0
-+			fi
++			source_async=0
++			[[ "$value" == "on" ]] && source_async=1
 +			continue
 +		elif [[ "$group" == tpm-source-await"$US"* ]]; then
 +			wait
@@ -34,7 +31,7 @@ index 104ac56..11931c5 100755
  		[[ "$group" != plugin"$US"* ]] && continue
  		local records record
  		IFS="$RS" read -ra records <<< "$group"
-@@ -48,9 +62,14 @@ source_plugins() {
+@@ -48,9 +59,14 @@ source_plugins() {
  		if [ ${#plugin[@]} -gt 0 ]; then
  			local plugin_path
  			plugin_path="$(plugin_path_helper "${plugin[0]}")"
