@@ -355,11 +355,13 @@ bindkey '^g^f^d' fzf-cd-widget
 bindkey '^t' transpose-chars
 bindkey '^[c' capitalize-word
 
+# fzf-git.sh
 export __FZF_GIT_USER_PREFIX=^g^f^g
 # [f]iles [b]ranches [t]ags [r]emotes [h]ashes [s]tashes [l]reflogs [e]ach_ref [w]orktrees
 zinit ice depth=1 wait lucid \
   patch"$ZDOTDIR/fzf-git-add-option-to-set-custom-key-prefix.patch;" nocompile'!' reset
 zinit light junegunn/fzf-git.sh
+source "$ZDOTDIR/.fzf-git-overrides.zsh"
 
 zinit ice depth=1 wait lucid
 zinit light Aloxaf/fzf-tab
