@@ -408,9 +408,41 @@ zinit light zsh-users/zsh-completions
 
 zinit ice depth=1 wait lucid trigger-load"!hist"
 zinit light marlonrichert/zsh-hist
-bindkey -s '^g^r^f' "hist f -1\n"
-bindkey -s '^g^r^e' "hist e -1\n"
-bindkey -s '^g^r^r' "hist d -1\n"
+zstyle ':hist:*' auto-format no
+# We have to defer invoking 'hist' in key-bound widgets because subcommands like
+# 'fix' and 'edit', which require interactive user input (via vared), cannot be
+# run directly inside the ZLE widget context.
+local function make_deferred_hist_widget() {
+	local widget_name=$1
+	local hook_func="__${widget_name}_hook"
+	local hist_args=("${(@)argv[2,-1]}")
+	local quoted_args=$(print -r -- ${(q)hist_args})
+
+	eval "
+	function $widget_name() {
+		function $hook_func() {
+			add-zsh-hook -d precmd $hook_func
+			unfunction $hook_func
+			hist $quoted_args
+		}
+		add-zsh-hook -d precmd $hook_func
+		add-zsh-hook precmd $hook_func
+		local BUFFERSTASH=\$BUFFER
+		BUFFER=
+		zle accept-line
+		print -z "\$BUFFERSTASH"
+	}
+	zle -N $widget_name
+	"
+}
+make_deferred_hist_widget hist_defer_fix_minus_1    f -1
+make_deferred_hist_widget hist_defer_edit_minus_1   e -1
+make_deferred_hist_widget hist_defer_delete_minus_1 d -1
+unfunction make_deferred_hist_widget
+bindkey '^g^r^f' hist_defer_fix_minus_1
+bindkey '^g^r^e' hist_defer_edit_minus_1
+bindkey '^g^r^r' hist_defer_delete_minus_1
+
 
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/plugins-late" ] || source "$ZDOTDIR/""local/plugins-late"
