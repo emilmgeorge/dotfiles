@@ -348,15 +348,9 @@ export POWERLEVEL9K_CONFIG_FILE="$ZDOTDIR/.p10k.zsh"
 # Emit OSC 133 markers
 typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
 
-# fzf fuzzy finder
-# Installed using distro package manager
-source <(fzf --zsh)
-# Set custom bindings
-bindkey '^g^f^f' fzf-file-widget
-bindkey '^g^f^d' fzf-cd-widget
-# Restore default zsh bindings
-bindkey '^t' transpose-chars
-bindkey '^[c' capitalize-word
+# fzf - fuzzy finder
+# fzf package must be installed and present in PATH
+source "$ZDOTDIR/fzf.zsh"
 
 # fzf-git.sh
 export __FZF_GIT_USER_PREFIX=^g^f^g
