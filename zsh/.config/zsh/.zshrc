@@ -440,6 +440,121 @@ bindkey '^g^r^f' hist_defer_fix_minus_1
 bindkey '^g^r^e' hist_defer_edit_minus_1
 bindkey '^g^r^r' hist_defer_delete_minus_1
 
+# Core transpose logic: direction = -1 (left) or 1 (right)
+_transpose_arg() {
+  emulate -L zsh
+  setopt extended_glob
+
+  local direction=$1
+  local pos=CURSOR
+  # Current cursor position (0-indexed) can be equal to #BUFFER (one past end)
+  # We add a space at the end to accomodate for this:
+  local cmd="${LBUFFER}${RBUFFER} " # Full command line content
+  local args=("${(z)cmd}")        # Array of shell words
+
+  local current_arg_idx=1 # Current argument index in the 'args' array (1-indexed)
+  local cursor_arg_idx
+  local arg
+
+  # Arrays to store word/space positions and counts
+  local -a arg_starts       # 0-indexed start position of each arg in cmd
+  local -a arg_ends         # 0-indexed end position of each arg in cmd
+  local -a arg_lengths      # 0-indexed start position of each arg in cmd
+  local -a post_spacings # Number of trailing spaces *after* each arg
+                            # post_spacings[1] -> spaces after args[1]
+                            # post_spacings[2] -> spaces after args[2] etc.
+
+  local char_idx=0 # Tracks our current position in 'cmd' as we parse it
+  local found_cursor=0
+
+  # Populate arg_starts, arg_ends, and post_spacings
+  for arg in "${args[@]}"; do
+    local len=${#arg}
+    local postspaces=0
+
+    # Calculate and store start/end positions for this argument
+    local start_pos=$char_idx
+    char_idx=$((start_pos + len))
+    local end_pos=$char_idx
+
+    # Calculate trailing spaces for the current segment
+    local segment_from_current_idx="${cmd:$char_idx}"
+    if [[ "$segment_from_current_idx" =~ '^([[:space:]]*)' ]]; then
+	postspaces=${#match[1]}
+	char_idx=$(( char_idx + postspaces )) # Use match[1] to get the captured group (the spaces)
+    fi
+
+    # Store the number of trailing spaces for this argument
+    post_spacings+=($postspaces)
+    arg_starts+=($start_pos)
+    arg_ends+=($end_pos)
+    arg_lengths+=($len)
+
+    if [ "$found_cursor" -eq "1" ]; then
+	break;
+    fi
+
+    # Check if the cursor is within this argument (inclusive of its postspaces)
+    if (( pos >= start_pos && pos < char_idx )); then
+	cursor_arg_idx=$current_arg_idx
+	# If transpose right, then do one more iteration because we need to find
+	# the target values also. Otherwise break.
+	found_cursor=1
+	if [ $direction -lt 0 ]; then
+		break
+	fi
+    fi
+
+    ((current_arg_idx++)) # Increment argument index
+  done
+
+  # Determine target argument for transposition
+  local target_arg_idx=$((cursor_arg_idx + direction))
+  if (( target_arg_idx < 1 || target_arg_idx > $#args )); then
+    zle beep
+    return
+  fi
+
+  # --- Reconstruct the BUFFER with flipped words and preserved spacing ---
+  local new_buffer=""
+  local new_cursor_position=0
+
+  # Determine the range of affected arguments for substring extraction
+  local first_affected_idx
+  local last_affected_idx
+  local cursordiff
+  cursordiff=$(( cursordiff < 0 ? -cursordiff : cursordiff ))
+
+  if (( cursor_arg_idx < target_arg_idx )); then
+      first_affected_idx=$cursor_arg_idx
+      last_affected_idx=$target_arg_idx
+      cursordiff=$(( arg_lengths[current_arg_idx] + post_spacings[current_arg_idx] ))
+  else
+      first_affected_idx=$target_arg_idx
+      last_affected_idx=$cursor_arg_idx
+      cursordiff=$(( -(arg_lengths[target_arg_idx] + post_spacings[target_arg_idx]) ))
+  fi
+
+  # Part 1: Content before the first affected argument
+  # Take the substring from the beginning of the buffer up to the start of the first affected arg.
+  local start_of_first_affected_in_cmd=${arg_starts[first_affected_idx]}
+  # Zsh substrings are 1-indexed. `cmd[1,X]` includes X.
+  local start_of_remaining=${arg_ends[last_affected_idx]}
+  new_buffer="${cmd[1,start_of_first_affected_in_cmd]}${args[last_affected_idx]}${(r:$((post_spacings[first_affected_idx])):)}${args[first_affected_idx]}"
+  new_buffer="$new_buffer${BUFFER:$start_of_remaining}"
+  BUFFER="$new_buffer"
+  CURSOR=$(( CURSOR + cursordiff ))
+
+  return
+}
+
+# Bind keys
+transpose_arg_left()  { _transpose_arg -1 }
+transpose_arg_right() { _transpose_arg  1 }
+zle -N transpose_arg_left
+zle -N transpose_arg_right
+bindkey '^g<' transpose_arg_left   # Ctrl-X h = move arg left
+bindkey '^g>' transpose_arg_right  # Ctrl-X l = move arg right
 
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/plugins-late" ] || source "$ZDOTDIR/""local/plugins-late"
