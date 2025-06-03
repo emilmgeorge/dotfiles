@@ -8,6 +8,22 @@ bindkey '^g^f^d' fzf-cd-widget
 bindkey '^t' transpose-chars
 bindkey '^[c' capitalize-word
 
+# Default options for all commands
+export FZF_DEFAULT_OPTS="
+	--bind 'F12:execute(
+		(
+			pid=\$PPID;
+			null2spc() { tr \"\\0\" \" \" }
+			null2nl() { tr \"\\0\" \"\\n\" }
+			echo pid: \$pid;
+			cmdline=\$(cat /proc/\$pid/cmdline | null2spc)
+			echo cmdline: \$cmdline;
+			echo pts: /dev/\$(ps -p \$pid -o tty=)
+			printf -- \"-%.0s\" {1..\$COLUMNS}; echo;
+			echo env:; cat /proc/\$pid/environ | null2nl;
+		) | less --+quit-if-one-screen\)'
+"
+
 # Rename and wrap the original history-widget function to add more features
 functions -c fzf-history-widget fzf-history-widget-orig
 
