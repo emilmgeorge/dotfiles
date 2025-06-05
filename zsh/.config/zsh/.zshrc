@@ -195,6 +195,9 @@ function y() {
 # Keybindings
 #==============================================================================|
 
+# Switch to vi-cmd-mode with escape (i switches back to insert (emacs) mode)
+bindkey '\e' vi-cmd-mode
+
 # Better handling of Ctrl-D
 # Note: This requires setopt ignore_eof.
 IGNOREEOF=5
