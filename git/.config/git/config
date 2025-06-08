@@ -2,9 +2,6 @@
 	ui = auto
 
 [alias]
-	sl = ol -10
-	ml = ol -20
-	ll = ol -50
 	stu = status -sb
 	stat = status -uno
 	pick = cherry-pick
@@ -25,6 +22,9 @@
 	branch-info = "!~/.config/git/alias branch_info"
 	conflicts-ls = "!~/.config/git/alias list_conflicts"
 	archive-branch = "!~/.config/git/alias archive_branch"
+	sl = "!~/.config/git/alias log_oneline -$(( l=$(tput lines) / 4 - 2, l < 1 ? 1 : l ))"
+	ml = "!~/.config/git/alias log_oneline -$(( l=$(tput lines) / 2 - 2, l < 2 ? 2 : l ))"
+	ll = "!~/.config/git/alias log_oneline -$(( l=$(tput lines) - 2, l < 3 ? 3 : l ))"
 
 [rebase]
 	instructionFormat = (%an <%ae>) %s
