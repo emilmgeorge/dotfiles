@@ -85,10 +85,12 @@ ARG_TARGETS := $(addsuffix -$(COMMAND), $(ARGS))
 
 # Generate a list of defined targets and valid apps.
 # https://stackoverflow.com/a/26339924/1589191
+LITERAL_HASH := \#
 ALL_TARGETS ?= $(shell LC_ALL=C $(MAKE) ALL_TARGETS=1 -pRrq \
 		-f $(firstword $(MAKEFILE_LIST)) $(MAKECMDGOALS) 2>/dev/null \
-	| awk -v RS= -F: '/(^|\n)# Files(\n|$$)/,/(^|\n)# Finished Make data base/ \
-		{if ($$1 !~ "^[#.]") {print $$1}}' \
+	| awk -v RS= -F: '/(^|\n)$(LITERAL_HASH) Files(\n|$$)/,/(^|\n)\
+		$(LITERAL_HASH) Finished Make data base/ \
+		{if ($$1 !~ "^[$(LITERAL_HASH).]") {print $$1}}' \
 	| sort | grep -E -v -e '^[^[:alnum:]]' -e '^$@$$')
 ALL_APPS := $(sort $(foreach t,$(filter-out _%,$(ALL_TARGETS)),$(firstword $(subst -, ,$(t)))))
 
