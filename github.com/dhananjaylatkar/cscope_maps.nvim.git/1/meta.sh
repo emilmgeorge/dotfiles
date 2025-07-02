@@ -1,0 +1,5 @@
+UPSTREAM_REPO_URI=https://github.com/dhananjaylatkar/cscope_maps.nvim.git
+BASE_COMMIT=97e679e32cd7f3a44c8e09b3311daf6dcba0c6af
+TIP_COMMIT=3acce982b3e8d94bef6360d2078a6afbb2f0ad02
+UPSTREAM_BRANCH=main
+FORK_BRANCH=main
