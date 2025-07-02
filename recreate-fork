@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ---------------------------------------------------------------------------
+# ANSI Colors
+# ---------------------------------------------------------------------------
+RED='\033[31m'
+GREEN='\033[32m'
+YELLOW='\033[33m'
+BLUE='\033[34m'
+MAGENTA='\033[35m'
+CYAN='\033[36m'
+RESET='\033[0m'
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+color_print() {
+  local color=$1
+  local prefix="==> "
+  shift
+  echo -e "$*" | while IFS= read -r line; do
+    echo -e "${color}${prefix}${line}${RESET}"
+  done
+}
+
+err() {
+  color_print "$RED" "error: $@"
+  exit 1
+}
+
+info() {
+  color_print "$YELLOW" "$@"
+}
+
+success() {
+  color_print "$GREEN" "$@"
+}
+
+abspath() {
+  if [ -d "$1" ]; then
+    (cd "$1" && pwd -P)
+  else
+    (cd "$(dirname "$1")" && printf "%s/%s\n" "$(pwd -P)" "$(basename "$1")")
+  fi
+}
+
+usage() {
+  echo "Usage: $0 <bundle-spec: bundle-dir | bundle-file | meta.sh> [dest-dir]"
+}
+
+# ---------------------------------------------------------------------------
+# Args
+# ---------------------------------------------------------------------------
+[[ $# -ge 1 ]] || err "Invalid arguments!\n$(usage)"
+
+INPUT=$(abspath "$1")
+CUSTOM_DEST=${2:-}
+
+# ---------------------------------------------------------------------------
+# Locate bundle dir, meta.sh, bundle file
+# ---------------------------------------------------------------------------
+[[ -e "$INPUT" ]] || { usage >&2; err "Invalid bundle-spec: not found: $INPUT"; }
+if [[ -d "$INPUT" ]]; then
+  DIR="$INPUT"
+else
+  DIR=$(dirname "$INPUT")
+fi
+if [[ "$INPUT" == *.bundle ]]; then
+  BUNDLE="$INPUT"
+else
+  BUNDLE=$(find "$DIR" -maxdepth 1 -name '*.bundle' | head -n1)
+fi
+META="$DIR/meta.sh"
+[[ -f "$META" ]]   || err "meta.sh not found in $DIR"
+[[ -f "$BUNDLE" ]] || err "No .bundle file found in $DIR"
+
+# ---------------------------------------------------------------------------
+# Load metadata
+# ---------------------------------------------------------------------------
+source "$META"
+
+META_VARIABLES=(
+  UPSTREAM_REPO_URI
+  UPSTREAM_BRANCH
+  FORK_BRANCH
+  BASE_COMMIT
+  TIP_COMMIT
+)
+
+# Apply overrides
+for var in "${META_VARIABLES[@]}"; do
+  override_var="${var}_OVERRIDE"
+  if [[ -n "${!override_var:-}" ]]; then
+    printf "Using override: %s=%s\n" "$var" "${!override_var}" >&2
+    declare "$var=${!override_var}"
+  fi
+done
+
+# Check required variables
+for var in "${META_VARIABLES[@]}"; do
+  if [[ -z "${!var:-}" ]]; then
+    err "Variable $var is missing in meta.sh"
+  fi
+done
+
+# ---------------------------------------------------------------------------
+# Determine destination dir
+# ---------------------------------------------------------------------------
+REPO_NAME=$(basename "$UPSTREAM_REPO_URI" .git)
+DEST_DIR="${CUSTOM_DEST:-$REPO_NAME}"
+[[ ! -e "$DEST_DIR" ]] || [[ -z "$(ls -A "$DEST_DIR")" ]] || err "Destination already exists and is not an empty directory: $DEST_DIR"
+DEST_DIR=$(abspath "$DEST_DIR")
+
+# ---------------------------------------------------------------------------
+# Clone + Fetch + Apply
+# ---------------------------------------------------------------------------
+info "Cloning $UPSTREAM_REPO_URI..."
+git clone --origin upstream --branch "$UPSTREAM_BRANCH" "$UPSTREAM_REPO_URI" "$DEST_DIR"
+
+cd "$DEST_DIR"
+
+info "Verifying bundle..."
+git bundle verify "$BUNDLE" || err "Bundle verification failed"
+
+info "Fetching from bundle..."
+git fetch "$BUNDLE" "+refs/heads/*:refs/remotes/bundle/*"
+
+info "Setting branch '$FORK_BRANCH' to $TIP_COMMIT"
+git switch -C "$FORK_BRANCH" "$TIP_COMMIT"
+
+success "Recreated fork: $FORK_BRANCH now at $TIP_COMMIT"
