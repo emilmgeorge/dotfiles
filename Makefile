@@ -10,6 +10,7 @@ GENERIC_APPS += git
 GENERIC_APPS += hypr
 GENERIC_APPS += kitty
 GENERIC_APPS += less
+GENERIC_APPS += misc/ra-multiplex
 GENERIC_APPS += tig
 GENERIC_APPS += tmux
 GENERIC_APPS += tridactyl
@@ -66,11 +67,11 @@ spacemacs-reinstall:
 GENERIC_INSTALL_TARGETS := $(addsuffix -install, $(GENERIC_APPS))
 .PHONY: $(GENERIC_INSTALL_TARGETS)
 $(GENERIC_INSTALL_TARGETS):
-	stow -t ~/ $(patsubst %-install,%, $@)
+	stow -d $(patsubst %-install,%, $@) -t ~/ .
 GENERIC_UNINSTALL_TARGETS := $(addsuffix -uninstall, $(GENERIC_APPS))
 .PHONY: $(GENERIC_UNINSTALL_TARGETS)
 $(GENERIC_UNINSTALL_TARGETS):
-	stow -D -t ~/ $(patsubst %-uninstall,%, $@)
+	stow -D -d $(patsubst %-uninstall,%, $@) -t ~/ .
 $(foreach app,$(GENERIC_APPS), \
   $(eval .PHONY: $(app)-reinstall) \
   $(eval $(app)-reinstall: $(app)-uninstall $(app)-install) \
