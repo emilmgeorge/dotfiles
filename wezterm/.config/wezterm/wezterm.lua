@@ -1,6 +1,7 @@
 local wezterm = require 'wezterm'
 local config = {}
 config.keys = {}
+config.default_prog = { 'wsl.exe' }
 
 -- Tabs
 config.hide_tab_bar_if_only_one_tab = true
@@ -9,7 +10,7 @@ config.use_fancy_tab_bar = false
 
 -- Window
 config.window_background_opacity = 0.85
-config.window_decorations = 'NONE'
+--config.window_decorations = 'NONE'
 
 -- Disable ligatures
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
@@ -76,7 +77,7 @@ table.insert(config.keys, { key = 'H', mods = 'LEADER|SHIFT', action = wezterm.a
 table.insert(config.keys, { key = 'L', mods = 'LEADER|SHIFT', action = wezterm.action.MoveTabRelative(1) })
 table.insert(config.keys, { key = '&', mods = 'LEADER', action = wezterm.action.CloseCurrentTab { confirm = true }})
 table.insert(config.keys, { key = "c", mods = "LEADER", action = wezterm.action.SpawnCommandInNewTab({
-    args = { os.getenv("SHELL"), "-l" },
+    args = { "wsl.exe" },
     set_environment_variables = { SKIP_MUX_INIT = "1" },
 }) })
 
@@ -87,11 +88,11 @@ table.insert(config.keys, { key = "k", mods = "LEADER", action = wezterm.action.
 table.insert(config.keys, { key = "j", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Down") })
 table.insert(config.keys, { key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = true }) })
 table.insert(config.keys, { key = '%', mods = "LEADER|SHIFT", action = wezterm.action.SplitHorizontal({
-    args = { os.getenv("SHELL"), "-l" },
+    args = config.default_prog,
     set_environment_variables = { SKIP_MUX_INIT = "1" },
 }) })
 table.insert(config.keys, { key = "\"", mods = "LEADER|SHIFT", action = wezterm.action.SplitVertical({
-    args = { os.getenv("SHELL"), "-l" },
+    args = config.default_prog,
     set_environment_variables = { SKIP_MUX_INIT = "1" },
 }) })
 
@@ -100,6 +101,11 @@ local launch_menu = {}
 if wezterm.target_triple == 'x86_64-unknown-linux-gnu' then
   table.insert(launch_menu, { label = 'zsh without tmux', args = { 'zsh', '-l' }, set_environment_variables = { SKIP_MUX_INIT = '1' } })
   table.insert(launch_menu, { label = 'bash without tmux', args = { 'bash', '-l' }, set_environment_variables = { SKIP_MUX_INIT = '1' } })
+elseif wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+  table.insert(launch_menu, { label = 'WSL', args = { 'wsl.exe' }, })
+  table.insert(launch_menu, { label = 'Git Bash', args = { 'C:\\Program Files\\Git\\bin\\sh.exe', '--login' }, })
+  table.insert(launch_menu, { label = 'Powershell', args = { 'powershell.exe' }, })
+  table.insert(launch_menu, { label = 'Cmd', args = { 'cmd.exe' }, })
 end
 config.launch_menu = launch_menu
 table.insert(config.keys, { key = 'l', mods = 'LEADER|CTRL', action = wezterm.action.ShowLauncher })
@@ -113,5 +119,13 @@ table.insert(config.keys, { key = "f", mods = "LEADER|CTRL", action = wezterm.ac
 table.insert(config.keys, { key = 'p', mods = 'LEADER|CTRL', action = wezterm.action.ActivateCommandPalette})
 table.insert(config.keys, { key = 's', mods = 'LEADER', action = wezterm.action.ReloadConfiguration})
 table.insert(config.keys, { key = 'd', mods = 'LEADER|ALT', action = wezterm.action.ShowDebugOverlay})
+
+-- Covers task bar also :(
+--
+-- local mux = wezterm.mux
+-- wezterm.on("gui-startup", function(cmd)
+--     local tab, pane, window = mux.spawn_window(cmd or {})
+--     window:gui_window():maximize()
+-- end)
 
 return config
