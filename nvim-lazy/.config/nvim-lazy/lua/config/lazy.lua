@@ -24,6 +24,7 @@ require("lazy").setup({
     { import = "plugins.overrides.extras.coding.yanky" },
     { import = "plugins.overrides.extras.editor.mini-files" },
     { import = "plugins.overrides.extras.editor.neo-tree" },
+    { import = "plugins.overrides.extras.editor.snacks_picker" },
     { import = "plugins.overrides.extras.lang.markdown" },
     { import = "plugins.overrides.extras.lang.tex" },
     { import = "plugins.overrides.extras.ui.treesitter-context" },
