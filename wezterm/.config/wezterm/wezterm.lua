@@ -2,6 +2,7 @@ local wezterm = require 'wezterm'
 local config = {}
 config.keys = {}
 config.default_prog = { 'wsl.exe' }
+config.font_size = 11
 
 -- Tabs
 config.hide_tab_bar_if_only_one_tab = true
@@ -9,7 +10,7 @@ config.prefer_to_spawn_tabs = true
 config.use_fancy_tab_bar = false
 
 -- Window
-config.window_background_opacity = 0.85
+config.window_background_opacity = 0.95
 --config.window_decorations = 'NONE'
 
 -- Disable ligatures
