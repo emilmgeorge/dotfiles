@@ -6,11 +6,13 @@ return {
       picker = {
         layout = {
           preset = "vertical",
-          -- layout = {
-          --   width = 0.9,
-          --   -- height = 0.5, -- not working
-          -- },
-          fullscreen = true,
+          layout = {
+            -- width = 0.999, -- 1 doesn't work
+            -- height = 1
+            width = 0, -- 0 => fullscreen (undocumented hack)
+            height = 0,
+          },
+          -- fullscreen = true, -- also makes explorer fullscreen
         },
         win = {
           input = {
@@ -29,6 +31,16 @@ return {
             },
             wo = {
               wrap = false,
+            },
+          },
+        },
+        sources = {
+          explorer = {
+            layout = {
+              preset = "sidebar",
+              layout = {
+                width = 40,
+              },
             },
           },
         },
