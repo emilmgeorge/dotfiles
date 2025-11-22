@@ -2,7 +2,7 @@ local wezterm = require 'wezterm'
 local config = {}
 config.keys = {}
 config.default_prog = { 'wsl.exe' }
-config.font_size = 11
+config.font_size = 9
 
 -- Tabs
 config.hide_tab_bar_if_only_one_tab = true
