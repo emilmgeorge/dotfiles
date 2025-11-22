@@ -104,7 +104,7 @@ if wezterm.target_triple == 'x86_64-unknown-linux-gnu' then
   table.insert(launch_menu, { label = 'bash without tmux', args = { 'bash', '-l' }, set_environment_variables = { SKIP_MUX_INIT = '1' } })
 elseif wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   table.insert(launch_menu, { label = 'WSL', args = { 'wsl.exe' }, })
-  table.insert(launch_menu, { label = 'Git Bash', args = { 'C:\\Program Files\\Git\\bin\\sh.exe', '--login' }, })
+  table.insert(launch_menu, { label = 'Git Bash', args = { 'C:\\Users\\egeorge\\AppData\\Local\\Programs\\Git\\bin\\bash.exe', '--login' }, })
   table.insert(launch_menu, { label = 'Powershell', args = { 'powershell.exe' }, })
   table.insert(launch_menu, { label = 'Cmd', args = { 'cmd.exe' }, })
 end
