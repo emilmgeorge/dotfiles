@@ -10,6 +10,7 @@ require("lazy").setup({
     { import = "plugins.overrides" },
 
     -- lazyvim.plugins.extras.* imports
+    { import = "lazyvim.plugins.extras.ai.copilot" },
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.lang.clangd" },
     { import = "lazyvim.plugins.extras.lang.json" },
@@ -21,6 +22,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.util.dot" },
 
     -- lazyvim.plugins.extras.* imports with config overrides
+    { import = "plugins.overrides.extras.ai.avante" },
     { import = "plugins.overrides.extras.coding.yanky" },
     { import = "plugins.overrides.extras.editor.mini-files" },
     { import = "plugins.overrides.extras.editor.neo-tree" },

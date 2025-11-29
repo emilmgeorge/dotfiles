@@ -7,10 +7,10 @@ return {
         layout = {
           preset = "vertical",
           layout = {
-            -- width = 0.999, -- 1 doesn't work
-            -- height = 1
-            width = 0, -- 0 => fullscreen (undocumented hack)
-            height = 0,
+            width = 0.999, -- 1 doesn't work
+            height = 1
+            -- width = 0, -- 0 => fullscreen (undocumented hack), but causes issues with avante > add file
+            -- height = 0,
           },
           -- fullscreen = true, -- also makes explorer fullscreen
         },
