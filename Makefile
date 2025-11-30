@@ -7,6 +7,7 @@
 
 GENERIC_APPS += emacs
 GENERIC_APPS += git
+GENERIC_APPS += gitui
 GENERIC_APPS += hypr
 GENERIC_APPS += kitty
 GENERIC_APPS += less
