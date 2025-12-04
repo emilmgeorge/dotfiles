@@ -9,7 +9,7 @@ return {
     },
   },
   {
-    "catppuccin",
+    "catppuccin/nvim",
     lazy = true,
     opts = {
       transparent_background = transparent,
