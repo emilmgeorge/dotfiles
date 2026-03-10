@@ -121,12 +121,11 @@ table.insert(config.keys, { key = 'p', mods = 'LEADER|CTRL', action = wezterm.ac
 table.insert(config.keys, { key = 's', mods = 'LEADER', action = wezterm.action.ReloadConfiguration})
 table.insert(config.keys, { key = 'd', mods = 'LEADER|ALT', action = wezterm.action.ShowDebugOverlay})
 
--- Covers task bar also :(
---
--- local mux = wezterm.mux
--- wezterm.on("gui-startup", function(cmd)
---     local tab, pane, window = mux.spawn_window(cmd or {})
---     window:gui_window():maximize()
--- end)
+-- Start maximized
+local mux = wezterm.mux
+wezterm.on("gui-startup", function(cmd)
+    local _, _, window = mux.spawn_window(cmd or {})
+    window:gui_window():maximize()
+end)
 
 return config
