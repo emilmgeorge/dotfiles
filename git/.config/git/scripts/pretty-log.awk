@@ -72,6 +72,17 @@ BEGIN {
 	pad[field]         = 0
 	color[field]       = SGR_THIN SGR_FG_8BIT(227) # yellow
 
+	# svn revision (parsed from the 'git-svn-id' footer in the commit body)
+	++field
+	preprocess[field]  = "preprocess_svn_rev"
+	width[field]       = is_svn_repo() ? 8 : 0
+	maxwidth[field]    = 0 # no flex, so an absent column adds no padding
+	truncate[field]    = 0
+	prefix[field]      = ""
+	suffix[field]      = ""
+	pad[field]         = width[field] ? 1 : 0
+	color[field]       = SGR_THIN SGR_FG_8BIT(141) # purple
+
 	# Subject (%s)
 	++field
 	width[field]       = 80
@@ -163,10 +174,24 @@ BEGIN {
 		}
 	}
 	# Add color (Do this last to prevent issues with truncation, length() etc.)
+	# Join the fields manually, so that empty zero-width columns (e.g. the svn
+	# revision in a non-svn repository) do not emit a stray separator.
+	out = ""
 	for (i = 1; i <= nfields; ++i) {
-		$i = color[i] $i SGR_RESET
+		if ($i == "" && width[i] == 0 && maxwidth[i] == 0)
+			continue
+		out = (out == "" ? "" : out OFS) color[i] $i SGR_RESET
 	}
-	printf "%s", $0
+	# Anything after the last formatted field is extra output produced by git
+	# itself (e.g. `--name-status`, `--stat`, `--numstat`). Print it verbatim
+	# below the commit line, so those file lists are not lost.
+	rest = ""
+	for (i = nfields + 1; i <= NF; ++i)
+		rest = rest $i
+	gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, "", rest)
+	if (rest != "")
+		out = out ORS rest
+	printf "%s%s", out, ORS
 }
 
 function define_sgr_codes() {
@@ -269,6 +294,56 @@ function preprocess_relative_date(date) {
 	gsub(/,/, "", date)
 	gsub(/ /, "", date)
 	return date
+}
+
+# Returns 1 if the current repository is managed by git-svn, 0 otherwise.
+# The result is cached, since this is only needed once per run.
+function is_svn_repo(   cmd, line, result) {
+	if (IS_SVN_REPO != "")
+		return IS_SVN_REPO - 1
+
+	result = 0
+	cmd = "git config --get svn-remote.svn.url 2>/dev/null"
+	if ((cmd | getline line) > 0 && line != "")
+		result = 1
+	close(cmd)
+
+	IS_SVN_REPO = result + 1 # store as 1/2 so "" means 'not yet resolved'
+	return result
+}
+
+# Returns the svn repository UUID, or "" if unknown.
+# The result is cached, since this is only needed once per run.
+function svn_uuid(   cmd, line) {
+	if (SVN_UUID != "")
+		return SVN_UUID == "-" ? "" : SVN_UUID
+
+	SVN_UUID = "-"
+	cmd = "git config --get svn-remote.svn.uuid 2>/dev/null"
+	if ((cmd | getline line) > 0 && line != "")
+		SVN_UUID = line
+	close(cmd)
+
+	return SVN_UUID == "-" ? "" : SVN_UUID
+}
+
+# Extracts the svn revision from the 'git-svn-id' footer of a commit body.
+# The footer looks like: `git-svn-id: <repository path>@<revision> <UUID>`
+# If several footers are present, the last one is used.
+function preprocess_svn_rev(body, uuid, pattern, m, rev) {
+	if (!is_svn_repo() || body == "")
+		return ""
+
+	uuid = svn_uuid()
+	pattern = "git-svn-id:[^@]*@([0-9]+)[ \t]+" (uuid == "" ? "[0-9a-fA-F-]+" : uuid)
+
+	rev = ""
+	while (match(body, pattern, m)) {
+		rev = m[1]
+		body = substr(body, RSTART + RLENGTH)
+	}
+
+	return rev == "" ? "" : "r" rev
 }
 
 function preprocess_ref_names(refnames) {
