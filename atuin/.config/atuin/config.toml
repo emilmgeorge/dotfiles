@@ -1,0 +1,20 @@
+dialect = "uk"
+style = "auto"
+show_numeric_shortcuts = false
+show_tabs = false
+enter_accept = false
+command_chaining = true
+
+[keys]
+scroll_exits = false
+exit_past_line_start = false
+accept_past_line_end = false
+
+[preview]
+strategy = "static"
+
+[search]
+filters = ["global", "workspace", "directory", "session", "host", "session-preload"]
+
+[ui]
+columns = ["time", { type = "directory", width = 30 }, "command"]

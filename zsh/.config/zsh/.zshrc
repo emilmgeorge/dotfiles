@@ -403,6 +403,14 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-word forward-move-alphanumeric)
 zinit ice depth=1 wait'1' lucid
 zinit light zsh-users/zsh-completions
 
+atuin-search(){}
+export ATUIN_NOBIND="true"
+zinit ice depth=1 wait lucid has'atuin'
+zinit load atuinsh/atuin
+zle -N atuin-search
+bindkey '^r' atuin-search
+bindkey '^g^g' fzf-history-widget
+
 zinit ice depth=1 wait lucid trigger-load"!hist"
 zinit light marlonrichert/zsh-hist
 zstyle ':hist:*' auto-format no
