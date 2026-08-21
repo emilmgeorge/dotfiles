@@ -411,6 +411,10 @@ zle -N atuin-search
 bindkey '^r' atuin-search
 bindkey '^g^g' fzf-history-widget
 
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+fi
+
 zinit ice depth=1 wait lucid trigger-load"!hist"
 zinit light marlonrichert/zsh-hist
 zstyle ':hist:*' auto-format no
