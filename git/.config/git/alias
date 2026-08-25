@@ -1,5 +1,19 @@
 #! /bin/sh
 
+svnco() {
+	num=${1#r}
+	if [ "$num" != "" ]; then
+		rev=$(git svn find-rev r"$num" 2>/dev/null)
+	fi
+	if [ "$rev" = "" ]; then
+		printf "Error: Unknown SVN revision 'r%s'. " "$num";
+		echo "Please provide a valid SVN revision number as the first argument.";
+		return 1;
+	fi
+	shift;
+	git switch -d "$rev" "$@";
+}
+
 show_alias() {
 	if [ "$1" == "" ]; then
 		git config --global -l | grep "^alias\.";
@@ -75,6 +89,7 @@ archive_branch() {
 }
 
 if [ 0 ] \
+	|| [ "$1" == "svnco" ] \
 	|| [ "$1" == "show_alias" ] \
 	|| [ "$1" == "step_to_ref" ] \
 	|| [ "$1" == "log_oneline" ] \

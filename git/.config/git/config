@@ -14,6 +14,7 @@
 	last = log -1 --pretty=fuller --stat
 	skip = update-index --skip-worktree
 	unskip = update-index --no-skip-worktree
+	svnco = "!~/.config/git/alias svnco"
 	ol = "!~/.config/git/alias log_oneline"
 	lu = "!~/.config/git/alias log_upstream"
 	step = "!~/.config/git/alias step_to_ref"
