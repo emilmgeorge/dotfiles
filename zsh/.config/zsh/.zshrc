@@ -15,6 +15,14 @@ load_tmux() {
 	if ! which tmux >/dev/null 2>&1; then
 		return
 	fi
+	# Only start tmux on a real interactive terminal. Non-interactive or
+	# "dumb" login shells (e.g. editor/WSL shell-integration probes) also
+	# source this file; under WSL such a TERM=dumb shell was racing the real
+	# terminal to create the "main" session, causing "duplicate session"
+	# errors and tearing the terminal down shortly after launch.
+	if [[ ! -o interactive || ! -t 1 || "$TERM" == dumb || -z "$TERM" ]]; then
+		return
+	fi
 	# Opens tmux and switches to a pane at $(pwd).
 	# Logic:
 	#  * If 'main' tmux session is not yet started, start it.
