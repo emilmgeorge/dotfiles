@@ -435,6 +435,12 @@ if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
 fi
 
+_aichat_zsh="${XDG_CONFIG_HOME:-$HOME/.config}/aichat/aichat.zsh"
+if (( $+commands[aichat] )) && [[ -f "$_aichat_zsh" ]]; then
+  source "$_aichat_zsh"
+fi
+unset _aichat_zsh
+
 zinit ice depth=1 wait lucid trigger-load"!hist"
 zinit light marlonrichert/zsh-hist
 zstyle ':hist:*' auto-format no

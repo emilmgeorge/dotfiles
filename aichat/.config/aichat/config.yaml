@@ -1,0 +1,11 @@
+model: copilot:claude-opus-5
+clients:
+  - type: openai-compatible
+    name: copilot
+    api_base: https://api.githubcopilot.com
+    patch:
+      chat_completions:
+        ".*":
+          headers:
+            Copilot-Integration-Id: vscode-chat
+            Editor-Version: aichat/0.1.0

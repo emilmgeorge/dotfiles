@@ -5,6 +5,7 @@
 #	uninstall: stow -D -t ~/ <app>
 #	reinstall: uninstall install
 
+GENERIC_APPS += aichat
 GENERIC_APPS += atuin
 GENERIC_APPS += emacs
 GENERIC_APPS += git
