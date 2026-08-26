@@ -152,7 +152,7 @@ zstyle ':completion:*:processes' command 'ps aux'
 # zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%% [# ]*}//,/ })'
 
 zstyle ':completion:*' completer \
-  _oldlist _expand _complete _correct _ignored _prefix
+  _oldlist _complete _correct _ignored _prefix
 
 # Tab completion for shell (`!`) git aliases (git/.config/git/config)
 _git_alias_comp="${XDG_CONFIG_HOME:-$HOME/.config}/git/git-alias-completion.zsh"
@@ -320,6 +320,13 @@ function accept-line-skip-history-file() {
 }
 zle -N accept-line-skip-history-file
 bindkey "^g^M" accept-line-skip-history-file
+
+# Bind Tab to `complete-word` (the default is `expand-or-complete`, whose
+# expand step evaluates `$(pwd)`, `$var`, `~`, etc. when completing, e.g.
+# turning `$(pwd)/path/<TAB>` into the evaluated path).
+# Note: this bindkey must be placed before tab-completion plugins (eg. fzf-tab)
+# are loaded, otherwise this will override the plugin's bindkey.
+bindkey '^I' complete-word
 
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/keybindings" ] || source "$ZDOTDIR/""local/keybindings"
