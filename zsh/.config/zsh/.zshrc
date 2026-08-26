@@ -154,6 +154,11 @@ zstyle ':completion:*:processes' command 'ps aux'
 zstyle ':completion:*' completer \
   _oldlist _expand _complete _correct _ignored _prefix
 
+# Tab completion for shell (`!`) git aliases (git/.config/git/config)
+_git_alias_comp="${XDG_CONFIG_HOME:-$HOME/.config}/git/git-alias-completion.zsh"
+[ ! -f "$_git_alias_comp" ] || source "$_git_alias_comp"
+unset _git_alias_comp
+
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/options" ] || source "$ZDOTDIR/""local/options"
 #------------------------------------------------------------------------------|
