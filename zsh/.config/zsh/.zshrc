@@ -117,7 +117,7 @@ setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 # Completion options
 #------------------------------------------------------------------------------|
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/emil/.zshrc'
+zstyle :compinstall filename "${ZDOTDIR}/.zshrc"
 
 autoload -Uz compinit
 compinit
@@ -585,8 +585,8 @@ transpose_arg_left()  { _transpose_arg -1 }
 transpose_arg_right() { _transpose_arg  1 }
 zle -N transpose_arg_left
 zle -N transpose_arg_right
-bindkey '^g<' transpose_arg_left   # Ctrl-X h = move arg left
-bindkey '^g>' transpose_arg_right  # Ctrl-X l = move arg right
+bindkey '^g<' transpose_arg_left   # move arg left
+bindkey '^g>' transpose_arg_right  # move arg right
 
 #------------------------------------------------------------------------------|
 [ ! -f "$ZDOTDIR/""local/plugins-late" ] || source "$ZDOTDIR/""local/plugins-late"
