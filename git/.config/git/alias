@@ -88,7 +88,7 @@ archive_branch() {
 	git branch -m $1 archive/$1;
 }
 
-if [ 0 ] \
+if false  \
 	|| [ "$1" == "svnco" ] \
 	|| [ "$1" == "show_alias" ] \
 	|| [ "$1" == "step_to_ref" ] \
@@ -103,5 +103,5 @@ if [ 0 ] \
 	shift
 	$_a "$@"
 else
-	echo "Invalid alias: $a"
+	echo "Invalid alias: $1"
 fi
