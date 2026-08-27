@@ -420,7 +420,7 @@ zinit ice depth=1 wait lucid \
 zinit light zsh-users/zsh-autosuggestions
 ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS+=(forward-word forward-move-alphanumeric)
 
-zinit ice depth=1 wait'1' lucid
+zinit ice depth=1 wait'1' lucid blockf atload'zicompinit; zicdreplay'
 zinit light zsh-users/zsh-completions
 
 atuin-search(){}
